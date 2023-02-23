@@ -9,8 +9,7 @@ html {
 body {
   font: 1.6rem 'Labrada', serif;
   margin: 0;
-  background-color: #222;
-  text-transform: capitalize;
+  background-color: #311a05;
 }
 
 h1,
@@ -65,7 +64,7 @@ img {
 }
 
 header{
-  background-color: #111;
+  background-color: #211103;
   padding: 1rem;
   
   text-align: center;
@@ -76,14 +75,21 @@ header h1{
 }
 
 main{
+  margin: 1rem auto;
   min-height: 90vh;
+  padding: 2rem;
 }
-main section h2{
+main .row{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  align-content: stretch;
+}
 
-}
 
 footer{
-  background-color: #111;
+  background-color: #211103;
   padding: 1rem;
   text-align: center;
 }

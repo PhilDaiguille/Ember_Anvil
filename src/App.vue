@@ -1,11 +1,12 @@
-<script setup>
-import Header from "./views/Header.vue"
-import Main from "./views/Main.vue"
-import Footer from "./views/Footer.vue"
+<template>
+  <Home />
+</template>
+
+<script>
+import Home from "./page/Home.vue";
+export default {
+  components: { Home },
+};
 </script>
 
-<template>
-  <Header />
-  <Main />
-  <Footer />
-</template>
+<style></style>
