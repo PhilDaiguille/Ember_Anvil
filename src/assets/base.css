@@ -9,7 +9,7 @@ html {
 body {
   font: 1.6rem 'Labrada', serif;
   margin: 0;
-  background-color: #311a05;
+  background-color: var(--jet);
 }
 
 h1,
@@ -30,6 +30,7 @@ button {
   text-decoration: none;
   padding: 0;
   border: 0;
+  color: #fff ;
 }
 
 img {
@@ -44,7 +45,15 @@ img {
   box-sizing: border-box;
   color-scheme: dark;
 }
+:root{
+  --jet: #303030ff;
+  --auburn: #a03b3cff;
+  --dun: #d1c6adff;
+  --khaki: #bbada0ff;
+  --viridian: #417b5aff;
+  --sea-green: #00916eff;
 
+}
 
 /* scroll bars */
 
@@ -64,7 +73,7 @@ img {
 }
 
 header{
-  background-color: #211103;
+  background-color: var(--auburn);
   padding: 1rem;
   
   text-align: center;
@@ -72,24 +81,56 @@ header{
 header h1{
   font-family: 'Caesar Dressing', cursive;
   font-weight: bolder;
+  font-size: 5rem;
 }
 
 main{
   margin: 1rem auto;
   min-height: 90vh;
+  overflow-y: auto;
   padding: 2rem;
 }
 main .row{
+  padding: 0 0 0 2rem;
+  max-height: 90vh;
+  overflow-y:visible;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   align-content: stretch;
 }
-
+main nav{
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  width: 20vw;
+  border-radius: .75rem;
+  box-shadow: inset 0.1rem 0.1rem 2rem #111;
+  background-color: var(--viridian);
+  float:left;
+  text-align: center;
+  padding: 2rem;
+}
+main nav h2{
+  font-size: 5rem;
+  font-family: 'Caesar Dressing', cursive;
+  font-weight: bolder;
+}
+main nav ul{
+  display: flex;
+  min-height: 70vh;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+main nav ul li{
+  font-weight: bold;
+  font-size: 2rem;
+}
 
 footer{
-  background-color: #211103;
+  background-color: var(--auburn);
   padding: 1rem;
   text-align: center;
 }

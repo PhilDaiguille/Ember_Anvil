@@ -2,47 +2,47 @@
   "metaux": [
     {
       "nom": "Aluminium",
-      "image": "./src/assets/fer.png",
+      "image": "./src/assets/material/aluminium.png",
       "description": "Un métal léger, malléable et résistant à la corrosion. Il est largement utilisé dans la construction, les emballages et l'industrie aéronautique."
     },
     {
       "nom": "Cuivre",
-      "image": "./src/assets/fer.png",
+      "image": "./src/assets/material/cuivre.png",
       "description": "Un métal rougeâtre qui est excellent conducteur de l'électricité et de la chaleur. Il est couramment utilisé dans les fils électriques, les tuyaux et les pièces de monnaie."
     },
     {
       "nom": "Fer",
-      "image": "./src/assets/fer.png",
+      "image": "./src/assets/material/fer.png",
       "description": "Un métal gris argenté qui est le plus commun et le plus utilisé des métaux. Il est utilisé pour la construction, la production d'acier, les véhicules et bien d'autres applications industrielles."
     },
     {
       "nom": "Magnésium",
-      "image": "./src/assets/fer.png",
+      "image": "./src/assets/material/fer.png",
       "description": "Un métal léger et résistant à la corrosion qui est utilisé dans la production d'alliages et de pièces de machines légères."
     },
     {
       "nom": "Manganèse",
-      "image": "./src/assets/fer.png",
+      "image": "./src/assets/material/fer.png",
       "description": "Un métal gris-blanc qui est un élément clé dans la production d'acier et d'autres alliages. Il est également utilisé dans la production de piles et de céramiques."
     },
     {
       "nom": "Nickel",
-      "image": "./src/assets/fer.png",
+      "image": "./src/assets/material/fer.png",
       "description": "Un métal argenté et brillant qui est résistant à la corrosion et a une forte capacité à absorber les gaz. Il est couramment utilisé dans la production d'acier inoxydable, les piles et les alliages spéciaux."
     },
     {
       "nom": "Plomb",
-      "image": "./src/assets/fer.png",
+      "image": "./src/assets/material/fer.png",
       "description": "Un métal gris-bleu qui est souple et facile à fondre. Il est utilisé dans les batteries, les câbles et les revêtements de toit."
     },
     {
       "nom": "Zinc",
-      "image": "./src/assets/fer.png",
+      "image": "./src/assets/material/fer.png",
       "description": "Un métal bleu-gris qui est résistant à la corrosion. Il est utilisé dans les alliages, la production de batteries et dans la galvanisation des métaux."
     },
     {
       "nom": "Titane",
-      "image": "./src/assets/fer.png",
+      "image": "./src/assets/material/fer.png",
       "description": "Un métal gris argenté, résistant à la corrosion et très léger. Il est utilisé dans la production d'alliages légers et résistants, ainsi que dans les implants médicaux et les composants aéronautiques."
     }
   ]

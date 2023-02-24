@@ -24,7 +24,7 @@ main .row section {
   margin: 1rem;
   max-width: 35rem;
   border-radius: 0.75rem;
-  background-color: #aa662a;
+  background-color: var(--khaki);
   min-height: 35rem;
   box-shadow: inset 0.1rem 0.1rem 2rem #111;
 }
@@ -43,6 +43,6 @@ main .row section p {
   text-align: justify;
   box-shadow: inset 0.1rem 0.1rem 1rem #111;
   border-radius: 0.75rem;
-  background-color: #8a5323;
+  background-color: --var(dun);
 }
 </style>
