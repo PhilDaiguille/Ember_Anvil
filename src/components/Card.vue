@@ -8,7 +8,6 @@
 
 <script>
 import bdd from "../Material.json";
-
 export default {
   data() {
     return {

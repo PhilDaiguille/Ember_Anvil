@@ -46,7 +46,7 @@ img {
   color-scheme: dark;
 }
 :root{
-  --jet: #303030ff;
+  --jet: rgb(39, 39, 39);
   --auburn: #a03b3cff;
   --dun: #d1c6adff;
   --khaki: #bbada0ff;
@@ -73,8 +73,10 @@ img {
 }
 
 header{
-  background-color: var(--auburn);
-  padding: 1rem;
+  
+  margin: 1rem auto;
+  max-width: 140rem;
+  
   
   text-align: center;
 }
@@ -83,54 +85,36 @@ header h1{
   font-weight: bolder;
   font-size: 5rem;
 }
-
+header nav ul{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+header nav ul li h1{
+  padding: 1rem 2rem;
+  border-radius: .75rem;
+  background-color: var(--auburn);
+}
 main{
   margin: 1rem auto;
-  min-height: 90vh;
+  min-height: 90vh; 
   overflow-y: auto;
   padding: 2rem;
 }
 main .row{
   padding: 0 0 0 2rem;
   max-height: 90vh;
+  margin: 1rem;
   overflow-y:visible;
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
   align-content: stretch;
 }
-main nav{
-  display: flex;
-  flex-direction: column;
-  position: sticky;
-  width: 20vw;
-  border-radius: .75rem;
-  box-shadow: inset 0.1rem 0.1rem 2rem #111;
-  background-color: var(--viridian);
-  float:left;
-  text-align: center;
-  padding: 2rem;
-}
-main nav h2{
-  font-size: 5rem;
-  font-family: 'Caesar Dressing', cursive;
-  font-weight: bolder;
-}
-main nav ul{
-  display: flex;
-  min-height: 70vh;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-around;
-}
-main nav ul li{
-  font-weight: bold;
-  font-size: 2rem;
-}
 
 footer{
-  background-color: var(--auburn);
+  background-color: var(--viridian);
   padding: 1rem;
   text-align: center;
 }
