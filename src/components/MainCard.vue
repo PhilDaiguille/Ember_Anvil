@@ -11,6 +11,7 @@
 <script>
 import bdd from "./Material.json";
 export default {
+  name: "PageMainCard",
   data() {
     return {
       bdd: bdd,

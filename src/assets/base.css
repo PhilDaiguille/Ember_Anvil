@@ -45,12 +45,12 @@ img {
   color-scheme: dark;
 }
 :root{
-  --jet: rgb(39, 39, 39);
-  --auburn: #a03b3cff;
-  --dun: #d1c6adff;
-  --khaki: #bbada0ff;
-  --viridian: #417b5aff;
-  --sea-green: #00916eff;
+  --jet: rgb(25, 25, 25);
+  --auburn: rgb(133, 50, 51);
+  --dun: rgb(188, 178, 155);
+  --khaki: rgb(164, 152, 140);
+  --viridian: rgb(50, 93, 68);
+  --sea-green: rgb(0, 114, 87);
 
 }
 
