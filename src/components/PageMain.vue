@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <main class="mainbackground">
     
   </main>
 </template>
@@ -13,10 +13,8 @@ export default {
 </script>
 
 <style>
-main{
+.mainbackground{
   background: url(../assets/bg.jpg) no-repeat center center / cover;
-}
-main{
   margin: 1rem auto;
   padding: 1rem;
   max-width: 140rem;
