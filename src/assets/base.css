@@ -45,23 +45,23 @@ img {
 }
 
 
-/* scroll bars */
-
-* {
-    /* For FF and non-webkit browsers */
-    scrollbar-width: thin;
-    scrollbar-color: #222 #333;
-}
-
-*::-webkit-scrollbar {
-    width: .2rem;
-}
-
-*::-webkit-scrollbar-thumb {
-    background-color: #222;
-    outline: .1rem solid #333;
-}
-
+/* Scrollbars */
+::-webkit-scrollbar {
+  width: .8rem;
+  }
+  
+  ::-webkit-scrollbar-track {
+  background-color: #f5f5f5;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+  background-color: #999;
+  border-radius: .5rem;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+  }
 header{
   
   margin: 1rem auto;
