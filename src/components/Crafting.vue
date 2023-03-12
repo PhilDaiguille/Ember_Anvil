@@ -2,17 +2,32 @@
   <main>
     <section>
       <h2>Forgez votre métal</h2>
-      <p>Bienvenue dans notre atelier de forge ! Ici, vous pouvez libérer votre créativité et créer toutes sortes d'objets en métal. Grâce à notre enclume, vous pouvez façonner le métal selon vos envies et créer des armes, des outils ou des décorations. Pour commencer, appuyez sur le bouton "Crafting" et laissez-vous guider par notre animation de forge. Une fois votre création terminée, n'oubliez pas de la partager avec la communauté ! Avec notre atelier de forge, les possibilités sont infinies. Alors, qu'attendez-vous pour forger votre métal ?</p>
+      <p>
+        Bienvenue dans notre atelier de forge ! Ici, vous pouvez libérer votre
+        créativité et créer toutes sortes d'objets en métal. Grâce à notre
+        enclume, vous pouvez façonner le métal selon vos envies et créer des
+        armes, des outils ou des décorations. Pour commencer, appuyez sur le
+        bouton "Crafting" et laissez-vous guider par notre animation de forge.
+        Une fois votre création terminée, n'oubliez pas de la partager avec la
+        communauté ! Avec notre atelier de forge, les possibilités sont
+        infinies. Alors, qu'attendez-vous pour forger votre métal ?
+      </p>
       <button :disabled="crafting" @click="startCrafting">Crafting</button>
-      <button v-if="crafting" @click="stopCrafting" class="stop">Arrêter</button>
+      <button v-if="crafting" @click="stopCrafting" class="stop">
+        Arrêter
+      </button>
     </section>
     <div>
-      
-  
       <div v-if="crafting" class="animation">
         <section class="animation">
-          <img src="https://cdn-icons-png.flaticon.com/512/3615/3615934.png" alt="hammer">
-          <img src="https://cdn-icons-png.flaticon.com/512/453/453558.png" alt="anvil">
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/3615/3615934.png"
+            alt="hammer"
+          />
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/453/453558.png"
+            alt="anvil"
+          />
           <div class="loading"></div>
         </section>
       </div>
@@ -46,19 +61,19 @@ export default {
 section {
   padding: 0 4rem;
 }
-section p{
+section p {
   max-width: 130rem;
   padding: 1rem;
   margin: 1rem;
   text-align: justify;
 }
-main section button{
+main section button {
   padding: 1rem 2rem;
-  border-radius: .7rem;
-  margin: 0 .5rem;
+  border-radius: 0.7rem;
+  margin: 0 0.5rem;
   background: var(--sea-green);
 }
-main section .stop{
+main section .stop {
   background: var(--auburn);
 }
 .animation {

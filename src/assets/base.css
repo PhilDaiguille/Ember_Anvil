@@ -100,7 +100,8 @@ main .row{
   margin: 1rem auto;
   flex-wrap: wrap;
   display: flex;
-  justify-content: space-between;
+  align-content: center;
+  align-items: center;
   
 }
 

@@ -21,30 +21,5 @@ export default {
 </script>
 
 <style>
-main .row figure {
-  padding: 1rem;
-  margin: 1rem;
-  max-width: 35rem;
-  border-radius: 0.75rem;
-  background-color: var(--khaki);
-  min-height: 35rem;
-  box-shadow: inset 0.1rem 0.1rem 2rem #111;
-}
-main .row figure img {
-  margin: 1rem auto;
-  display: block;
-  object-fit: contain;
-  max-width: 10rem;
-}
-main .row figure figcaption h2 {
-  margin: 0.5rem;
-}
-main .row figure figcaption p {
-  padding: 1rem;
 
-  text-align: justify;
-  box-shadow: inset 0.1rem 0.1rem 1rem #111;
-  border-radius: 0.75rem;
-  background-color: --var(dun);
-}
 </style>
