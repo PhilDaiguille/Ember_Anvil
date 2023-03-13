@@ -3,22 +3,30 @@
     {
       "nom": "Aluminium",
       "image": "./assets/Material/aluminium.png",
-      "description": "Le métal des cieux, léger comme une plume et résistant comme un dragon. L'aluminium est idéal pour les armures et les armes volantes, et est également très utilisé dans la construction de golems d'acier."
+      "description": "Le métal des cieux, léger comme une plume et résistant comme un dragon. L'aluminium est idéal pour les armures et les armes volantes, et est également très utilisé dans la construction de golems d'acier.",
+      "achat": "6 écu",
+      "vente" :"4 écu"
     },
     {
       "nom": "Cuivre",
       "image": "./assets/Material/cuivre.png",
-      "description": "Le métal du feu et de la passion, capable de conduire les énergies les plus puissantes. Le cuivre est parfait pour les enchantements électriques et la fabrication de runes, et est également très prisé des alchimistes pour ses propriétés magiques."
+      "description": "Le métal du feu et de la passion, capable de conduire les énergies les plus puissantes. Le cuivre est parfait pour les enchantements électriques et la fabrication de runes, et est également très prisé des alchimistes pour ses propriétés magiques.",
+      "achat": "4 écu",
+      "vente" :"3 écu"
     },
     {
       "nom": "Fer",
       "image": "./assets/Material/fer.png",
-      "description": "Le métal de la terre et de la force brute, forgé par les nains des montagnes les plus profondes. Le fer est la base de toute création, du simple clou jusqu'à l'épée du roi. Mais attention, sa pureté peut varier grandement et seul un forgeron d'élite peut le travailler avec maîtrise."
+      "description": "Le métal de la terre et de la force brute, forgé par les nains des montagnes les plus profondes. Le fer est la base de toute création, du simple clou jusqu'à l'épée du roi. Mais attention, sa pureté peut varier grandement et seul un forgeron d'élite peut le travailler avec maîtrise.",
+      "achat": "3 écu",
+      "vente" :"2 écu"
     },
     {
       "nom": "Etain",
       "image": "./assets/Material/fer.png",
-      "description": "Le métal de la terre et de la force brute, forgé par les nains des montagnes les plus profondes. Le fer est la base de toute création, du simple clou jusqu'à l'épée du roi. Mais attention, sa pureté peut varier grandement et seul un forgeron d'élite peut le travailler avec maîtrise."
+      "description": "Le métal de la terre et de la force brute, forgé par les nains des montagnes les plus profondes. Le fer est la base de toute création, du simple clou jusqu'à l'épée du roi. Mais attention, sa pureté peut varier grandement et seul un forgeron d'élite peut le travailler avec maîtrise.",
+      "achat": "5 écu",
+      "vente" :"2 écu"
     }
   ]
 }

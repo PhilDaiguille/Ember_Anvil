@@ -3,6 +3,7 @@
     <img :src="item.image" :alt="item.nom" />
     <figcaption>
       <h2>{{ item.nom }}</h2>
+      <p class="prix">achat : {{ item.achat }} / vente : {{ item.vente}}</p>  
       <input type="submit" value="Acheter" />
       <input type="submit" value="Vendre" />
     </figcaption>
@@ -22,16 +23,24 @@ export default {
 </script>
 
 <style>
+main section div.row figure figcaption p.prix{
+  border: none;
+  font-size: 1.8rem;
+  font-weight: bold;
+  padding: 0rem 0rem;
+  text-align: center;
+  box-shadow: none;
+}
 main .row figure {
   padding: 2rem;
   display: flex;
-  margin: 1rem;
+  margin: 1rem !important;
   border-radius: 0.75rem;
   background-color: var(--khaki);
   box-shadow: inset 0.1rem 0.1rem 2rem #111;
 }
 main .row figure img {
-  margin: 1rem auto;
+  margin: 1rem auto; 
   display: block;
   object-fit: contain;
   max-width: 10rem;
@@ -47,10 +56,12 @@ main .row figure figcaption p {
   background-color: --var(dun);
 }
 main .row figure figcaption input[type="submit"] {
-  padding: 1rem 2rem;
+  padding: 1rem 4rem;
   margin: 0.5rem;
   cursor: pointer;
   border-radius: 0.5rem;
+  display: inline-block;
+  max-width: 50%;
 }
 main .row figure figcaption input:nth-child(3) {
   background-color: var(--auburn);
