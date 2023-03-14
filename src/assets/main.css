@@ -1,10 +1,5 @@
 @import './base.css';
 @import url('https://fonts.googleapis.com/css2?family=Caesar+Dressing&family=Labrada:wght@100;200;300;400;500;600;700;800;900&display=swap');
-:root{
-    --jet: rgb(25, 25, 25);
-    --auburn: rgb(133, 50, 51);
-    --dun: rgb(161, 152, 130);
-    --khaki: rgb(150, 137, 123);
-    --viridian: rgb(50, 93, 68);
-    --sea-green: rgb(0, 114, 87);
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

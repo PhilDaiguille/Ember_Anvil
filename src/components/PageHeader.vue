@@ -1,10 +1,10 @@
 <template>
-  <header>
+  <header class="m-auto-5 text-center max-h-1400">
     <nav>
-      <ul>
+      <ul class="flex flex-wrap justify-around items-center font-bold">
         <li><router-link to="./">Home</router-link></li>
         <li><router-link to="./Crafting">Crafting</router-link></li>
-        <li><h1>Ember Anvil</h1></li>
+        <li><h1 class="py-5 px-16 m-5 text-7xl font-bold rounded-xl">Ember Anvil</h1></li>
         <li><router-link to="./Shop">Shop</router-link></li>
         <li><router-link to="./Wiki">Wiki</router-link></li>
       </ul>
@@ -18,4 +18,14 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+header h1{
+  font-family: 'Caesar Dressing', cursive;
+}
+header nav ul li h1{
+  background-color: var(--auburn);
+}
+header nav ul li a{
+  font-weight: bolder;
+}
+</style>
