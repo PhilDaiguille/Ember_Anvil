@@ -6,6 +6,7 @@
       </ul>
     </div>
     <div class="row">
+      <h2>List des matériaux</h2>
       <Card />
     </div>
   </main>
