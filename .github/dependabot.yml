@@ -1,17 +1,21 @@
-# To get started with Dependabot version updates, you'll need to specify which
-# package ecosystems to update and where the package manifests are located.
-# Please see the documentation for all configuration options:
-# https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
-
 version: 2
 updates:
-  - package-ecosystem: "" # See documentation for possible values
-    directory: "/" # Location of package manifests
+  # Mettre à jour les dépendances NPM
+  - package-ecosystem: "npm"
+    directory: "/"
     schedule:
-      interval: "weekly"
-version: 2
-updates:
-- package-ecosystem: npm
-  directory: "/" # Location of package manifests
-    schedule:
-      interval: "weekly"
+      interval: "daily"
+      time: "13:00"
+    # Spécifier les packages à surveiller
+    # Ici, on surveille les mises à jour pour le package "lodash"
+    # dans sa version 4.x
+    # Pour mettre à jour toutes les dépendances, utilisez `*`
+    # Pour surveiller plusieurs packages, ajoutez des éléments à la liste
+    # Exemple: ["lodash", "axios"]
+    package- names:
+      - "lodash@^4"
+    # Stratégie de versionnement
+    versioning-strategy: "increase"
+    # Ouvrir des demandes de pull pour chaque mise à jour
+    # jusqu'à un maximum de 99 PR
+    open-pull-requests-limit: 99
