@@ -5,7 +5,7 @@
       <h2>{{ item.nom }}</h2>
       <p class="prix">achat : {{ item.achat }} / vente : {{ item.vente}}</p>  
       <input type="submit" value="Acheter" />
-      <input type="submit" value="Vendre" />
+      <input class="border-solid border-2" type="submit" value="Vendre" />
     </figcaption>
   </figure>
 </template>
