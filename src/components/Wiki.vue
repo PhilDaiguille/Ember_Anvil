@@ -24,24 +24,23 @@ export default {
     };
   },
 };
-
 </script>
 
 <style>
-main{
+main {
   display: flex;
 }
-.sommaire{
+.sommaire {
   display: flex;
   padding: 4rem;
   background: #141414;
-  border-radius: .75rem;
+  border-radius: 0.75rem;
   box-shadow: inset 0 0 5rem #000;
 }
-.sommaire ul li{
+.sommaire ul li {
   margin: 2rem auto;
 }
-main .row{
+main .row {
   margin: 1rem;
 }
 main .row figure {
@@ -59,7 +58,7 @@ main .row figure img {
   object-fit: contain;
   max-width: 10rem;
 }
-main .row figure figcaption{
+main .row figure figcaption {
   padding: 1rem 2rem;
 }
 main .row figure figcaption h2 {

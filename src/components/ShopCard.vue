@@ -3,7 +3,7 @@
     <img :src="item.image" :alt="item.nom" />
     <figcaption>
       <h2>{{ item.nom }}</h2>
-      <p class="prix">achat : {{ item.achat }} / vente : {{ item.vente}}</p>  
+      <p class="prix">achat : {{ item.achat }} / vente : {{ item.vente }}</p>
       <input type="submit" value="Acheter" />
       <input class="border-solid border-2" type="submit" value="Vendre" />
     </figcaption>
@@ -23,7 +23,7 @@ export default {
 </script>
 
 <style>
-main section div.row figure figcaption p.prix{
+main section div.row figure figcaption p.prix {
   border: none;
   font-size: 1.8rem;
   font-weight: bold;
@@ -40,7 +40,7 @@ main .row figure {
   box-shadow: inset 0.1rem 0.1rem 2rem #111;
 }
 main .row figure img {
-  margin: 1rem auto; 
+  margin: 1rem auto;
   display: block;
   object-fit: contain;
   max-width: 10rem;
