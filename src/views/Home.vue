@@ -10,7 +10,7 @@ import PageMain from "../components/PageMain.vue";
 import PageFooter from "../components/PageFooter.vue";
 
 export default {
-  name: "home",
+  name: "HomePage",
   components: { PageHeader, PageMain, PageFooter },
 };
 </script>

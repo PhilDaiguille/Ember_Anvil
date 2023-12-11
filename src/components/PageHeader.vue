@@ -26,9 +26,11 @@ export default {
 header h1 {
   font-family: "Caesar Dressing", cursive;
 }
+
 header nav ul li h1 {
   background-color: var(--auburn);
 }
+
 header nav ul li a {
   font-weight: bolder;
 }

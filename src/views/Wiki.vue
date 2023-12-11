@@ -10,7 +10,7 @@ import PageWiki from "../components/Wiki.vue";
 import PageFooter from "../components/PageFooter.vue";
 
 export default {
-  name: "wiki",
+  name: "WikiPage",
   components: { PageHeader, PageWiki, PageFooter },
 };
 </script>

@@ -3,10 +3,8 @@
 </template>
 
 <script>
-import Card from "./MainCard.vue";
 export default {
-  name: "Pagemain",
-  components: { Card },
+  name: "PageMain",
 };
 </script>
 

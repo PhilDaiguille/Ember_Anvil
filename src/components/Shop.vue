@@ -19,7 +19,7 @@
 <script>
 import ShopCardVue from "./ShopCard.vue";
 export default {
-  name: "Shop",
+  name: "ShopPage",
   components: { ShopCardVue },
 };
 </script>

@@ -7,7 +7,7 @@
     "update": "npm i -g npm-check-updates & ncu -u & npm install & npm update",
     "build": "vite build",
     "preview": "vite preview",
-    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
   },
   "dependencies": {
     "vite-plugin-purgecss": "^0.2.12",

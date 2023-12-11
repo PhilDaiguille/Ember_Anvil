@@ -10,7 +10,7 @@ import PageShop from "../components/Shop.vue";
 import PageFooter from "../components/PageFooter.vue";
 
 export default {
-  name: "shop",
+  name: "MenuShop",
   components: { PageHeader, PageShop, PageFooter },
 };
 </script>

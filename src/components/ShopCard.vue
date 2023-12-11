@@ -31,6 +31,7 @@ main section div.row figure figcaption p.prix {
   text-align: center;
   box-shadow: none;
 }
+
 main .row figure {
   padding: 2rem;
   display: flex;
@@ -39,15 +40,18 @@ main .row figure {
   background-color: var(--khaki);
   box-shadow: inset 0.1rem 0.1rem 2rem #111;
 }
+
 main .row figure img {
   margin: 1rem auto;
   display: block;
   object-fit: contain;
   max-width: 10rem;
 }
+
 main .row figure figcaption h2 {
   margin: 0.5rem;
 }
+
 main .row figure figcaption p {
   padding: 1rem;
   text-align: justify;
@@ -55,6 +59,7 @@ main .row figure figcaption p {
   border-radius: 0.75rem;
   background-color: --var(dun);
 }
+
 main .row figure figcaption input[type="submit"] {
   padding: 1rem 4rem;
   margin: 0.5rem;
@@ -63,9 +68,11 @@ main .row figure figcaption input[type="submit"] {
   display: inline-block;
   max-width: 50%;
 }
+
 main .row figure figcaption input:nth-child(3) {
   background-color: var(--auburn);
 }
+
 main .row figure figcaption input:nth-child(3):hover {
   background-color: #a03c3e;
 }
