@@ -1,9 +1,3 @@
-<template>
-  <PageHeader />
-  <PageMain />
-  <PageFooter />
-</template>
-
 <script>
 import PageHeader from "../components/PageHeader.vue";
 import PageMain from "../components/PageMain.vue";
@@ -14,5 +8,10 @@ export default {
   components: { PageHeader, PageMain, PageFooter },
 };
 </script>
+<template>
+  <PageHeader />
+  <PageMain />
+  <PageFooter />
+</template>
 
 <style></style>
