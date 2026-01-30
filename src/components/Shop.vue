@@ -1,3 +1,10 @@
+<script>
+import ShopCardVue from "./ShopCard.vue";
+export default {
+  name: "ShopPage",
+  components: { ShopCardVue },
+};
+</script>
 <template>
   <main>
     <section>
@@ -15,13 +22,4 @@
     </section>
   </main>
 </template>
-
-<script>
-import ShopCardVue from "./ShopCard.vue";
-export default {
-  name: "ShopPage",
-  components: { ShopCardVue },
-};
-</script>
-
 <style></style>

@@ -9,15 +9,13 @@
 }
 
 html {
-  font-size: 62.5%;
   scroll-behavior: smooth;
-  -webkit-font-smoothing: auto;
   -moz-osx-font-smoothing: auto;
 }
 
 body {
   font:
-    1.6rem "Labrada",
+    1rem "Labrada",
     serif;
   margin: 0;
   color: var(--color-white);
@@ -25,22 +23,21 @@ body {
 }
 
 main {
-  margin: 1rem auto;
+  margin: 0.5rem auto;
   overflow-y: auto;
-  min-height: 90vh;
-  padding: 2rem;
+  min-height: 95dvh;
+  padding: 1.25rem;
 }
 
 main .row {
-  margin: 1rem auto;
+  margin: 0.5rem auto;
   flex-wrap: wrap;
-  display: flex;
   align-content: center;
   align-items: center;
 }
 
 footer {
   background-color: var(--viridian);
-  padding: 1rem;
+  padding: 0.5rem;
   text-align: center;
 }

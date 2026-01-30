@@ -8,6 +8,7 @@ export default {
   components: { PageHeader, PageMain, PageFooter },
 };
 </script>
+
 <template>
   <PageHeader />
   <PageMain />

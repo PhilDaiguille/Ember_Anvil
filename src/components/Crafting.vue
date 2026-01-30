@@ -1,3 +1,24 @@
+<script>
+export default {
+  name: "CraftingComponent",
+  data() {
+    return {
+      crafting: false,
+    };
+  },
+  methods: {
+    startCrafting() {
+      this.crafting = true;
+      setTimeout(() => {
+        this.crafting = false;
+      }, 6900);
+    },
+    stopCrafting() {
+      this.crafting = false;
+    },
+  },
+};
+</script>
 <template>
   <main>
     <section>
@@ -34,37 +55,14 @@
     </div>
   </main>
 </template>
-
-<script>
-export default {
-  name: "CraftingComponent",
-  data() {
-    return {
-      crafting: false,
-    };
-  },
-  methods: {
-    startCrafting() {
-      this.crafting = true;
-      setTimeout(() => {
-        this.crafting = false;
-      }, 6900);
-    },
-    stopCrafting() {
-      this.crafting = false;
-    },
-  },
-};
-</script>
-
 <style>
 section {
-  padding: 0 4rem;
+  padding: 0 2.7rem;
 }
 
 section p {
-  max-width: 130rem;
-  padding: 1rem;
+  max-width: 110rem;
+  padding: 0.5rem;
   margin: 1rem;
   text-align: justify;
 }

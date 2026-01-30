@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import bdd from "./Material.json";
+import bdd from "./Material.json" with { type: "json" };
 export default {
   name: "ShopCard",
   data() {
@@ -33,7 +33,7 @@ main section div.row figure figcaption p.prix {
 }
 
 main .row figure {
-  padding: 2rem;
+  padding: 1.2rem;
   display: flex;
   margin: 1rem !important;
   border-radius: 0.75rem;

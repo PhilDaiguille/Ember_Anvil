@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <main class="flex">
     <div class="sommaire">
       <ul>
         <li v-for="item in bdd.metaux" :key="item.id">{{ item.nom }}</li>
@@ -27,10 +27,6 @@ export default {
 </script>
 
 <style>
-main {
-  display: flex;
-}
-
 .sommaire {
   display: flex;
   padding: 4rem;
@@ -65,7 +61,7 @@ main .row figure img {
 }
 
 main .row figure figcaption {
-  padding: 1rem 2rem;
+  padding: 0.5rem 2rem;
 }
 
 main .row figure figcaption h2 {

@@ -1,11 +1,11 @@
 <template>
-  <header class="m-auto-5 text-center max-h-1400">
+  <header class="m-auto text-center max-w-7xl p-4">
     <nav>
       <ul class="flex flex-wrap justify-around items-center font-bold p-1">
         <li><router-link to="./Crafting">Crafting</router-link></li>
         <li>
           <router-link to="./">
-            <h1 class="py-5 px-8 m-5 text-7xl font-bold rounded-xl">
+            <h1 class="py-2 px-4 m-2 text-5xl font-bold rounded-xl">
               Ember Anvil
             </h1>
           </router-link>

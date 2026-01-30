@@ -1,9 +1,3 @@
-<template>
-  <PageHeader />
-  <PageWiki />
-  <PageFooter />
-</template>
-
 <script>
 import PageHeader from "../components/PageHeader.vue";
 import PageWiki from "../components/Wiki.vue";
@@ -14,5 +8,10 @@ export default {
   components: { PageHeader, PageWiki, PageFooter },
 };
 </script>
+<template>
+  <PageHeader />
+  <PageWiki />
+  <PageFooter />
+</template>
 
 <style></style>

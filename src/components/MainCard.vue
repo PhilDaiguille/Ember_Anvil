@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import bdd from "./Material.json";
+import bdd from "./Material.json" with { type: "json" };
 export default {
   name: "PageMainCard",
   data() {
