@@ -1,7 +1,7 @@
 <template>
   <main class="mainbackground" role="main">
     <section
-      class="hero-section min-h-[70vh] flex flex-col items-center justify-center text-center px-4 py-16"
+      class="hero-section min-h-[90vh] flex flex-col items-center justify-center text-center px-4 py-16"
     >
       <div
         class="hero-content max-w-4xl mx-auto backdrop-blur-sm bg-black/40 rounded-2xl p-8 md:p-12 shadow-2xl border border-white/10"
@@ -195,6 +195,58 @@
       </div>
     </section>
 
+    <!-- FAQ Section -->
+    <section
+      class="faq-section py-16 px-4 max-w-4xl mx-auto"
+      aria-labelledby="faq-heading"
+    >
+      <div class="text-center mb-12">
+        <h2
+          id="faq-heading"
+          class="text-4xl md:text-5xl font-bold mb-4 text-amber-100"
+        >
+          Questions Fréquentes
+        </h2>
+        <p class="text-lg text-gray-300">
+          Tout ce que vous devez savoir sur Ember Anvil
+        </p>
+      </div>
+
+      <div class="faq-container space-y-4">
+        <article
+          v-for="(faq, index) in faqs"
+          :key="index"
+          class="faq-item bg-black/40 backdrop-blur-md rounded-xl border border-white/10 overflow-hidden transition-all duration-300 hover:border-white/30"
+        >
+          <button
+            @click="toggleFaq(index)"
+            class="faq-question w-full text-left p-6 flex justify-between items-center gap-4"
+            :aria-expanded="faq.open"
+            :aria-controls="'faq-answer-' + index"
+          >
+            <h3 class="text-xl font-bold text-amber-100">
+              {{ faq.question }}
+            </h3>
+            <ChevronDown
+              :size="24"
+              :stroke-width="2"
+              class="text-amber-400 transition-transform duration-300 flex-shrink-0"
+              :class="{ 'rotate-180': faq.open }"
+            />
+          </button>
+          <div
+            :id="'faq-answer-' + index"
+            class="faq-answer overflow-hidden transition-all duration-300"
+            :class="faq.open ? 'max-h-96' : 'max-h-0'"
+          >
+            <div class="p-6 pt-0 text-gray-200 leading-relaxed">
+              {{ faq.answer }}
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
     <section class="final-cta py-16 px-4 text-center">
       <div
         class="max-w-3xl mx-auto bg-linear-to-r from-orange-600/40 to-red-600/40 backdrop-blur-md rounded-2xl p-12 border border-white/20 shadow-2xl"
@@ -220,7 +272,7 @@
 </template>
 
 <script>
-import { Flame, BookOpen, Store, Hammer } from "lucide-vue-next";
+import { Flame, BookOpen, Store, Hammer, ChevronDown } from "lucide-vue-next";
 
 export default {
   name: "PageMain",
@@ -229,12 +281,78 @@ export default {
     BookOpen,
     Store,
     Hammer,
+    ChevronDown,
+  },
+  data() {
+    return {
+      faqs: [
+        {
+          question: "Qu'est-ce qu'Ember Anvil ?",
+          answer:
+            "Ember Anvil est une forge virtuelle interactive où vous pouvez créer des objets uniques en combinant différents matériaux. C'est une expérience de crafting immersive qui combine artisanat traditionnel et technologie moderne, avec plus de 500 recettes et 100+ matériaux disponibles.",
+          open: false,
+        },
+        {
+          question: "Comment fonctionne le système de crafting ?",
+          answer:
+            "Le système de crafting d'Ember Anvil est simple et intuitif. Sélectionnez vos matériaux dans votre inventaire, choisissez une recette dans le codex, et forgez votre création. Chaque objet créé améliore vos compétences de forgeron et débloque de nouvelles possibilités.",
+          open: false,
+        },
+        {
+          question: "Quels types de matériaux puis-je utiliser ?",
+          answer:
+            "Vous pouvez utiliser une vaste gamme de matériaux : métaux précieux (or, argent), métaux communs (fer, cuivre, aluminium), alliages spéciaux, et matériaux rares. Chaque matériau possède des propriétés uniques qui influencent la qualité et les caractéristiques de vos créations.",
+          open: false,
+        },
+        {
+          question: "Y a-t-il un système de progression ?",
+          answer:
+            "Oui ! Ember Anvil propose un système de progression complet avec des niveaux de forgeron, des badges à débloquer, et des améliorations d'atelier. Plus vous forgez, plus vous gagnez d'expérience et débloquent de nouvelles recettes et outils avancés.",
+          open: false,
+        },
+        {
+          question: "Puis-je vendre mes créations ?",
+          answer:
+            "Absolument ! La boutique Ember Anvil vous permet d'acheter des matériaux rares et de vendre vos créations. Le prix de vente dépend de la qualité de votre travail, des matériaux utilisés, et de votre niveau de maîtrise.",
+          open: false,
+        },
+        {
+          question: "Le Wiki contient-il toutes les recettes ?",
+          answer:
+            "Le Codex (Wiki) d'Ember Anvil est une encyclopédie exhaustive contenant toutes les informations sur les matériaux, leurs propriétés, origines, et applications. Il s'enrichit au fur et à mesure de votre progression et de vos découvertes.",
+          open: false,
+        },
+      ],
+    };
   },
   mounted() {
     this.updateMetaTags();
+    this.addFaqSchema();
   },
 
   methods: {
+    toggleFaq(index) {
+      this.faqs[index].open = !this.faqs[index].open;
+    },
+    addFaqSchema() {
+      const faqSchema = {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: this.faqs.map((faq) => ({
+          "@type": "Question",
+          name: faq.question,
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: faq.answer,
+          },
+        })),
+      };
+
+      const script = document.createElement("script");
+      script.type = "application/ld+json";
+      script.text = JSON.stringify(faqSchema);
+      document.head.appendChild(script);
+    },
     updateMetaTags() {
       document.title =
         "Ember Anvil - Forge Virtuelle & Artisanat | Crafting, Wiki & Boutique";
@@ -287,12 +405,62 @@ export default {
 
 <style scoped>
 .mainbackground {
-  background: url(../assets/bg.avif) no-repeat center center / cover;
   margin: 2rem auto;
-  padding: 1rem;
+  padding: 0;
   max-width: 140rem;
   border-radius: 0.75rem;
   position: relative;
+  background: linear-gradient(to bottom, #0f0d0a 0%, #1a1612 50%, #0f0d0a 100%);
+}
+
+/* Hero Section avec Background */
+.hero-section {
+  background: url(../assets/bg.avif) no-repeat center center / cover;
+  border-radius: 0.75rem 0.75rem 0 0;
+  position: relative;
+  margin: 0 1rem;
+}
+
+.hero-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.3) 0%,
+    rgba(0, 0, 0, 0.5) 70%,
+    rgba(15, 13, 10, 1) 100%
+  );
+  border-radius: 0.75rem 0.75rem 0 0;
+  pointer-events: none;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+}
+
+/* Features Section */
+.features-section {
+  padding: 4rem 2rem;
+  margin: 0;
+}
+
+/* About Section - déjà centré avec mx-auto dans le HTML */
+.about-section {
+  /* Pas de margin override, utilise mx-auto du HTML */
+}
+
+/* FAQ Section - centrer avec max-width */
+.faq-section {
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+}
+
+.final-cta {
+  margin: 0;
+  padding: 4rem 2rem 6rem;
 }
 
 /* Animation subtile pour les cards */
@@ -394,5 +562,47 @@ export default {
   50% {
     transform: translateY(-10px);
   }
+}
+
+/* FAQ Section */
+.faq-section {
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.faq-item {
+  transition: all 0.3s ease;
+}
+
+.faq-item:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  transform: translateY(-2px);
+}
+
+.faq-question {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.faq-question:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.faq-question:focus {
+  outline: 2px solid rgba(251, 191, 36, 0.5);
+  outline-offset: -2px;
+}
+
+.faq-answer {
+  transition:
+    max-height 0.3s ease,
+    opacity 0.3s ease;
+}
+
+.faq-answer.max-h-0 {
+  opacity: 0;
+}
+
+.faq-answer.max-h-96 {
+  opacity: 1;
 }
 </style>
