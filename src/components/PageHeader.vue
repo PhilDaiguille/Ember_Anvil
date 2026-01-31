@@ -3,7 +3,9 @@
     <div class="header-container">
       <!-- Logo Section -->
       <router-link to="/" class="logo-section">
-        <div class="logo-icon">🔥</div>
+        <div class="logo-icon">
+          <Flame :size="32" :stroke-width="2.5" />
+        </div>
         <div class="logo-text">
           <span class="logo-title">Ember Anvil</span>
           <span class="logo-tagline">Forge Virtuelle</span>
@@ -15,37 +17,37 @@
         <ul class="nav-list">
           <li class="nav-item">
             <router-link to="/Crafting" class="nav-link" @click="closeMenu">
-              <span class="nav-icon">⚒️</span>
+              <Hammer class="nav-icon" :size="20" :stroke-width="2" />
               <span class="nav-text">Forge</span>
             </router-link>
           </li>
           <li class="nav-item">
             <router-link to="/Shop" class="nav-link" @click="closeMenu">
-              <span class="nav-icon">🛒</span>
+              <Store class="nav-icon" :size="20" :stroke-width="2" />
               <span class="nav-text">Marché</span>
             </router-link>
           </li>
           <li class="nav-item">
             <router-link to="/Wiki" class="nav-link" @click="closeMenu">
-              <span class="nav-icon">📖</span>
+              <BookOpen class="nav-icon" :size="20" :stroke-width="2" />
               <span class="nav-text">Codex</span>
             </router-link>
           </li>
           <li class="nav-item">
             <router-link to="/Inventory" class="nav-link" @click="closeMenu">
-              <span class="nav-icon">🎒</span>
+              <Package class="nav-icon" :size="20" :stroke-width="2" />
               <span class="nav-text">Inventaire</span>
             </router-link>
           </li>
           <li class="nav-item">
             <router-link to="/Workshop" class="nav-link" @click="closeMenu">
-              <span class="nav-icon">🔧</span>
+              <Wrench class="nav-icon" :size="20" :stroke-width="2" />
               <span class="nav-text">Atelier</span>
             </router-link>
           </li>
           <li class="nav-item">
             <router-link to="/Profile" class="nav-link" @click="closeMenu">
-              <span class="nav-icon">👤</span>
+              <User class="nav-icon" :size="20" :stroke-width="2" />
               <span class="nav-text">Profil</span>
             </router-link>
           </li>
@@ -55,11 +57,11 @@
       <!-- User Section -->
       <div class="user-section">
         <div class="currency-display">
-          <span class="currency-icon">💰</span>
+          <Coins class="currency-icon" :size="20" :stroke-width="2" />
           <span class="currency-value">1,250</span>
         </div>
         <button class="user-avatar" aria-label="Menu utilisateur">
-          <span class="avatar-icon">⚔️</span>
+          <Sword class="avatar-icon" :size="22" :stroke-width="2.5" />
         </button>
       </div>
 
@@ -78,8 +80,31 @@
 </template>
 
 <script>
+import {
+  Flame,
+  Hammer,
+  Store,
+  BookOpen,
+  Package,
+  Wrench,
+  User,
+  Coins,
+  Sword,
+} from "lucide-vue-next";
+
 export default {
   name: "PageHeader",
+  components: {
+    Flame,
+    Hammer,
+    Store,
+    BookOpen,
+    Package,
+    Wrench,
+    User,
+    Coins,
+    Sword,
+  },
   data() {
     return {
       menuOpen: false,

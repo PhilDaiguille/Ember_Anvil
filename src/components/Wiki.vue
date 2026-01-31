@@ -4,7 +4,9 @@
       <!-- Sidebar Navigation -->
       <aside class="codex-sidebar">
         <div class="sidebar-header">
-          <div class="codex-emblem">📖</div>
+          <div class="codex-emblem">
+            <BookOpen :size="48" :stroke-width="2" />
+          </div>
           <h2 class="sidebar-title">Codex des Métaux</h2>
           <p class="sidebar-subtitle">Index Alchimique</p>
         </div>
@@ -49,11 +51,15 @@
       <!-- Main Content -->
       <div class="codex-content">
         <header class="content-header">
-          <div class="header-ornament-top">✦ ✦ ✦</div>
+          <div class="header-ornament-top">
+            <span class="ornament-dot"></span>
+            <span class="ornament-dot"></span>
+            <span class="ornament-dot"></span>
+          </div>
           <h1 class="content-title">
-            <span class="title-ornament">❖</span>
+            <span class="title-ornament">◆</span>
             Encyclopédie des Matériaux Nobles
-            <span class="title-ornament">❖</span>
+            <span class="title-ornament">◆</span>
           </h1>
           <p class="content-description">
             Recueil exhaustif des métaux, alliages et matériaux précieux
@@ -61,7 +67,11 @@
             les propriétés, origines et applications légendaires de ces
             ressources exceptionnelles.
           </p>
-          <div class="header-ornament-bottom">⚒ ⚒ ⚒</div>
+          <div class="header-ornament-bottom">
+            <Hammer :size="16" :stroke-width="2" class="ornament-icon" />
+            <Hammer :size="16" :stroke-width="2" class="ornament-icon" />
+            <Hammer :size="16" :stroke-width="2" class="ornament-icon" />
+          </div>
         </header>
 
         <div class="materials-list">
@@ -75,7 +85,7 @@
         </div>
 
         <footer class="content-footer">
-          <div class="footer-ornament">❦</div>
+          <div class="footer-ornament">◆</div>
           <p class="footer-text">Fin du Chapitre I : Les Métaux Fondamentaux</p>
           <p class="footer-subtext">
             Pour plus d'informations, consultez les maîtres forgerons de la
@@ -90,9 +100,15 @@
 <script>
 import Card from "./MainCard.vue";
 import bdd from "./Material.json";
+import { BookOpen, Hammer } from "lucide-vue-next";
+
 export default {
   name: "WikiCodex",
-  components: { Card },
+  components: {
+    Card,
+    BookOpen,
+    Hammer,
+  },
   data() {
     return {
       bdd: bdd,
@@ -173,9 +189,11 @@ export default {
 }
 
 .codex-emblem {
-  font-size: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--dun);
   margin-bottom: 1rem;
-  filter: grayscale(0.3);
   animation: bookFloat 3s ease-in-out infinite;
 }
 
@@ -382,11 +400,25 @@ export default {
 
 .header-ornament-top,
 .header-ornament-bottom {
-  font-size: 0.9rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
   color: var(--auburn);
-  letter-spacing: 1rem;
   opacity: 0.6;
   margin: 1rem 0;
+}
+
+.ornament-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--auburn);
+  border-radius: 50%;
+  opacity: 0.6;
+}
+
+.ornament-icon {
+  opacity: 0.6;
 }
 
 .content-title {

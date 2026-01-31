@@ -29,17 +29,19 @@
         >
           <router-link
             to="/Crafting"
-            class="cta-primary bg-linear-to-r from-amber-600 to-orange-700 hover:from-amber-500 hover:to-orange-600 text-white font-bold py-4 px-8 rounded-lg shadow-lg transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
+            class="cta-primary bg-linear-to-r from-amber-600 to-orange-700 hover:from-amber-500 hover:to-orange-600 text-white font-bold py-4 px-8 rounded-lg shadow-lg transform transition-all duration-300 hover:scale-105 hover:shadow-xl flex items-center gap-2 justify-center"
             aria-label="Commencer à forger maintenant"
           >
-            🔥 Commencer à Forger
+            <Flame :size="20" :stroke-width="2" />
+            Commencer à Forger
           </router-link>
           <router-link
             to="/Wiki"
-            class="cta-secondary bg-white/10 hover:bg-white/20 backdrop-blur-md text-white font-semibold py-4 px-8 rounded-lg border-2 border-white/30 shadow-lg transform transition-all duration-300 hover:scale-105"
+            class="cta-secondary bg-white/10 hover:bg-white/20 backdrop-blur-md text-white font-semibold py-4 px-8 rounded-lg border-2 border-white/30 shadow-lg transform transition-all duration-300 hover:scale-105 flex items-center gap-2 justify-center"
             aria-label="Explorer l'encyclopédie"
           >
-            📚 Explorer le Wiki
+            <BookOpen :size="20" :stroke-width="2" />
+            Explorer le Wiki
           </router-link>
         </div>
       </div>
@@ -55,7 +57,11 @@
           <article
             class="feature-card bg-linear-to-br from-orange-900/60 to-red-900/60 backdrop-blur-md rounded-xl p-8 shadow-xl border border-white/10 transform transition-all duration-300 hover:scale-105 hover:shadow-2xl"
           >
-            <div class="feature-icon text-6xl mb-4 text-center">⚒️</div>
+            <div
+              class="feature-icon text-6xl mb-4 text-center flex justify-center"
+            >
+              <Hammer :size="64" :stroke-width="2" class="text-amber-400" />
+            </div>
             <h3
               class="feature-title text-2xl font-bold mb-4 text-amber-100 text-center"
             >
@@ -82,7 +88,11 @@
           <article
             class="feature-card bg-linear-to-br from-emerald-900/60 to-teal-900/60 backdrop-blur-md rounded-xl p-8 shadow-xl border border-white/10 transform transition-all duration-300 hover:scale-105 hover:shadow-2xl"
           >
-            <div class="feature-icon text-6xl mb-4 text-center">🛒</div>
+            <div
+              class="feature-icon text-6xl mb-4 text-center flex justify-center"
+            >
+              <Store :size="64" :stroke-width="2" class="text-emerald-400" />
+            </div>
             <h3
               class="feature-title text-2xl font-bold mb-4 text-emerald-100 text-center"
             >
@@ -109,7 +119,11 @@
           <article
             class="feature-card bg-linear-to-br from-blue-900/60 to-indigo-900/60 backdrop-blur-md rounded-xl p-8 shadow-xl border border-white/10 transform transition-all duration-300 hover:scale-105 hover:shadow-2xl"
           >
-            <div class="feature-icon text-6xl mb-4 text-center">📖</div>
+            <div
+              class="feature-icon text-6xl mb-4 text-center flex justify-center"
+            >
+              <BookOpen :size="64" :stroke-width="2" class="text-blue-400" />
+            </div>
             <h3
               class="feature-title text-2xl font-bold mb-4 text-blue-100 text-center"
             >
@@ -194,10 +208,11 @@
         </p>
         <router-link
           to="/Crafting"
-          class="inline-block bg-white text-orange-900 font-bold py-4 px-10 rounded-lg shadow-xl transform transition-all duration-300 hover:scale-110 hover:shadow-2xl hover:bg-amber-50"
+          class="inline-block bg-white text-orange-900 font-bold py-4 px-10 rounded-lg shadow-xl transform transition-all duration-300 hover:scale-110 hover:shadow-2xl hover:bg-amber-50 flex items-center gap-2 justify-center max-w-xs mx-auto"
           aria-label="Commencer votre aventure maintenant"
         >
-          🔨 Commencer Maintenant
+          <Hammer :size="20" :stroke-width="2" />
+          Commencer Maintenant
         </router-link>
       </div>
     </section>
@@ -205,8 +220,16 @@
 </template>
 
 <script>
+import { Flame, BookOpen, Store, Hammer } from "lucide-vue-next";
+
 export default {
   name: "PageMain",
+  components: {
+    Flame,
+    BookOpen,
+    Store,
+    Hammer,
+  },
   mounted() {
     this.updateMetaTags();
   },

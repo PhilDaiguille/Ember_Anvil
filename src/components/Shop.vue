@@ -1,8 +1,27 @@
 <script>
 import ShopCardVue from "./ShopCard.vue";
+import {
+  Crown,
+  Wallet,
+  Package,
+  Circle,
+  Gem,
+  Search,
+  Shield,
+} from "lucide-vue-next";
+
 export default {
   name: "ShopPage",
-  components: { ShopCardVue },
+  components: {
+    ShopCardVue,
+    Crown,
+    Wallet,
+    Package,
+    Circle,
+    Gem,
+    Search,
+    Shield,
+  },
   data() {
     return {
       selectedFilter: "all",
@@ -24,7 +43,7 @@ export default {
       <div class="marketplace-hero">
         <div class="hero-content">
           <div class="hero-badge">
-            <span class="badge-icon">⚜️</span>
+            <Crown class="badge-icon" :size="18" :stroke-width="2" />
             <span>Marché Premium</span>
           </div>
           <h1 class="marketplace-title">
@@ -37,7 +56,7 @@ export default {
         </div>
         <div class="hero-wallet">
           <div class="wallet-card">
-            <div class="wallet-icon">💰</div>
+            <Wallet class="wallet-icon" :size="32" :stroke-width="2" />
             <div class="wallet-info">
               <div class="wallet-label">Votre Trésor</div>
               <div class="wallet-amount">{{ walletBalance }} écus</div>
@@ -69,21 +88,21 @@ export default {
             :class="['filter-btn', { active: selectedFilter === 'all' }]"
             @click="setFilter('all')"
           >
-            <span class="filter-icon">📦</span>
+            <Package class="filter-icon" :size="20" :stroke-width="2" />
             <span>Tous</span>
           </button>
           <button
             :class="['filter-btn', { active: selectedFilter === 'common' }]"
             @click="setFilter('common')"
           >
-            <span class="filter-icon">⚪</span>
+            <Circle class="filter-icon" :size="20" :stroke-width="2" />
             <span>Commun</span>
           </button>
           <button
             :class="['filter-btn', { active: selectedFilter === 'rare' }]"
             @click="setFilter('rare')"
           >
-            <span class="filter-icon">💎</span>
+            <Gem class="filter-icon" :size="20" :stroke-width="2" />
             <span>Rare</span>
           </button>
         </div>
@@ -94,7 +113,7 @@ export default {
             placeholder="Rechercher un matériau..."
             class="search-input"
           />
-          <span class="search-icon">🔍</span>
+          <Search class="search-icon" :size="20" :stroke-width="2" />
         </div>
       </div>
 
@@ -106,7 +125,7 @@ export default {
       <!-- Footer Banner -->
       <div class="marketplace-footer-banner">
         <div class="banner-content">
-          <div class="banner-icon">🛡️</div>
+          <Shield class="banner-icon" :size="48" :stroke-width="2" />
           <div class="banner-text">
             <h3>Garantie du Maître Forgeron</h3>
             <p>

@@ -1,6 +1,15 @@
 <script>
+import { Package, Coins, Hammer, FlaskConical, Swords } from "lucide-vue-next";
+
 export default {
   name: "InventoryComponent",
+  components: {
+    Package,
+    Coins,
+    Hammer,
+    FlaskConical,
+    Swords,
+  },
   data() {
     return {
       selectedTab: "materials",
@@ -99,7 +108,7 @@ export default {
       <header class="inventory-header">
         <div class="header-content">
           <h1 class="page-title">
-            <span class="title-icon">🎒</span>
+            <Package :size="48" :stroke-width="2" class="title-icon" />
             Inventaire
           </h1>
           <p class="page-subtitle">Gérez vos matériaux et créations</p>
@@ -108,7 +117,7 @@ export default {
         <!-- Stats Cards -->
         <div class="stats-grid">
           <div class="stat-card">
-            <div class="stat-icon">📦</div>
+            <Package :size="40" :stroke-width="2" class="stat-icon" />
             <div class="stat-info">
               <div class="stat-label">Capacité</div>
               <div class="stat-value">
@@ -117,14 +126,14 @@ export default {
             </div>
           </div>
           <div class="stat-card">
-            <div class="stat-icon">💰</div>
+            <Coins :size="40" :stroke-width="2" class="stat-icon" />
             <div class="stat-info">
               <div class="stat-label">Valeur Totale</div>
               <div class="stat-value">{{ stats.valeursTotal }} écus</div>
             </div>
           </div>
           <div class="stat-card">
-            <div class="stat-icon">⚒️</div>
+            <Hammer :size="40" :stroke-width="2" class="stat-icon" />
             <div class="stat-info">
               <div class="stat-label">Objets Créés</div>
               <div class="stat-value">{{ stats.objetsCrees }}</div>
@@ -155,7 +164,7 @@ export default {
           :class="['tab-button', { active: selectedTab === 'materials' }]"
           @click="setTab('materials')"
         >
-          <span class="tab-icon">⚗️</span>
+          <FlaskConical :size="20" :stroke-width="2" class="tab-icon" />
           <span class="tab-text">Matériaux</span>
           <span class="tab-count">{{ materials.length }}</span>
         </button>
@@ -163,7 +172,7 @@ export default {
           :class="['tab-button', { active: selectedTab === 'crafted' }]"
           @click="setTab('crafted')"
         >
-          <span class="tab-icon">⚔️</span>
+          <Swords :size="20" :stroke-width="2" class="tab-icon" />
           <span class="tab-text">Créations</span>
           <span class="tab-count">{{ craftedItems.length }}</span>
         </button>
@@ -224,7 +233,7 @@ export default {
             <div class="crafted-body">
               <h3 class="crafted-name">{{ item.nom }}</h3>
               <div class="crafted-value">
-                <span class="value-icon">💰</span>
+                <Coins :size="18" :stroke-width="2" class="value-icon" />
                 <span class="value-amount">{{ item.valeur }} écus</span>
               </div>
             </div>
@@ -272,7 +281,7 @@ export default {
 }
 
 .title-icon {
-  font-size: 3rem;
+  color: var(--dun);
 }
 
 .page-subtitle {
@@ -312,7 +321,7 @@ export default {
 }
 
 .stat-icon {
-  font-size: 2.5rem;
+  color: var(--auburn);
 }
 
 .stat-info {
@@ -418,7 +427,7 @@ export default {
 }
 
 .tab-icon {
-  font-size: 1.3rem;
+  color: inherit;
 }
 
 .tab-count {
@@ -557,6 +566,10 @@ export default {
   font-size: 1.1rem;
   color: #d4af37;
   font-weight: 700;
+}
+
+.value-icon {
+  color: #d4af37;
 }
 
 /* Actions */

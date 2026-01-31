@@ -8,7 +8,7 @@
         }}</span>
       </div>
       <div class="entry-category">
-        <span class="category-icon">⚗️</span>
+        <FlaskConical :size="16" :stroke-width="2" class="category-icon" />
         <span class="category-text">Métal {{ getRarity(item.nom) }}</span>
       </div>
     </div>
@@ -56,7 +56,7 @@
 
           <div class="description-section">
             <h3 class="section-title">
-              <span class="section-icon">📜</span>
+              <ScrollText :size="20" :stroke-width="2" class="section-icon" />
               Description Alchimique
             </h3>
             <p class="entry-description">{{ item.description }}</p>
@@ -64,26 +64,26 @@
 
           <div class="properties-section">
             <h3 class="section-title">
-              <span class="section-icon">⚖️</span>
+              <Scale :size="20" :stroke-width="2" class="section-icon" />
               Propriétés & Applications
             </h3>
             <div class="properties-grid">
               <div class="property-card">
-                <div class="prop-icon">🔥</div>
+                <Flame :size="28" :stroke-width="2" class="prop-icon" />
                 <div class="prop-text">
                   <div class="prop-label">Résistance</div>
                   <div class="prop-value">{{ getResistance(item.nom) }}</div>
                 </div>
               </div>
               <div class="property-card">
-                <div class="prop-icon">⚡</div>
+                <Zap :size="28" :stroke-width="2" class="prop-icon" />
                 <div class="prop-text">
                   <div class="prop-label">Conductivité</div>
                   <div class="prop-value">{{ getConductivity(item.nom) }}</div>
                 </div>
               </div>
               <div class="property-card">
-                <div class="prop-icon">✨</div>
+                <Sparkles :size="28" :stroke-width="2" class="prop-icon" />
                 <div class="prop-text">
                   <div class="prop-label">Malléabilité</div>
                   <div class="prop-value">{{ getMalleability(item.nom) }}</div>
@@ -97,7 +97,7 @@
 
     <div class="entry-footer">
       <div class="footer-seal">
-        <span class="seal-icon">✓</span>
+        <Check :size="16" :stroke-width="3" class="seal-icon" />
         <span class="seal-text">Certifié par la Guilde des Forgerons</span>
       </div>
       <div class="footer-date">Dernière révision : {{ getCurrentYear() }}</div>
@@ -106,8 +106,27 @@
 </template>
 
 <script>
+import {
+  FlaskConical,
+  ScrollText,
+  Scale,
+  Flame,
+  Zap,
+  Sparkles,
+  Check,
+} from "lucide-vue-next";
+
 export default {
   name: "PageMainCard",
+  components: {
+    FlaskConical,
+    ScrollText,
+    Scale,
+    Flame,
+    Zap,
+    Sparkles,
+    Check,
+  },
   props: {
     item: {
       type: Object,
@@ -271,7 +290,7 @@ export default {
 }
 
 .category-icon {
-  font-size: 1rem;
+  color: var(--auburn);
 }
 
 .category-text {
@@ -498,8 +517,7 @@ export default {
 }
 
 .section-icon {
-  font-size: 1.2rem;
-  filter: grayscale(0.3);
+  color: var(--dun);
 }
 
 .entry-description {
@@ -551,7 +569,7 @@ export default {
 }
 
 .prop-icon {
-  font-size: 1.8rem;
+  color: var(--auburn);
   flex-shrink: 0;
 }
 
@@ -594,7 +612,7 @@ export default {
 }
 
 .seal-icon {
-  font-size: 1rem;
+  color: var(--sea-green);
   font-weight: 700;
 }
 

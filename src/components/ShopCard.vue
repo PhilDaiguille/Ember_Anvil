@@ -7,10 +7,10 @@
   >
     <div class="card-header">
       <div class="rarity-badge">
-        <span class="rarity-icon">⭐</span>
+        <Star class="rarity-icon" :size="14" :stroke-width="2.5" />
         <span class="rarity-text">Premium</span>
       </div>
-      <div class="card-ornament">⚜️</div>
+      <Crown class="card-ornament" :size="20" :stroke-width="2" />
     </div>
 
     <div class="card-image-container">
@@ -26,7 +26,7 @@
       <div class="pricing-section">
         <div class="price-box buy-price">
           <div class="price-label">
-            <span class="price-icon">💰</span>
+            <Coins class="price-icon" :size="18" :stroke-width="2" />
             <span>Achat</span>
           </div>
           <div class="price-value">{{ item.achat }}</div>
@@ -34,7 +34,7 @@
         <div class="price-divider"></div>
         <div class="price-box sell-price">
           <div class="price-label">
-            <span class="price-icon">🪙</span>
+            <DollarSign class="price-icon" :size="18" :stroke-width="2" />
             <span>Vente</span>
           </div>
           <div class="price-value">{{ item.vente }}</div>
@@ -43,12 +43,12 @@
 
       <div class="card-actions">
         <button class="action-btn buy-btn">
-          <span class="btn-icon">🛒</span>
+          <ShoppingCart class="btn-icon" :size="18" :stroke-width="2" />
           <span class="btn-text">Acheter</span>
           <span class="btn-shine"></span>
         </button>
         <button class="action-btn sell-btn">
-          <span class="btn-icon">💸</span>
+          <TrendingUp class="btn-icon" :size="18" :stroke-width="2" />
           <span class="btn-text">Vendre</span>
         </button>
       </div>
@@ -65,8 +65,25 @@
 
 <script>
 import bdd from "./Material.json";
+import {
+  Star,
+  Crown,
+  Coins,
+  DollarSign,
+  ShoppingCart,
+  TrendingUp,
+} from "lucide-vue-next";
+
 export default {
   name: "ShopCard",
+  components: {
+    Star,
+    Crown,
+    Coins,
+    DollarSign,
+    ShoppingCart,
+    TrendingUp,
+  },
   data() {
     return {
       bdd: bdd,

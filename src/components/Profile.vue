@@ -1,6 +1,45 @@
 <script>
+import {
+  Swords,
+  Calendar,
+  BarChart3,
+  Hammer,
+  Coins,
+  Clock,
+  Trophy,
+  Package,
+  ScrollText,
+  Medal,
+  ShieldCheck,
+  Settings,
+  Gem,
+  Crown,
+  Target,
+  Sparkles,
+  Lock,
+} from "lucide-vue-next";
+
 export default {
   name: "ProfileComponent",
+  components: {
+    Swords,
+    Calendar,
+    BarChart3,
+    Hammer,
+    Coins,
+    Clock,
+    Trophy,
+    Package,
+    ScrollText,
+    Medal,
+    ShieldCheck,
+    Settings,
+    Gem,
+    Crown,
+    Target,
+    Sparkles,
+    Lock,
+  },
   data() {
     return {
       profile: {
@@ -9,7 +48,7 @@ export default {
         niveau: 42,
         experience: 78540,
         experienceMax: 100000,
-        avatar: "⚔️",
+        avatar: "Swords",
         membre_depuis: "Janvier 2024",
       },
       stats: {
@@ -25,42 +64,42 @@ export default {
           id: 1,
           nom: "Premier Forgeron",
           description: "Créer votre premier objet",
-          icone: "🔰",
+          icone: "ShieldCheck",
           obtenu: true,
         },
         {
           id: 2,
           nom: "Maître du Fer",
           description: "Forger 100 objets en fer",
-          icone: "⚙️",
+          icone: "Settings",
           obtenu: true,
         },
         {
           id: 3,
           nom: "Collectionneur",
           description: "Obtenir 50 matériaux différents",
-          icone: "💎",
+          icone: "Gem",
           obtenu: true,
         },
         {
           id: 4,
           nom: "Artisan Légendaire",
           description: "Créer un objet légendaire",
-          icone: "👑",
+          icone: "Crown",
           obtenu: false,
         },
         {
           id: 5,
           nom: "Économiste",
           description: "Amasser 100,000 écus",
-          icone: "💰",
+          icone: "Coins",
           obtenu: true,
         },
         {
           id: 6,
           nom: "Perfectionniste",
           description: "Créer 10 objets de qualité parfaite",
-          icone: "✨",
+          icone: "Sparkles",
           obtenu: false,
         },
       ],
@@ -96,7 +135,12 @@ export default {
           <div class="avatar-section">
             <div class="avatar-wrapper">
               <div class="avatar-circle">
-                <span class="avatar-icon">{{ profile.avatar }}</span>
+                <component
+                  :is="profile.avatar"
+                  :size="80"
+                  :stroke-width="2"
+                  class="avatar-icon"
+                />
               </div>
               <div class="avatar-level">{{ profile.niveau }}</div>
             </div>
@@ -107,7 +151,7 @@ export default {
             <p class="profile-title">{{ profile.titre }}</p>
             <div class="profile-meta">
               <span class="meta-item">
-                <span class="meta-icon">📅</span>
+                <Calendar :size="18" :stroke-width="2" class="meta-icon" />
                 Membre depuis {{ profile.membre_depuis }}
               </span>
             </div>
@@ -139,13 +183,13 @@ export default {
         <!-- Stats Section -->
         <section class="stats-section">
           <h2 class="section-title">
-            <span class="title-icon">📊</span>
+            <BarChart3 :size="28" :stroke-width="2" class="title-icon" />
             Statistiques
           </h2>
 
           <div class="stats-grid">
             <div class="stat-item">
-              <div class="stat-icon">⚒️</div>
+              <Hammer :size="40" :stroke-width="2" class="stat-icon" />
               <div class="stat-content">
                 <div class="stat-value">{{ stats.objets_crees }}</div>
                 <div class="stat-label">Objets Créés</div>
@@ -153,7 +197,7 @@ export default {
             </div>
 
             <div class="stat-item">
-              <div class="stat-icon">💰</div>
+              <Coins :size="40" :stroke-width="2" class="stat-icon" />
               <div class="stat-content">
                 <div class="stat-value">
                   {{ stats.valeur_creations.toLocaleString() }}
@@ -163,7 +207,7 @@ export default {
             </div>
 
             <div class="stat-item">
-              <div class="stat-icon">⏱️</div>
+              <Clock :size="40" :stroke-width="2" class="stat-icon" />
               <div class="stat-content">
                 <div class="stat-value">{{ stats.heures_forge }}h</div>
                 <div class="stat-label">Heures de Forge</div>
@@ -171,7 +215,7 @@ export default {
             </div>
 
             <div class="stat-item">
-              <div class="stat-icon">🏆</div>
+              <Trophy :size="40" :stroke-width="2" class="stat-icon" />
               <div class="stat-content">
                 <div class="stat-value">#{{ stats.rang_mondial }}</div>
                 <div class="stat-label">Rang Mondial</div>
@@ -179,7 +223,7 @@ export default {
             </div>
 
             <div class="stat-item">
-              <div class="stat-icon">📦</div>
+              <Package :size="40" :stroke-width="2" class="stat-icon" />
               <div class="stat-content">
                 <div class="stat-value">{{ stats.materiel_utilise }}</div>
                 <div class="stat-label">Matériel Utilisé</div>
@@ -187,7 +231,7 @@ export default {
             </div>
 
             <div class="stat-item">
-              <div class="stat-icon">📜</div>
+              <ScrollText :size="40" :stroke-width="2" class="stat-icon" />
               <div class="stat-content">
                 <div class="stat-value">{{ stats.recettes_debloquees }}</div>
                 <div class="stat-label">Recettes Débloquées</div>
@@ -199,7 +243,7 @@ export default {
         <!-- Badges Section -->
         <section class="badges-section">
           <h2 class="section-title">
-            <span class="title-icon">🏅</span>
+            <Medal :size="28" :stroke-width="2" class="title-icon" />
             Badges
           </h2>
 
@@ -210,12 +254,22 @@ export default {
               class="badge-item"
               :class="{ locked: !badge.obtenu }"
             >
-              <div class="badge-icon">{{ badge.icone }}</div>
+              <component
+                :is="badge.icone"
+                :size="40"
+                :stroke-width="2"
+                class="badge-icon"
+              />
               <div class="badge-info">
                 <h3 class="badge-name">{{ badge.nom }}</h3>
                 <p class="badge-description">{{ badge.description }}</p>
               </div>
-              <div v-if="!badge.obtenu" class="badge-lock">🔒</div>
+              <Lock
+                v-if="!badge.obtenu"
+                :size="24"
+                :stroke-width="2"
+                class="badge-lock"
+              />
             </div>
           </div>
         </section>
@@ -224,7 +278,7 @@ export default {
       <!-- Achievements Section -->
       <section class="achievements-section">
         <h2 class="section-title">
-          <span class="title-icon">🎯</span>
+          <Target :size="28" :stroke-width="2" class="title-icon" />
           Progression des Succès
         </h2>
 
@@ -329,7 +383,7 @@ export default {
 }
 
 .avatar-icon {
-  font-size: 5rem;
+  color: white;
 }
 
 .avatar-level {
@@ -388,7 +442,7 @@ export default {
 }
 
 .meta-icon {
-  font-size: 1.1rem;
+  color: var(--dun);
 }
 
 /* Experience Section */
@@ -469,7 +523,7 @@ export default {
 }
 
 .title-icon {
-  font-size: 2rem;
+  color: var(--auburn);
 }
 
 /* Stats Section */
@@ -509,7 +563,7 @@ export default {
 }
 
 .stat-icon {
-  font-size: 2.5rem;
+  color: var(--viridian);
   flex-shrink: 0;
 }
 
@@ -578,8 +632,12 @@ export default {
 }
 
 .badge-icon {
-  font-size: 2.5rem;
+  color: #d4af37;
   flex-shrink: 0;
+}
+
+.badge-item.locked .badge-icon {
+  color: rgba(161, 152, 130, 0.5);
 }
 
 .badge-info {
@@ -600,7 +658,7 @@ export default {
 }
 
 .badge-lock {
-  font-size: 1.5rem;
+  color: rgba(161, 152, 130, 0.5);
   opacity: 0.5;
 }
 
@@ -688,7 +746,7 @@ export default {
   }
 
   .avatar-icon {
-    font-size: 3.5rem;
+    color: white;
   }
 }
 </style>

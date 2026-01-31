@@ -1,6 +1,14 @@
 <script>
+import { Swords, Hammer, Sparkles, Flame } from "lucide-vue-next";
+
 export default {
   name: "CraftingComponent",
+  components: {
+    Swords,
+    Hammer,
+    Sparkles,
+    Flame,
+  },
   data() {
     return {
       crafting: false,
@@ -87,15 +95,15 @@ export default {
             </p>
             <div class="craft-features">
               <div class="feature-item">
-                <span class="feature-icon">⚔️</span>
+                <Swords class="feature-icon" :size="24" :stroke-width="2" />
                 <span>Armes légendaires</span>
               </div>
               <div class="feature-item">
-                <span class="feature-icon">🔨</span>
+                <Hammer class="feature-icon" :size="24" :stroke-width="2" />
                 <span>Outils perfectionnés</span>
               </div>
               <div class="feature-item">
-                <span class="feature-icon">✨</span>
+                <Sparkles class="feature-icon" :size="24" :stroke-width="2" />
                 <span>Créations uniques</span>
               </div>
             </div>
@@ -114,7 +122,7 @@ export default {
             </div>
             <button class="forge-button" @click="startCrafting">
               <span class="button-text">Commencer la Forge</span>
-              <span class="button-icon">⚒️</span>
+              <Hammer class="button-icon" :size="24" :stroke-width="2.5" />
             </button>
           </div>
 
@@ -162,7 +170,7 @@ export default {
                 ></div>
               </div>
               <div class="temperature-indicator">
-                <span class="temp-icon">🔥</span>
+                <Flame class="temp-icon" :size="22" :stroke-width="2" />
                 <span class="temp-text"
                   >{{ Math.floor(800 + progress * 4) }}°C</span
                 >

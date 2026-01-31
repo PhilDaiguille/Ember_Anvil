@@ -1,6 +1,31 @@
 <script>
+import {
+  Wrench,
+  Hammer,
+  Anvil,
+  Flame,
+  Wind,
+  Droplet,
+  Sparkles,
+  Zap,
+  Building2,
+  ArrowUp,
+} from "lucide-vue-next";
+
 export default {
   name: "WorkshopComponent",
+  components: {
+    Wrench,
+    Hammer,
+    Anvil,
+    Flame,
+    Wind,
+    Droplet,
+    Sparkles,
+    Zap,
+    Building2,
+    ArrowUp,
+  },
   data() {
     return {
       tools: [
@@ -10,7 +35,7 @@ export default {
           niveau: 5,
           niveauMax: 10,
           pouvoir: 85,
-          icone: "🔨",
+          icone: "Hammer",
           coutUpgrade: 500,
         },
         {
@@ -19,7 +44,7 @@ export default {
           niveau: 3,
           niveauMax: 10,
           pouvoir: 60,
-          icone: "⚒️",
+          icone: "Anvil",
           coutUpgrade: 800,
         },
         {
@@ -28,7 +53,7 @@ export default {
           niveau: 7,
           niveauMax: 10,
           pouvoir: 92,
-          icone: "🔥",
+          icone: "Flame",
           coutUpgrade: 1200,
         },
         {
@@ -37,7 +62,7 @@ export default {
           niveau: 2,
           niveauMax: 10,
           pouvoir: 45,
-          icone: "💨",
+          icone: "Wind",
           coutUpgrade: 400,
         },
       ],
@@ -47,7 +72,7 @@ export default {
           nom: "Station de Trempage",
           niveau: 4,
           description: "Améliore la qualité des armes",
-          icone: "💧",
+          icone: "Droplet",
           actif: true,
         },
         {
@@ -55,7 +80,7 @@ export default {
           nom: "Table d'Enchantement",
           niveau: 2,
           description: "Ajoute des propriétés magiques",
-          icone: "✨",
+          icone: "Sparkles",
           actif: false,
         },
         {
@@ -63,7 +88,7 @@ export default {
           nom: "Forge Élémentaire",
           niveau: 1,
           description: "Travaille les métaux rares",
-          icone: "⚡",
+          icone: "Zap",
           actif: true,
         },
       ],
@@ -102,7 +127,7 @@ export default {
           <h1 class="page-title">
             <span class="title-decoration">╔═══</span>
             <span class="title-text">
-              <span class="title-icon">🔧</span>
+              <Wrench :size="48" :stroke-width="2" class="title-icon" />
               L'Atelier du Maître
             </span>
             <span class="title-decoration">═══╗</span>
@@ -118,7 +143,7 @@ export default {
       <section class="tools-section">
         <div class="section-header">
           <h2 class="section-title">
-            <span class="section-icon">🛠️</span>
+            <Hammer :size="32" :stroke-width="2" class="section-icon" />
             Outils de Forge
           </h2>
           <p class="section-subtitle">
@@ -135,7 +160,12 @@ export default {
             @click="selectTool(tool)"
           >
             <div class="tool-icon-wrapper">
-              <span class="tool-icon">{{ tool.icone }}</span>
+              <component
+                :is="tool.icone"
+                :size="64"
+                :stroke-width="2"
+                class="tool-icon"
+              />
               <div class="tool-level-badge">Niv. {{ tool.niveau }}</div>
             </div>
 
@@ -181,7 +211,7 @@ export default {
                   >MAX</span
                 >
                 <span v-else class="btn-content">
-                  <span class="btn-icon">⬆️</span>
+                  <ArrowUp :size="18" :stroke-width="2" class="btn-icon" />
                   <span class="btn-text"
                     >Améliorer ({{ tool.coutUpgrade }} écus)</span
                   >
@@ -196,7 +226,7 @@ export default {
       <section class="facilities-section">
         <div class="section-header">
           <h2 class="section-title">
-            <span class="section-icon">🏛️</span>
+            <Building2 :size="32" :stroke-width="2" class="section-icon" />
             Installations d'Atelier
           </h2>
           <p class="section-subtitle">
@@ -213,7 +243,12 @@ export default {
           >
             <div class="facility-header">
               <div class="facility-icon-wrapper">
-                <span class="facility-icon">{{ facility.icone }}</span>
+                <component
+                  :is="facility.icone"
+                  :size="40"
+                  :stroke-width="2"
+                  class="facility-icon"
+                />
               </div>
               <div class="facility-status">
                 <span
@@ -266,8 +301,12 @@ export default {
       <!-- Upgrade Animation Overlay -->
       <div v-if="upgrading" class="upgrade-overlay">
         <div class="upgrade-animation">
-          <div class="hammer-strike">🔨</div>
-          <div class="sparks">✨✨✨</div>
+          <Hammer :size="96" :stroke-width="2" class="hammer-strike" />
+          <div class="sparks">
+            <Sparkles :size="32" :stroke-width="2" />
+            <Sparkles :size="32" :stroke-width="2" />
+            <Sparkles :size="32" :stroke-width="2" />
+          </div>
           <p class="upgrade-text">Amélioration en cours...</p>
         </div>
       </div>
@@ -364,7 +403,7 @@ export default {
 }
 
 .title-icon {
-  font-size: 1.2em;
+  color: var(--dun);
 }
 
 .page-description {
@@ -392,7 +431,7 @@ export default {
 }
 
 .section-icon {
-  font-size: 2rem;
+  color: var(--auburn);
 }
 
 .section-subtitle {
@@ -465,8 +504,8 @@ export default {
 }
 
 .tool-icon {
-  font-size: 4rem;
-  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.5));
+  color: var(--auburn);
+  filter: drop-shadow(0 4px 12px rgba(133, 50, 51, 0.5));
 }
 
 .tool-level-badge {
@@ -656,7 +695,7 @@ export default {
 }
 
 .facility-icon {
-  font-size: 2.5rem;
+  color: var(--sea-green);
 }
 
 .facility-status {
@@ -817,7 +856,7 @@ export default {
 }
 
 .hammer-strike {
-  font-size: 6rem;
+  color: var(--auburn);
   animation: hammerHit 0.6s ease-in-out infinite;
 }
 
@@ -832,8 +871,11 @@ export default {
 }
 
 .sparks {
-  font-size: 2rem;
-  letter-spacing: 2rem;
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 1rem;
+  color: #d4af37;
   animation: sparksFly 1s ease-in-out infinite;
 }
 
