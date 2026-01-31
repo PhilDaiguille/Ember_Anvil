@@ -11,20 +11,12 @@ export default defineConfig({
     tailwindcss(),
     compression({
       algorithms: [
-        defineConfig({
-          algorithm: "gzip",
-          options: { level: 9 },
-        }),
-        defineConfig({
-          algorithm: "brotliCompress",
-          options: { level: 11 },
-        }),
-        defineConfig({
-          algorithm: "zstandard",
-          options: { level: 22 },
-        }),
-        "gzip", "brotliCompress", "zstandard",
+        ["gzip", { level: 9 }],
+        ["brotliCompress", { level: 11 }],
+        ["zstandard", { level: 22 }],
       ],
+      threshold: 1024,
+      deleteOriginalAssets: false,
     }),
   ],
   resolve: {

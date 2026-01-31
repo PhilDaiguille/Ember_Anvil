@@ -264,7 +264,7 @@ export default {
 
 <style scoped>
 .mainbackground {
-  background: url(../assets/bg.jpg) no-repeat center center / cover;
+  background: url(../assets/bg.avif) no-repeat center center / cover;
   margin: 2rem auto;
   padding: 1rem;
   max-width: 140rem;
