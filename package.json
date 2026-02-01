@@ -8,7 +8,9 @@
     "build": "vite build",
     "preview": "vite preview",
     "lint": "oxlint --fix",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "sitemap": "node scripts/generate-sitemap.js",
+    "build:sitemap": "npm run build && npm run sitemap"
   },
   "dependencies": {
     "lucide-vue-next": "^0.563.0",
@@ -29,6 +31,7 @@
     "eslint-plugin-vue": "^10.3.0",
     "oxlint": "^1.22.0",
     "prettier": "^3.6.2",
+    "sitemap": "^9.0.0",
     "tailwindcss": "^4.1.11",
     "vite": "^7.3.1",
     "vite-plugin-compression2": "^2.4.0",

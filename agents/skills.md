@@ -404,7 +404,7 @@ this.$router.push('/Shop')
 <meta property="og:description" content="..." />
 <meta
   property="og:image"
-  content="https://emberanvil.com/src/assets/og-image.jpg"
+  content="https://ember-anvil.vercel.app//src/assets/og-image.jpg"
 />
 
 <!-- Twitter Card -->
@@ -421,11 +421,11 @@ this.$router.push('/Shop')
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": "Ember Anvil",
-    "url": "https://emberanvil.com",
+    "url": "https://ember-anvil.vercel.app/",
     "description": "Forge virtuelle pour l'artisanat...",
     "potentialAction": {
       "@type": "SearchAction",
-      "target": "https://emberanvil.com/search?q={search_term_string}",
+      "target": "https://ember-anvil.vercel.app//search?q={search_term_string}",
       "query-input": "required name=search_term_string"
     }
   }
