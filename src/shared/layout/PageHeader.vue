@@ -16,37 +16,37 @@
       <nav class="main-nav" :class="{ 'nav-open': menuOpen }">
         <ul class="nav-list">
           <li class="nav-item">
-            <router-link to="/Crafting" class="nav-link" @click="closeMenu">
+            <router-link to="/forge" class="nav-link" @click="closeMenu">
               <Hammer class="nav-icon" :size="20" :stroke-width="2" />
               <span class="nav-text">Forge</span>
             </router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/Shop" class="nav-link" @click="closeMenu">
+            <router-link to="/marche" class="nav-link" @click="closeMenu">
               <Store class="nav-icon" :size="20" :stroke-width="2" />
               <span class="nav-text">Marché</span>
             </router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/Wiki" class="nav-link" @click="closeMenu">
+            <router-link to="/codex" class="nav-link" @click="closeMenu">
               <BookOpen class="nav-icon" :size="20" :stroke-width="2" />
               <span class="nav-text">Codex</span>
             </router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/Inventory" class="nav-link" @click="closeMenu">
+            <router-link to="/inventaire" class="nav-link" @click="closeMenu">
               <Package class="nav-icon" :size="20" :stroke-width="2" />
               <span class="nav-text">Inventaire</span>
             </router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/Workshop" class="nav-link" @click="closeMenu">
+            <router-link to="/atelier" class="nav-link" @click="closeMenu">
               <Wrench class="nav-icon" :size="20" :stroke-width="2" />
               <span class="nav-text">Atelier</span>
             </router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/Profile" class="nav-link" @click="closeMenu">
+            <router-link to="/profil" class="nav-link" @click="closeMenu">
               <User class="nav-icon" :size="20" :stroke-width="2" />
               <span class="nav-text">Profil</span>
             </router-link>

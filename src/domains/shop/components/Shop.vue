@@ -1,5 +1,5 @@
 <script>
-import ShopCardVue from "./ShopCard.vue";
+import ShopCardVue from "@/domains/shop/components/ShopCard.vue";
 import {
   Crown,
   Wallet,

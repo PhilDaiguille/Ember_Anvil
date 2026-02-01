@@ -64,7 +64,7 @@
 </template>
 
 <script>
-import bdd from "./Material.json";
+import bdd from "@/shared/Material.json";
 import {
   Star,
   Crown,

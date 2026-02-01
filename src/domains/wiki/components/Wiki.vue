@@ -98,8 +98,8 @@
 </template>
 
 <script>
-import Card from "./MainCard.vue";
-import bdd from "./Material.json";
+import Card from "@/shared/ui/MainCard.vue";
+import bdd from "@/shared/Material.json";
 import { BookOpen, Hammer } from "lucide-vue-next";
 
 export default {

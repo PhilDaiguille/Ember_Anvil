@@ -28,7 +28,7 @@
           class="cta-buttons flex flex-wrap gap-4 justify-center items-center"
         >
           <router-link
-            to="/Crafting"
+            to="/forge"
             class="cta-primary bg-linear-to-r from-amber-600 to-orange-700 hover:from-amber-500 hover:to-orange-600 text-white font-bold py-4 px-8 rounded-lg shadow-lg transform transition-all duration-300 hover:scale-105 hover:shadow-xl flex items-center gap-2 justify-center"
             aria-label="Commencer à forger maintenant"
           >
@@ -36,7 +36,7 @@
             Commencer à Forger
           </router-link>
           <router-link
-            to="/Wiki"
+            to="/codex"
             class="cta-secondary bg-white/10 hover:bg-white/20 backdrop-blur-md text-white font-semibold py-4 px-8 rounded-lg border-2 border-white/30 shadow-lg transform transition-all duration-300 hover:scale-105 flex items-center gap-2 justify-center"
             aria-label="Explorer l'encyclopédie"
           >
@@ -76,7 +76,7 @@
             </p>
             <div class="text-center">
               <router-link
-                to="/Crafting"
+                to="/forge"
                 class="inline-block text-amber-300 hover:text-amber-100 font-semibold underline underline-offset-4 transition-colors"
                 aria-label="Accéder à l'atelier de crafting"
               >
@@ -106,7 +106,7 @@
             </p>
             <div class="text-center">
               <router-link
-                to="/Shop"
+                to="/marche"
                 class="inline-block text-emerald-300 hover:text-emerald-100 font-semibold underline underline-offset-4 transition-colors"
                 aria-label="Visiter la boutique"
               >
@@ -137,7 +137,7 @@
             </p>
             <div class="text-center">
               <router-link
-                to="/Wiki"
+                to="/codex"
                 class="inline-block text-blue-300 hover:text-blue-100 font-semibold underline underline-offset-4 transition-colors"
                 aria-label="Consulter le wiki"
               >
@@ -415,7 +415,7 @@ export default {
 
 /* Hero Section avec Background */
 .hero-section {
-  background: url(../assets/bg.avif) no-repeat center center / cover;
+  background: url(../../assets/bg.avif) no-repeat center center / cover;
   border-radius: 0.75rem 0.75rem 0 0;
   position: relative;
   margin: 0 1rem;
