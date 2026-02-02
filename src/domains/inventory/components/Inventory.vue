@@ -277,7 +277,7 @@ export default {
   font-weight: 900;
   color: var(--dun);
   margin: 0 0 0.5rem 0;
-  font-family: "Impact", sans-serif;
+  font-family: "Palatino", "Georgia", serif;
 }
 
 .title-icon {
@@ -310,7 +310,7 @@ export default {
     rgba(15, 13, 10, 0.8)
   );
   border: 2px solid rgba(161, 152, 130, 0.2);
-  border-radius: 1rem;
+
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
   transition: all 0.3s ease;
 }
@@ -348,7 +348,7 @@ export default {
 .capacity-bar-container {
   background: rgba(25, 25, 25, 0.5);
   padding: 1.5rem;
-  border-radius: 1rem;
+
   border: 1px solid rgba(161, 152, 130, 0.15);
 }
 
@@ -377,7 +377,7 @@ export default {
 .capacity-bar {
   height: 24px;
   background: rgba(25, 25, 25, 0.8);
-  border-radius: 12px;
+
   overflow: hidden;
   border: 1px solid rgba(161, 152, 130, 0.2);
 }
@@ -385,7 +385,7 @@ export default {
 .capacity-fill {
   height: 100%;
   background: linear-gradient(90deg, var(--viridian), var(--sea-green));
-  border-radius: 12px;
+
   transition: width 0.5s ease;
   box-shadow: 0 0 16px rgba(0, 114, 87, 0.5);
 }
@@ -433,7 +433,7 @@ export default {
 .tab-count {
   padding: 0.25rem 0.75rem;
   background: rgba(161, 152, 130, 0.2);
-  border-radius: 1rem;
+
   font-size: 0.85rem;
   font-weight: 900;
 }
@@ -461,7 +461,7 @@ export default {
     rgba(15, 13, 10, 0.9)
   );
   border: 2px solid rgba(161, 152, 130, 0.2);
-  border-radius: 1rem;
+
   padding: 1.5rem;
   transition: all 0.3s ease;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
@@ -583,7 +583,7 @@ export default {
   flex: 1;
   padding: 0.75rem;
   border: none;
-  border-radius: 0.5rem;
+
   font-size: 0.85rem;
   font-weight: 700;
   text-transform: uppercase;

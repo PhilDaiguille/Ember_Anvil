@@ -101,7 +101,6 @@ export default {
     rgba(13, 10, 8, 0.95)
   );
   border: 2px solid rgba(161, 152, 130, 0.2);
-  border-radius: 1.25rem;
   overflow: hidden;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow:
@@ -186,7 +185,6 @@ export default {
     rgba(161, 152, 130, 0.15)
   );
   border: 1px solid rgba(212, 175, 55, 0.3);
-  border-radius: 1rem;
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -319,7 +317,6 @@ export default {
   gap: 0.75rem;
   padding: 1rem;
   background: rgba(25, 25, 25, 0.5);
-  border-radius: 0.75rem;
   border: 1px solid rgba(161, 152, 130, 0.15);
 }
 
@@ -387,7 +384,6 @@ export default {
   gap: 0.5rem;
   padding: 0.875rem 1.25rem;
   border: none;
-  border-radius: 0.625rem;
   font-size: 0.95rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -480,7 +476,6 @@ export default {
   width: 8px;
   height: 8px;
   background: var(--sea-green);
-  border-radius: 50%;
   animation: stockPulse 2s ease-in-out infinite;
   box-shadow: 0 0 8px rgba(0, 114, 87, 0.6);
 }

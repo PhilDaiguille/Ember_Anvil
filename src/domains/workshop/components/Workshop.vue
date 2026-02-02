@@ -10,6 +10,12 @@ import {
   Zap,
   Building2,
   ArrowUp,
+  Coins,
+  TrendingUp,
+  Target,
+  Clock,
+  CheckCircle,
+  Award,
 } from "lucide-vue-next";
 
 export default {
@@ -25,9 +31,20 @@ export default {
     Zap,
     Building2,
     ArrowUp,
+    Coins,
+    TrendingUp,
+    Target,
+    Clock,
+    CheckCircle,
+    Award,
   },
   data() {
     return {
+      playerResources: {
+        ecus: 5000,
+        or: 250,
+        experience: 1850,
+      },
       tools: [
         {
           id: 1,
@@ -37,6 +54,7 @@ export default {
           pouvoir: 85,
           icone: "Hammer",
           coutUpgrade: 500,
+          bonusFacilite: "Station de Trempage",
         },
         {
           id: 2,
@@ -46,6 +64,7 @@ export default {
           pouvoir: 60,
           icone: "Anvil",
           coutUpgrade: 800,
+          bonusFacilite: "Forge Élémentaire",
         },
         {
           id: 3,
@@ -55,6 +74,7 @@ export default {
           pouvoir: 92,
           icone: "Flame",
           coutUpgrade: 1200,
+          bonusFacilite: null,
         },
         {
           id: 4,
@@ -64,6 +84,7 @@ export default {
           pouvoir: 45,
           icone: "Wind",
           coutUpgrade: 400,
+          bonusFacilite: "Table d'Enchantement",
         },
       ],
       facilities: [
@@ -71,48 +92,227 @@ export default {
           id: 1,
           nom: "Station de Trempage",
           niveau: 4,
+          niveauMax: 5,
           description: "Améliore la qualité des armes",
           icone: "Droplet",
           actif: true,
+          coutUpgrade: 1000,
+          coutActivation: 50,
+          bonusProductivite: 15,
         },
         {
           id: 2,
           nom: "Table d'Enchantement",
           niveau: 2,
+          niveauMax: 5,
           description: "Ajoute des propriétés magiques",
           icone: "Sparkles",
           actif: false,
+          coutUpgrade: 1500,
+          coutActivation: 75,
+          bonusProductivite: 25,
         },
         {
           id: 3,
           nom: "Forge Élémentaire",
           niveau: 1,
+          niveauMax: 5,
           description: "Travaille les métaux rares",
           icone: "Zap",
           actif: true,
+          coutUpgrade: 2000,
+          coutActivation: 100,
+          bonusProductivite: 30,
         },
       ],
+      quetes: [
+        {
+          id: 1,
+          nom: "Améliorer 3 outils",
+          progression: 0,
+          objectif: 3,
+          recompense: { ecus: 1000, experience: 200 },
+          terminee: false,
+        },
+        {
+          id: 2,
+          nom: "Activer toutes les installations",
+          progression: 2,
+          objectif: 3,
+          recompense: { ecus: 1500, or: 50 },
+          terminee: false,
+        },
+      ],
+      historique: [],
       selectedTool: null,
       upgrading: false,
+      showNotification: false,
+      notificationMessage: "",
+      notificationType: "success",
     };
+  },
+  computed: {
+    productiviteGlobale() {
+      let total = 0;
+      this.tools.forEach((tool) => {
+        total += tool.pouvoir;
+      });
+      this.facilities.forEach((facility) => {
+        if (facility.actif) {
+          total += facility.bonusProductivite;
+        }
+      });
+      return Math.round(total / (this.tools.length + 1));
+    },
+    bonusActifs() {
+      return this.facilities.filter((f) => f.actif).length;
+    },
+    hasActiveSynergy() {
+      return this.tools.some((tool) => {
+        const facility = this.facilities.find(
+          (f) => f.nom === tool.bonusFacilite && f.actif,
+        );
+        return facility !== undefined;
+      });
+    },
   },
   methods: {
     selectTool(tool) {
       this.selectedTool = tool;
     },
     upgradeTool(tool) {
-      if (tool.niveau < tool.niveauMax) {
+      if (
+        tool.niveau < tool.niveauMax &&
+        this.playerResources.ecus >= tool.coutUpgrade
+      ) {
         this.upgrading = true;
+        this.playerResources.ecus -= tool.coutUpgrade;
+
         setTimeout(() => {
           tool.niveau++;
           tool.pouvoir = Math.min(100, tool.pouvoir + 5);
+          const oldCost = tool.coutUpgrade;
           tool.coutUpgrade = Math.floor(tool.coutUpgrade * 1.5);
+
+          this.historique.unshift({
+            type: "upgrade",
+            nom: tool.nom,
+            details: `Niveau ${tool.niveau - 1} → ${tool.niveau}`,
+            cout: oldCost,
+            timestamp: new Date().toLocaleTimeString("fr-FR", {
+              hour: "2-digit",
+              minute: "2-digit",
+            }),
+          });
+
+          if (this.historique.length > 5) {
+            this.historique.pop();
+          }
+
+          this.playerResources.experience += 50;
           this.upgrading = false;
+          this.showNotificationMessage(
+            `${tool.nom} amélioré avec succès!`,
+            "success",
+          );
+          this.verifierQuetes("upgrade");
         }, 2000);
+      } else if (this.playerResources.ecus < tool.coutUpgrade) {
+        this.showNotificationMessage("Pas assez d'écus!", "error");
+      }
+    },
+    toggleFacility(facility) {
+      if (facility.actif) {
+        facility.actif = false;
+        this.showNotificationMessage(`${facility.nom} désactivé`, "info");
+      } else if (this.playerResources.ecus >= facility.coutActivation) {
+        this.playerResources.ecus -= facility.coutActivation;
+        facility.actif = true;
+        this.showNotificationMessage(`${facility.nom} activé!`, "success");
+        this.verifierQuetes("activate");
+      } else {
+        this.showNotificationMessage("Pas assez d'écus!", "error");
+      }
+    },
+    upgradeFacility(facility) {
+      if (
+        facility.niveau < facility.niveauMax &&
+        this.playerResources.or >= facility.coutUpgrade / 10
+      ) {
+        const coutOr = facility.coutUpgrade / 10;
+        this.playerResources.or -= coutOr;
+        facility.niveau++;
+        facility.bonusProductivite += 5;
+        facility.coutUpgrade = Math.floor(facility.coutUpgrade * 1.5);
+
+        this.historique.unshift({
+          type: "facility",
+          nom: facility.nom,
+          details: `Niveau ${facility.niveau}`,
+          cout: coutOr,
+          timestamp: new Date().toLocaleTimeString("fr-FR", {
+            hour: "2-digit",
+            minute: "2-digit",
+          }),
+        });
+
+        if (this.historique.length > 5) {
+          this.historique.pop();
+        }
+
+        this.showNotificationMessage(`${facility.nom} amélioré!`, "success");
+      } else {
+        this.showNotificationMessage("Pas assez d'or!", "error");
       }
     },
     getProgressPercentage(niveau, niveauMax) {
       return (niveau / niveauMax) * 100;
+    },
+    showNotificationMessage(message, type = "success") {
+      this.notificationMessage = message;
+      this.notificationType = type;
+      this.showNotification = true;
+      setTimeout(() => {
+        this.showNotification = false;
+      }, 3000);
+    },
+    verifierQuetes(action) {
+      this.quetes.forEach((quete) => {
+        if (!quete.terminee) {
+          if (action === "upgrade" && quete.nom.includes("outils")) {
+            quete.progression = Math.min(quete.progression + 1, quete.objectif);
+          } else if (
+            action === "activate" &&
+            quete.nom.includes("installations")
+          ) {
+            quete.progression = this.facilities.filter((f) => f.actif).length;
+          }
+
+          if (quete.progression >= quete.objectif && !quete.terminee) {
+            quete.terminee = true;
+            if (quete.recompense.ecus) {
+              this.playerResources.ecus += quete.recompense.ecus;
+            }
+            if (quete.recompense.or) {
+              this.playerResources.or += quete.recompense.or;
+            }
+            if (quete.recompense.experience) {
+              this.playerResources.experience += quete.recompense.experience;
+            }
+            this.showNotificationMessage(
+              `Quête terminée: ${quete.nom}!`,
+              "success",
+            );
+          }
+        }
+      });
+    },
+    hasSynergy(tool) {
+      if (!tool.bonusFacilite) return false;
+      const facility = this.facilities.find(
+        (f) => f.nom === tool.bonusFacilite && f.actif,
+      );
+      return facility !== undefined;
     },
   },
 };
@@ -137,6 +337,85 @@ export default {
             devenir le plus grand forgeron du royaume
           </p>
         </div>
+
+        <!-- Resources Panel -->
+        <div class="resources-panel">
+          <div class="resource-card">
+            <Coins
+              :size="28"
+              :stroke-width="2"
+              class="resource-icon ecus-icon"
+            />
+            <div class="resource-info">
+              <span class="resource-label">Écus</span>
+              <span class="resource-value">{{
+                playerResources.ecus.toLocaleString()
+              }}</span>
+            </div>
+          </div>
+          <div class="resource-card">
+            <Award
+              :size="28"
+              :stroke-width="2"
+              class="resource-icon gold-icon"
+            />
+            <div class="resource-info">
+              <span class="resource-label">Or</span>
+              <span class="resource-value">{{ playerResources.or }}</span>
+            </div>
+          </div>
+          <div class="resource-card">
+            <TrendingUp
+              :size="28"
+              :stroke-width="2"
+              class="resource-icon exp-icon"
+            />
+            <div class="resource-info">
+              <span class="resource-label">Expérience</span>
+              <span class="resource-value">{{
+                playerResources.experience
+              }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Workshop Stats -->
+        <div class="stats-panel">
+          <div class="stat-item">
+            <div class="stat-icon-wrapper">
+              <TrendingUp :size="32" :stroke-width="2" class="stat-icon" />
+            </div>
+            <div class="stat-content">
+              <span class="stat-label">Productivité Globale</span>
+              <span class="stat-value">{{ productiviteGlobale }}%</span>
+            </div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-icon-wrapper">
+              <Building2 :size="32" :stroke-width="2" class="stat-icon" />
+            </div>
+            <div class="stat-content">
+              <span class="stat-label">Bonus Actifs</span>
+              <span class="stat-value"
+                >{{ bonusActifs }}/{{ facilities.length }}</span
+              >
+            </div>
+          </div>
+          <div
+            class="stat-item"
+            :class="{ 'synergy-active': hasActiveSynergy }"
+          >
+            <div class="stat-icon-wrapper">
+              <Sparkles :size="32" :stroke-width="2" class="stat-icon" />
+            </div>
+            <div class="stat-content">
+              <span class="stat-label">Synergie</span>
+              <span class="stat-value">{{
+                hasActiveSynergy ? "Active" : "Inactive"
+              }}</span>
+            </div>
+          </div>
+        </div>
       </header>
 
       <!-- Tools Section -->
@@ -156,9 +435,17 @@ export default {
             v-for="tool in tools"
             :key="tool.id"
             class="tool-card"
-            :class="{ selected: selectedTool && selectedTool.id === tool.id }"
+            :class="{
+              selected: selectedTool && selectedTool.id === tool.id,
+              'has-synergy': hasSynergy(tool),
+            }"
             @click="selectTool(tool)"
           >
+            <div v-if="hasSynergy(tool)" class="synergy-badge">
+              <Sparkles :size="16" :stroke-width="2" />
+              Synergie
+            </div>
+
             <div class="tool-icon-wrapper">
               <component
                 :is="tool.icone"
@@ -204,7 +491,11 @@ export default {
 
               <button
                 class="upgrade-btn"
-                :disabled="tool.niveau >= tool.niveauMax || upgrading"
+                :disabled="
+                  tool.niveau >= tool.niveauMax ||
+                  upgrading ||
+                  playerResources.ecus < tool.coutUpgrade
+                "
                 @click.stop="upgradeTool(tool)"
               >
                 <span v-if="tool.niveau >= tool.niveauMax" class="btn-text"
@@ -266,10 +557,12 @@ export default {
               <p class="facility-description">{{ facility.description }}</p>
 
               <div class="facility-level">
-                <span class="level-label">Niveau {{ facility.niveau }}</span>
+                <span class="level-label"
+                  >Niveau {{ facility.niveau }}/{{ facility.niveauMax }}</span
+                >
                 <div class="level-stars">
                   <span
-                    v-for="i in 5"
+                    v-for="i in facility.niveauMax"
                     :key="i"
                     class="star"
                     :class="{ filled: i <= facility.niveau }"
@@ -279,18 +572,40 @@ export default {
                 </div>
               </div>
 
+              <div class="facility-bonus">
+                <span class="bonus-label">Bonus Productivité</span>
+                <span class="bonus-value"
+                  >+{{ facility.bonusProductivite }}%</span
+                >
+              </div>
+
               <div class="facility-actions">
                 <button
                   v-if="facility.actif"
                   class="facility-btn deactivate-btn"
+                  @click="toggleFacility(facility)"
                 >
                   Désactiver
                 </button>
-                <button v-else class="facility-btn activate-btn">
-                  Activer
+                <button
+                  v-else
+                  class="facility-btn activate-btn"
+                  @click="toggleFacility(facility)"
+                >
+                  Activer ({{ facility.coutActivation }} écus)
                 </button>
-                <button class="facility-btn upgrade-facility-btn">
-                  Améliorer
+                <button
+                  class="facility-btn upgrade-facility-btn"
+                  :disabled="
+                    facility.niveau >= facility.niveauMax ||
+                    playerResources.or < facility.coutUpgrade / 10
+                  "
+                  @click="upgradeFacility(facility)"
+                >
+                  <span v-if="facility.niveau >= facility.niveauMax">MAX</span>
+                  <span v-else
+                    >Améliorer ({{ facility.coutUpgrade / 10 }} or)</span
+                  >
                 </button>
               </div>
             </div>
@@ -298,7 +613,119 @@ export default {
         </div>
       </section>
 
-      <!-- Upgrade Animation Overlay -->
+      <!-- Quests Section -->
+      <section class="quests-section">
+        <div class="section-header">
+          <h2 class="section-title">
+            <Target :size="32" :stroke-width="2" class="section-icon" />
+            Objectifs Quotidiens
+          </h2>
+          <p class="section-subtitle">
+            Complétez des objectifs pour gagner des récompenses
+          </p>
+        </div>
+
+        <div class="quests-grid">
+          <article
+            v-for="quete in quetes"
+            :key="quete.id"
+            class="quest-card"
+            :class="{ completed: quete.terminee }"
+          >
+            <div class="quest-header">
+              <h3 class="quest-name">{{ quete.nom }}</h3>
+              <CheckCircle
+                v-if="quete.terminee"
+                :size="24"
+                :stroke-width="2"
+                class="check-icon"
+              />
+            </div>
+
+            <div class="quest-progress">
+              <div class="progress-info">
+                <span class="progress-text"
+                  >{{ quete.progression }}/{{ quete.objectif }}</span
+                >
+                <span class="progress-percent"
+                  >{{
+                    Math.round((quete.progression / quete.objectif) * 100)
+                  }}%</span
+                >
+              </div>
+              <div class="quest-progress-bar">
+                <div
+                  class="quest-progress-fill"
+                  :style="{
+                    width: (quete.progression / quete.objectif) * 100 + '%',
+                  }"
+                ></div>
+              </div>
+            </div>
+
+            <div class="quest-rewards">
+              <span class="rewards-label">Récompenses:</span>
+              <div class="rewards-list">
+                <span v-if="quete.recompense.ecus" class="reward-item">
+                  <Coins :size="16" :stroke-width="2" />
+                  {{ quete.recompense.ecus }} écus
+                </span>
+                <span v-if="quete.recompense.or" class="reward-item">
+                  <Award :size="16" :stroke-width="2" />
+                  {{ quete.recompense.or }} or
+                </span>
+                <span v-if="quete.recompense.experience" class="reward-item">
+                  <TrendingUp :size="16" :stroke-width="2" />
+                  {{ quete.recompense.experience }} XP
+                </span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- History Section -->
+      <section v-if="historique.length > 0" class="history-section">
+        <div class="section-header">
+          <h2 class="section-title">
+            <Clock :size="32" :stroke-width="2" class="section-icon" />
+            Historique Récent
+          </h2>
+          <p class="section-subtitle">Vos dernières améliorations</p>
+        </div>
+
+        <div class="history-list">
+          <div
+            v-for="(item, index) in historique"
+            :key="index"
+            class="history-item"
+          >
+            <div class="history-icon">
+              <Hammer
+                v-if="item.type === 'upgrade'"
+                :size="20"
+                :stroke-width="2"
+              />
+              <Building2 v-else :size="20" :stroke-width="2" />
+            </div>
+            <div class="history-content">
+              <span class="history-name">{{ item.nom }}</span>
+              <span class="history-details">{{ item.details }}</span>
+            </div>
+            <div class="history-meta">
+              <span class="history-cost"
+                >-{{ item.cout }}
+                {{ item.type === "facility" ? "or" : "écus" }}</span
+              >
+              <span class="history-time">{{ item.timestamp }}</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Upgrade Animation Overlay -->
+    <Teleport to="body">
       <div v-if="upgrading" class="upgrade-overlay">
         <div class="upgrade-animation">
           <Hammer :size="96" :stroke-width="2" class="hammer-strike" />
@@ -310,7 +737,31 @@ export default {
           <p class="upgrade-text">Amélioration en cours...</p>
         </div>
       </div>
-    </div>
+    </Teleport>
+
+    <!-- Notification Toast -->
+    <Teleport to="body">
+      <transition name="notification">
+        <div
+          v-if="showNotification"
+          class="notification-toast"
+          :class="`notification-${notificationType}`"
+        >
+          <CheckCircle
+            v-if="notificationType === 'success'"
+            :size="20"
+            :stroke-width="2"
+          />
+          <Flame
+            v-else-if="notificationType === 'error'"
+            :size="20"
+            :stroke-width="2"
+          />
+          <Sparkles v-else :size="20" :stroke-width="2" />
+          <span>{{ notificationMessage }}</span>
+        </div>
+      </transition>
+    </Teleport>
   </main>
 </template>
 
@@ -357,9 +808,10 @@ export default {
     rgba(15, 13, 10, 0.8)
   );
   border: 2px solid rgba(161, 152, 130, 0.3);
-  border-radius: 1.5rem;
+  border-radius: 1rem;
   position: relative;
   overflow: hidden;
+  margin-bottom: 2rem;
 }
 
 .header-hero::before {
@@ -376,6 +828,147 @@ export default {
     var(--viridian),
     transparent
   );
+}
+
+/* Resources Panel */
+.resources-panel {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.resource-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: linear-gradient(
+    135deg,
+    rgba(26, 22, 18, 0.9),
+    rgba(15, 13, 10, 0.9)
+  );
+  border: 2px solid rgba(161, 152, 130, 0.2);
+  border-radius: 0.75rem;
+  transition: all 0.3s ease;
+}
+
+.resource-card:hover {
+  border-color: rgba(161, 152, 130, 0.4);
+  transform: translateY(-2px);
+}
+
+.resource-icon {
+  flex-shrink: 0;
+}
+
+.ecus-icon {
+  color: #d4af37;
+}
+
+.gold-icon {
+  color: #ffd700;
+}
+
+.exp-icon {
+  color: var(--viridian);
+}
+
+.resource-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.resource-label {
+  font-size: 0.85rem;
+  color: rgba(161, 152, 130, 0.7);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+
+.resource-value {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--dun);
+}
+
+/* Stats Panel */
+.stats-panel {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: linear-gradient(
+    135deg,
+    rgba(26, 22, 18, 0.9),
+    rgba(15, 13, 10, 0.9)
+  );
+  border: 2px solid rgba(161, 152, 130, 0.2);
+  border-radius: 0.75rem;
+  transition: all 0.3s ease;
+}
+
+.stat-item:hover {
+  border-color: rgba(161, 152, 130, 0.4);
+}
+
+.stat-item.synergy-active {
+  border-color: rgba(212, 175, 55, 0.5);
+  background: linear-gradient(
+    135deg,
+    rgba(212, 175, 55, 0.1),
+    rgba(26, 22, 18, 0.9)
+  );
+}
+
+.stat-icon-wrapper {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle, rgba(161, 152, 130, 0.15), transparent);
+  border-radius: 0.5rem;
+}
+
+.stat-icon {
+  color: var(--viridian);
+}
+
+.synergy-active .stat-icon {
+  color: #d4af37;
+}
+
+.stat-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.stat-label {
+  font-size: 0.85rem;
+  color: rgba(161, 152, 130, 0.7);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--dun);
+}
+
+.synergy-active .stat-value {
+  color: #d4af37;
 }
 
 .page-title {
@@ -458,7 +1051,7 @@ export default {
     rgba(15, 13, 10, 0.95)
   );
   border: 2px solid rgba(161, 152, 130, 0.2);
-  border-radius: 1.25rem;
+  border-radius: 1rem;
   padding: 2rem;
   transition: all 0.4s ease;
   cursor: pointer;
@@ -494,6 +1087,48 @@ export default {
   box-shadow: 0 0 0 3px rgba(133, 50, 51, 0.3);
 }
 
+.tool-card.has-synergy {
+  border-color: rgba(212, 175, 55, 0.5);
+}
+
+.tool-card.has-synergy::before {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), transparent);
+  opacity: 1;
+}
+
+.synergy-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.5rem 0.75rem;
+  background: linear-gradient(
+    135deg,
+    rgba(212, 175, 55, 0.9),
+    rgba(255, 215, 0, 0.9)
+  );
+  border-radius: 2rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: rgb(25, 25, 25);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  z-index: 2;
+  animation: synergyPulse 2s ease-in-out infinite;
+}
+
+@keyframes synergyPulse {
+  0%,
+  100% {
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.8);
+  }
+}
+
 .tool-icon-wrapper {
   display: flex;
   align-items: center;
@@ -511,7 +1146,7 @@ export default {
 .tool-level-badge {
   padding: 0.5rem 1rem;
   background: var(--auburn);
-  border-radius: 2rem;
+
   font-size: 0.85rem;
   font-weight: 700;
   color: white;
@@ -559,7 +1194,7 @@ export default {
 .progress-bar-small {
   height: 8px;
   background: rgba(25, 25, 25, 0.8);
-  border-radius: 4px;
+
   overflow: hidden;
   margin-bottom: 1rem;
 }
@@ -567,7 +1202,7 @@ export default {
 .progress-fill-small {
   height: 100%;
   background: linear-gradient(90deg, var(--auburn), var(--viridian));
-  border-radius: 4px;
+
   transition: width 0.5s ease;
 }
 
@@ -589,7 +1224,7 @@ export default {
   position: relative;
   height: 32px;
   background: rgba(25, 25, 25, 0.8);
-  border-radius: 16px;
+
   overflow: hidden;
   border: 1px solid rgba(161, 152, 130, 0.2);
 }
@@ -597,7 +1232,7 @@ export default {
 .power-fill {
   height: 100%;
   background: linear-gradient(90deg, var(--viridian), var(--sea-green));
-  border-radius: 16px;
+
   transition: width 0.5s ease;
   box-shadow: 0 0 12px rgba(0, 114, 87, 0.5);
 }
@@ -618,7 +1253,7 @@ export default {
   padding: 1rem;
   background: linear-gradient(135deg, var(--sea-green), var(--viridian));
   border: none;
-  border-radius: 0.75rem;
+
   color: white;
   font-weight: 700;
   cursor: pointer;
@@ -662,7 +1297,7 @@ export default {
     rgba(15, 13, 10, 0.95)
   );
   border: 2px solid rgba(161, 152, 130, 0.2);
-  border-radius: 1.25rem;
+  border-radius: 1rem;
   padding: 2rem;
   transition: all 0.4s ease;
 }
@@ -691,7 +1326,7 @@ export default {
   align-items: center;
   justify-content: center;
   background: radial-gradient(circle, rgba(161, 152, 130, 0.2), transparent);
-  border-radius: 50%;
+  border-radius: 0.5rem;
 }
 
 .facility-icon {
@@ -714,6 +1349,139 @@ export default {
   height: 8px;
   background: rgba(161, 152, 130, 0.5);
   border-radius: 50%;
+  animation: statusPulse 2s ease-in-out infinite;
+}
+
+.status-dot.active {
+  background: var(--sea-green);
+  box-shadow: 0 0 8px rgba(0, 114, 87, 0.6);
+}
+
+@keyframes statusPulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.facility-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--dun);
+  margin: 0 0 0.75rem 0;
+  font-family: "Georgia", serif;
+}
+
+.facility-description {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.75);
+  margin: 0 0 1.5rem 0;
+}
+
+.facility-level {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.level-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--dun);
+}
+
+.level-stars {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.star {
+  font-size: 1.2rem;
+  color: rgba(161, 152, 130, 0.3);
+  transition: color 0.3s ease;
+}
+
+.star.filled {
+  color: #d4af37;
+  text-shadow: 0 0 8px rgba(212, 175, 55, 0.6);
+}
+
+.facility-bonus {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  background: rgba(0, 114, 87, 0.1);
+  border-radius: 0.5rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid rgba(0, 114, 87, 0.2);
+}
+
+.bonus-label {
+  font-size: 0.85rem;
+  color: rgba(161, 152, 130, 0.7);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+
+.bonus-value {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--sea-green);
+}
+
+.facility-card:hover {
+  border-color: rgba(161, 152, 130, 0.5);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.facility-card.inactive {
+  opacity: 0.6;
+}
+
+.facility-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.facility-icon-wrapper {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle, rgba(161, 152, 130, 0.2), transparent);
+}
+
+.facility-icon {
+  color: var(--sea-green);
+}
+
+.facility-status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: rgba(25, 25, 25, 0.5);
+
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  background: rgba(161, 152, 130, 0.5);
+
   animation: statusPulse 2s ease-in-out infinite;
 }
 
@@ -793,12 +1561,17 @@ export default {
   transition: all 0.3s ease;
 }
 
+.facility-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .activate-btn {
   background: linear-gradient(135deg, var(--viridian), var(--sea-green));
   color: white;
 }
 
-.activate-btn:hover {
+.activate-btn:hover:not(:disabled) {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 114, 87, 0.4);
 }
@@ -824,9 +1597,263 @@ export default {
   border: 1px solid rgba(161, 152, 130, 0.3);
 }
 
-.upgrade-facility-btn:hover {
+.upgrade-facility-btn:hover:not(:disabled) {
   background: rgba(161, 152, 130, 0.3);
   transform: translateY(-2px);
+}
+
+/* Quests Section */
+.quests-section {
+  margin-bottom: 4rem;
+}
+
+.quests-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 1.5rem;
+}
+
+.quest-card {
+  background: linear-gradient(
+    135deg,
+    rgba(26, 22, 18, 0.95),
+    rgba(15, 13, 10, 0.95)
+  );
+  border: 2px solid rgba(161, 152, 130, 0.2);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.quest-card:hover {
+  border-color: rgba(161, 152, 130, 0.4);
+  transform: translateY(-4px);
+}
+
+.quest-card.completed {
+  border-color: rgba(0, 114, 87, 0.5);
+  background: linear-gradient(
+    135deg,
+    rgba(0, 114, 87, 0.1),
+    rgba(15, 13, 10, 0.95)
+  );
+}
+
+.quest-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.quest-name {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--dun);
+  margin: 0;
+}
+
+.check-icon {
+  color: var(--sea-green);
+  flex-shrink: 0;
+}
+
+.quest-progress {
+  margin-bottom: 1rem;
+}
+
+.progress-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.progress-text {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: rgba(161, 152, 130, 0.9);
+}
+
+.progress-percent {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--viridian);
+}
+
+.quest-progress-bar {
+  height: 12px;
+  background: rgba(25, 25, 25, 0.8);
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.quest-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--viridian), var(--sea-green));
+  border-radius: 1rem;
+  transition: width 0.5s ease;
+}
+
+.quest-rewards {
+  padding-top: 1rem;
+  border-top: 1px solid rgba(161, 152, 130, 0.2);
+}
+
+.rewards-label {
+  font-size: 0.85rem;
+  color: rgba(161, 152, 130, 0.7);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.rewards-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.reward-item {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.5rem 0.75rem;
+  background: rgba(212, 175, 55, 0.1);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #d4af37;
+}
+
+/* History Section */
+.history-section {
+  margin-bottom: 4rem;
+}
+
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.history-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  background: linear-gradient(
+    135deg,
+    rgba(26, 22, 18, 0.9),
+    rgba(15, 13, 10, 0.9)
+  );
+  border: 1px solid rgba(161, 152, 130, 0.15);
+  border-radius: 0.75rem;
+  transition: all 0.3s ease;
+}
+
+.history-item:hover {
+  border-color: rgba(161, 152, 130, 0.3);
+  transform: translateX(4px);
+}
+
+.history-icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(133, 50, 51, 0.2);
+  border-radius: 0.5rem;
+  color: var(--auburn);
+  flex-shrink: 0;
+}
+
+.history-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.history-name {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--dun);
+}
+
+.history-details {
+  font-size: 0.85rem;
+  color: rgba(161, 152, 130, 0.7);
+}
+
+.history-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.25rem;
+}
+
+.history-cost {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--auburn);
+}
+
+.history-time {
+  font-size: 0.75rem;
+  color: rgba(161, 152, 130, 0.6);
+}
+
+/* Notification Toast */
+.notification-toast {
+  position: fixed;
+  top: 2rem;
+  right: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.5rem;
+  background: rgba(15, 13, 10, 0.95);
+  border: 2px solid;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  z-index: 9999;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(10px);
+}
+
+.notification-success {
+  border-color: var(--sea-green);
+  color: var(--sea-green);
+}
+
+.notification-error {
+  border-color: var(--auburn);
+  color: var(--auburn);
+}
+
+.notification-info {
+  border-color: rgba(161, 152, 130, 0.5);
+  color: var(--dun);
+}
+
+.notification-enter-active,
+.notification-leave-active {
+  transition: all 0.3s ease;
+}
+
+.notification-enter-from {
+  opacity: 0;
+  transform: translateX(100px);
+}
+
+.notification-leave-to {
+  opacity: 0;
+  transform: translateX(100px);
 }
 
 /* Upgrade Overlay */
@@ -838,7 +1865,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
+  z-index: 9998;
   animation: fadeIn 0.3s ease;
 }
 

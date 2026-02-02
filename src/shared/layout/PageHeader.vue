@@ -235,7 +235,7 @@ export default {
   color: rgba(255, 255, 255, 0.8);
   font-weight: 600;
   font-size: 0.95rem;
-  border-radius: 0.5rem;
+
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
@@ -283,7 +283,6 @@ export default {
   width: 60%;
   height: 2px;
   background: white;
-  border-radius: 2px;
 }
 
 .nav-icon {
@@ -314,7 +313,7 @@ export default {
     rgba(161, 152, 130, 0.1)
   );
   border: 1px solid rgba(212, 175, 55, 0.3);
-  border-radius: 2rem;
+
   font-weight: 700;
   color: #d4af37;
   font-size: 0.95rem;
@@ -338,7 +337,7 @@ export default {
 .user-avatar {
   width: 44px;
   height: 44px;
-  border-radius: 50%;
+
   background: linear-gradient(135deg, var(--auburn), var(--viridian));
   border: 2px solid rgba(161, 152, 130, 0.3);
   display: flex;
@@ -368,14 +367,14 @@ export default {
   border: none;
   cursor: pointer;
   padding: 0.5rem;
-  z-index: 1001;
+  z-index: 1003;
 }
 
 .hamburger-line {
   width: 28px;
   height: 3px;
   background: var(--dun);
-  border-radius: 2px;
+
   transition: all 0.3s ease;
 }
 
@@ -419,6 +418,7 @@ export default {
     transition: right 0.4s ease;
     border-left: 2px solid rgba(161, 152, 130, 0.3);
     box-shadow: -4px 0 24px rgba(0, 0, 0, 0.5);
+    z-index: 1002;
   }
 
   .main-nav.nav-open {

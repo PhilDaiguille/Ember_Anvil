@@ -257,7 +257,6 @@ export default {
   margin-bottom: 0.5rem;
   background: rgba(25, 25, 25, 0.3);
   border-left: 3px solid transparent;
-  border-radius: 0.5rem;
   cursor: pointer;
   transition: all 0.3s ease;
   font-size: 0.95rem;
@@ -317,7 +316,6 @@ export default {
 .progress-indicator {
   background: rgba(25, 25, 25, 0.5);
   padding: 1.25rem;
-  border-radius: 0.75rem;
   border: 1px solid rgba(161, 152, 130, 0.15);
 }
 
@@ -333,7 +331,6 @@ export default {
 .progress-bar-mini {
   height: 8px;
   background: rgba(25, 25, 25, 0.8);
-  border-radius: 4px;
   overflow: hidden;
   margin-bottom: 0.5rem;
 }
@@ -341,7 +338,6 @@ export default {
 .progress-fill-mini {
   height: 100%;
   background: linear-gradient(90deg, var(--auburn), var(--viridian));
-  border-radius: 4px;
   transition: width 0.5s ease;
   box-shadow: 0 0 8px rgba(133, 50, 51, 0.5);
 }
@@ -356,7 +352,7 @@ export default {
 /* Main Content */
 .codex-content {
   flex: 1;
-  padding: 3rem 2rem 3rem 0;
+  padding: 0rem 2rem 3rem 0;
   max-width: 1200px;
 }
 
@@ -368,7 +364,6 @@ export default {
     rgba(50, 93, 68, 0.05)
   );
   border: 2px solid rgba(161, 152, 130, 0.2);
-  border-radius: 1rem;
   margin-bottom: 3rem;
   text-align: center;
   position: relative;
@@ -413,7 +408,6 @@ export default {
   width: 6px;
   height: 6px;
   background: var(--auburn);
-  border-radius: 50%;
   opacity: 0.6;
 }
 
@@ -494,7 +488,6 @@ export default {
 
 .codex-sidebar::-webkit-scrollbar-thumb {
   background: rgba(161, 152, 130, 0.3);
-  border-radius: 4px;
 }
 
 .codex-sidebar::-webkit-scrollbar-thumb:hover {

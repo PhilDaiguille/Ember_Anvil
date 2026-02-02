@@ -245,7 +245,7 @@ export default {
   margin: 0 0 1rem 0;
   letter-spacing: -0.03em;
   text-transform: uppercase;
-  font-family: "Impact", "Arial Black", sans-serif;
+  font-family: "Palatino", "Georgia", serif;
 }
 
 .title-accent {
@@ -292,7 +292,7 @@ export default {
     rgba(25, 25, 25, 0.4)
   );
   border: 2px solid var(--viridian);
-  border-radius: 1rem;
+
   padding: 1.5rem 2rem;
   text-align: center;
   min-width: 180px;
@@ -337,7 +337,7 @@ export default {
     rgba(50, 93, 68, 0.08)
   );
   border-left: 4px solid var(--auburn);
-  border-radius: 0.5rem;
+
   padding: 0.5rem;
   backdrop-filter: blur(10px);
 }
@@ -375,7 +375,7 @@ export default {
   gap: 1rem;
   padding: 0.75rem 1rem;
   background: rgba(25, 25, 25, 0.5);
-  border-radius: 0.5rem;
+
   font-size: 0.95rem;
   color: var(--dun);
   transition: all 0.3s ease;
@@ -399,7 +399,7 @@ export default {
     rgba(13, 10, 8, 0.9)
   );
   border: 2px solid rgba(161, 152, 130, 0.2);
-  border-radius: 1rem;
+
   padding: 3rem 2rem;
   box-shadow:
     0 20px 60px rgba(0, 0, 0, 0.5),
@@ -482,7 +482,7 @@ export default {
   background: linear-gradient(135deg, var(--sea-green), var(--viridian));
   color: white;
   border: none;
-  border-radius: 0.75rem;
+
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -592,7 +592,7 @@ export default {
   width: 60px;
   height: 60px;
   background: radial-gradient(circle, rgba(255, 100, 30, 0.4), transparent);
-  border-radius: 50%;
+
   animation: impactFlash 1.2s ease-in-out infinite;
   z-index: 1;
   filter: blur(8px);
@@ -619,7 +619,7 @@ export default {
   width: 6px;
   height: 6px;
   background: radial-gradient(circle, #ffed4e, #ff9d5c, #ff6420);
-  border-radius: 50%;
+
   box-shadow: 0 0 10px rgba(255, 237, 78, 0.8);
   animation: sparkFly 1s ease-out forwards;
   z-index: 4;
@@ -674,7 +674,7 @@ export default {
   width: 100%;
   height: 32px;
   background: rgba(25, 25, 25, 0.8);
-  border-radius: 16px;
+
   overflow: hidden;
   border: 2px solid rgba(161, 152, 130, 0.3);
   box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.5);
@@ -702,7 +702,7 @@ export default {
   height: 100%;
   background: linear-gradient(90deg, #942525 0%, #ff6420 50%, #ffed4e 100%);
   transition: width 0.1s linear;
-  border-radius: 16px;
+
   box-shadow: 0 0 20px rgba(255, 100, 32, 0.6);
 }
 
@@ -717,7 +717,7 @@ export default {
     transparent
   );
   transition: width 0.1s linear;
-  border-radius: 16px;
+
   filter: blur(10px);
   pointer-events: none;
 }
@@ -756,7 +756,7 @@ export default {
   background: linear-gradient(135deg, var(--auburn), #942525);
   color: white;
   border: none;
-  border-radius: 0.5rem;
+
   cursor: pointer;
   transition: all 0.3s ease;
   text-transform: uppercase;

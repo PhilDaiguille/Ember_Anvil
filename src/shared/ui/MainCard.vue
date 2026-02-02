@@ -207,7 +207,6 @@ export default {
     rgba(15, 13, 10, 0.95)
   );
   border: 2px solid rgba(161, 152, 130, 0.3);
-  border-radius: 1rem;
   padding: 2rem;
   box-shadow:
     0 8px 32px rgba(0, 0, 0, 0.4),
@@ -286,7 +285,6 @@ export default {
   padding: 0.4rem 1rem;
   background: rgba(133, 50, 51, 0.15);
   border: 1px solid rgba(133, 50, 51, 0.3);
-  border-radius: 1rem;
 }
 
 .category-icon {
@@ -331,7 +329,6 @@ export default {
     rgba(50, 93, 68, 0.05)
   );
   border: 2px solid rgba(161, 152, 130, 0.3);
-  border-radius: 0.75rem;
 }
 
 .frame-corner {
@@ -472,7 +469,6 @@ export default {
   margin-bottom: 2rem;
   padding: 1.25rem;
   background: rgba(25, 25, 25, 0.5);
-  border-radius: 0.75rem;
   border: 1px solid rgba(161, 152, 130, 0.15);
   flex-wrap: wrap;
 }
@@ -529,7 +525,6 @@ export default {
   padding: 1.25rem;
   background: rgba(25, 25, 25, 0.3);
   border-left: 3px solid var(--viridian);
-  border-radius: 0.5rem;
 }
 
 /* Properties Section */
@@ -554,7 +549,6 @@ export default {
     rgba(25, 25, 25, 0.3)
   );
   border: 1px solid rgba(161, 152, 130, 0.2);
-  border-radius: 0.75rem;
   transition: all 0.3s ease;
 }
 

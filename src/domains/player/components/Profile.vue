@@ -327,7 +327,7 @@ export default {
     rgba(15, 13, 10, 0.95)
   );
   border: 2px solid rgba(161, 152, 130, 0.3);
-  border-radius: 1.5rem;
+
   overflow: hidden;
   margin-bottom: 3rem;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
@@ -371,7 +371,7 @@ export default {
 .avatar-circle {
   width: 160px;
   height: 160px;
-  border-radius: 50%;
+
   background: linear-gradient(135deg, var(--auburn), var(--viridian));
   border: 6px solid rgba(26, 22, 18, 0.95);
   display: flex;
@@ -392,7 +392,7 @@ export default {
   right: -10px;
   width: 50px;
   height: 50px;
-  border-radius: 50%;
+
   background: var(--auburn);
   border: 4px solid rgba(26, 22, 18, 0.95);
   display: flex;
@@ -475,7 +475,7 @@ export default {
 .exp-bar {
   height: 32px;
   background: rgba(25, 25, 25, 0.8);
-  border-radius: 16px;
+
   overflow: hidden;
   border: 2px solid rgba(161, 152, 130, 0.2);
   margin-bottom: 0.5rem;
@@ -484,7 +484,7 @@ export default {
 .exp-fill {
   height: 100%;
   background: linear-gradient(90deg, #d4af37, #f4e5c3);
-  border-radius: 16px;
+
   transition: width 0.5s ease;
   box-shadow: 0 0 16px rgba(212, 175, 55, 0.6);
 }
@@ -534,7 +534,7 @@ export default {
     rgba(15, 13, 10, 0.95)
   );
   border: 2px solid rgba(161, 152, 130, 0.2);
-  border-radius: 1.25rem;
+
   padding: 2rem;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
 }
@@ -551,7 +551,7 @@ export default {
   gap: 1rem;
   padding: 1.25rem;
   background: rgba(25, 25, 25, 0.5);
-  border-radius: 0.75rem;
+
   border: 1px solid rgba(161, 152, 130, 0.15);
   transition: all 0.3s ease;
 }
@@ -597,7 +597,7 @@ export default {
     rgba(15, 13, 10, 0.95)
   );
   border: 2px solid rgba(161, 152, 130, 0.2);
-  border-radius: 1.25rem;
+
   padding: 2rem;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
 }
@@ -614,7 +614,7 @@ export default {
   gap: 1.25rem;
   padding: 1.25rem;
   background: rgba(25, 25, 25, 0.5);
-  border-radius: 0.75rem;
+
   border: 1px solid rgba(161, 152, 130, 0.15);
   position: relative;
   transition: all 0.3s ease;
@@ -670,7 +670,7 @@ export default {
     rgba(15, 13, 10, 0.95)
   );
   border: 2px solid rgba(161, 152, 130, 0.2);
-  border-radius: 1.25rem;
+
   padding: 2rem;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
 }
@@ -684,7 +684,7 @@ export default {
 .achievement-item {
   padding: 1.25rem;
   background: rgba(25, 25, 25, 0.5);
-  border-radius: 0.75rem;
+
   border: 1px solid rgba(161, 152, 130, 0.15);
 }
 
@@ -713,7 +713,7 @@ export default {
 .achievement-bar {
   height: 12px;
   background: rgba(25, 25, 25, 0.8);
-  border-radius: 6px;
+
   overflow: hidden;
   border: 1px solid rgba(161, 152, 130, 0.2);
 }
@@ -721,7 +721,7 @@ export default {
 .achievement-fill {
   height: 100%;
   background: linear-gradient(90deg, var(--viridian), var(--sea-green));
-  border-radius: 6px;
+
   transition: width 0.5s ease;
 }
 

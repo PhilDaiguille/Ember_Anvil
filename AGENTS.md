@@ -122,25 +122,185 @@ Recommended location: `src/components/__tests__/` or `src/__tests__/`
 
 ### Project Structure
 
+The project follows a **Domain-Driven Design (DDD)** architecture:
+
 ```
 src/
-├── assets/
-│   ├── style/          # Global CSS files
-│   └── materials/      # Image assets
-├── components/         # Reusable Vue components
-├── router/            # Vue Router configuration
-│   └── index.js
-├── views/             # Page-level components
-├── App.vue            # Root component
-└── main.js            # Application entry point
+├── assets/                    # Static assets
+│   ├── style/                # Global CSS files (base.css, main.css)
+│   └── materials/            # Image assets (backgrounds, icons)
+│
+├── domains/                   # Business domains (DDD structure)
+│   ├── crafting/             # Crafting/forging domain
+│   │   ├── components/       # Crafting.vue
+│   │   └── views/            # CraftingView.vue
+│   ├── inventory/            # Inventory management
+│   │   ├── components/       # Inventory.vue
+│   │   └── views/            # InventoryView.vue
+│   ├── player/               # Player profile & stats
+│   │   ├── components/       # Profile.vue
+│   │   └── views/            # ProfileView.vue
+│   ├── shop/                 # Shop/market domain
+│   │   ├── components/       # Shop.vue, ShopCard.vue
+│   │   └── views/            # ShopView.vue
+│   ├── wiki/                 # Encyclopedia/codex
+│   │   ├── components/       # Wiki.vue
+│   │   └── views/            # WikiView.vue
+│   └── workshop/             # Workshop/tools management
+│       ├── components/       # Workshop.vue
+│       └── views/            # WorkshopView.vue
+│
+├── infrastructure/           # Technical infrastructure
+│   └── router/              # Vue Router configuration (index.js)
+│
+├── shared/                   # Shared/common elements
+│   ├── layout/              # Layout components (Header, Footer, Home)
+│   ├── ui/                  # Reusable UI components (MainCard)
+│   └── Material.json        # Shared data (materials definitions)
+│
+├── App.vue                  # Root component
+└── main.js                  # Application entry point
 ```
 
-### ESLint/Prettier Configuration
+### Application Pages & Routes
 
-- ESLint uses Vue 3 essential + Prettier rules
-- Prettier uses `@prettier/plugin-oxc` for formatting
-- Always run `npm run lint` and `npm run format` before committing
-- CI/CD runs lint check on pushes to master branch
+The application has 7 main pages:
+
+1. **Home** (`/`) - Landing page with hero section and CTA
+2. **Forge** (`/forge`) - Main crafting interface where users create items
+3. **Marché** (`/marche`) - Shop to buy materials and tools
+4. **Codex** (`/codex`) - Wiki/encyclopedia of materials and recipes
+5. **Inventaire** (`/inventaire`) - Inventory management for crafted items
+6. **Atelier** (`/atelier`) - Workshop with tools upgrades, facilities, quests system
+7. **Profil** (`/profil`) - Player profile with stats and achievements
+
+## Domain Features
+
+### Crafting Domain (`/forge`)
+
+Main crafting interface where players forge items:
+
+- **Animated Forge Station**: Visual forge with fire animations
+- **Crafting Progress System**: Real-time progress bar (0-100%)
+- **Particle Effects**: Dynamic sparks generation during forging
+- **Craft Counter**: Tracks number of completed forges
+- **Start/Stop Controls**: Button to initiate crafting process
+- **Thematic UI**: Medieval forge aesthetic with anvil, hammer icons
+- Uses icons: `Swords`, `Hammer`, `Sparkles`, `Flame`
+
+### Shop Domain (`/marche`)
+
+Marketplace for purchasing materials and tools:
+
+- **Material Catalog**: Grid display with ShopCard components
+- **Wallet System**: Display of player's écus balance
+- **Filter System**: Filter materials by rarity (all, common, rare, legendary)
+- **Search Functionality**: Search bar for finding specific materials
+- **Material Rarity Indicators**: Visual badges for material rarity
+- **Purchase System**: Click-to-buy with price display
+- **Premium Theme**: Elegant marketplace design with crown badges
+- Uses icons: `Crown`, `Wallet`, `Package`, `Circle`, `Gem`, `Search`, `Shield`
+
+### Wiki Domain (`/codex`)
+
+Encyclopedia of all game content:
+
+- Material database browser
+- Recipe reference guide
+- Search and filter functionality
+- Detailed item information
+- Comprehensive material properties display
+
+### Inventory Domain (`/inventaire`)
+
+Player inventory management:
+
+- **Tab System**: Switch between materials and crafted items
+- **Materials Inventory**: List of raw materials with quantities
+- **Crafted Items Inventory**: Display of forged items with quality ratings
+- **Storage Statistics**: Capacity tracking (used/max)
+- **Total Value Calculator**: Sum of all inventory items' value
+- **Item Details**: Name, quantity, rarity, type, quality, value
+- **Visual Organization**: Grid layout with icons per item type
+- Uses icons: `Package`, `Coins`, `Hammer`, `FlaskConical`, `Swords`
+
+### Workshop Domain (`/atelier`)
+
+Advanced workshop management system with multiple features:
+
+**Resource Economy:**
+
+- **Écus** (primary currency) - Used for tool upgrades and facility activation
+- **Or/Gold** (rare currency) - Required for facility upgrades
+- **Experience Points** - Earned by completing quests
+
+**Tools Management:**
+
+- 4 upgradeable tools (Hammer, Anvil, Forge, Bellows)
+- Each tool has 10 levels with increasing power
+- Progressive upgrade costs
+- Visual power indicators and progress bars
+- Tool selection system
+
+**Facilities System:**
+
+- 3 facilities: Station de Trempage, Table d'Enchantement, Forge Élémentaire
+- Activation/deactivation mechanics with costs
+- 5 upgrade levels per facility
+- Productivity bonuses when active
+- Status indicators with animations
+
+**Synergy System:**
+
+- Tools can synergize with specific facilities
+- Visual indicators when synergies are active
+- Productivity bonuses from active synergies
+- Examples: Marteau Lourd + Station de Trempage
+
+**Workshop Statistics:**
+
+- Global productivity calculation
+- Active bonus counter
+- Synergy status indicator
+- Real-time stat updates
+
+**Quest System:**
+
+- Daily objectives with progression tracking
+- Rewards in écus, gold, and experience
+- Auto-completion with reward distribution
+- Visual progress bars and completion indicators
+
+**Activity History:**
+
+- Recent upgrades log (last 5 actions)
+- Timestamps for each action
+- Cost tracking
+- Differentiated display for tools vs facilities
+
+**Notification System:**
+
+- Toast notifications for all actions
+- Success/error/info message types
+- Auto-dismiss after 3 seconds
+- Animated entrance/exit
+
+**Upgrade Animations:**
+
+- Full-screen overlay during upgrades
+- Hammer strike animation
+- Sparkle effects
+- Progress feedback
+
+### Player Domain (`/profil`)
+
+Player profile and statistics:
+
+- Character information
+- Achievement tracking
+- Statistics display
+- Progress metrics
+- Player level and title system
 
 ### Important Notes
 
@@ -149,3 +309,23 @@ src/
 - Compression enabled for production (gzip, brotli, zstd)
 - PWA manifest configured in index.html
 - SEO meta tags and JSON-LD structured data present
+
+## Icon Library
+
+The project uses **Lucide Vue Next** for all icons throughout the application:
+
+- Import icons as needed: `import { IconName } from "lucide-vue-next"`
+- Common icons in use:
+  - Workshop: `Wrench`, `Hammer`, `Anvil`, `Flame`, `Wind`, `Building2`, `ArrowUp`
+  - Resources: `Coins`, `Award`, `TrendingUp`
+  - Facilities: `Droplet`, `Sparkles`, `Zap`
+  - Quest/Status: `Target`, `Clock`, `CheckCircle`
+- Icon props: `:size` (number), `:stroke-width` (number), `class` (string)
+- Example: `<Hammer :size="32" :stroke-width="2" class="icon-style" />`
+
+## Data Management
+
+- Currently no state management library (Vuex/Pinia)
+- Component-level state using Vue Options API `data()`
+- Shared data stored in `src/shared/Material.json`
+- Future: Consider adding Pinia for global state (resources, player data, etc.)

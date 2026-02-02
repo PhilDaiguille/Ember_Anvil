@@ -408,7 +408,7 @@ export default {
   margin: 2rem auto;
   padding: 0;
   max-width: 140rem;
-  border-radius: 0.75rem;
+
   position: relative;
   background: linear-gradient(to bottom, #0f0d0a 0%, #1a1612 50%, #0f0d0a 100%);
 }
@@ -416,7 +416,7 @@ export default {
 /* Hero Section avec Background */
 .hero-section {
   background: url(../../assets/bg.avif) no-repeat center center / cover;
-  border-radius: 0.75rem 0.75rem 0 0;
+
   position: relative;
   margin: 0 1rem;
 }
@@ -431,7 +431,7 @@ export default {
     rgba(0, 0, 0, 0.5) 70%,
     rgba(15, 13, 10, 1) 100%
   );
-  border-radius: 0.75rem 0.75rem 0 0;
+
   pointer-events: none;
 }
 

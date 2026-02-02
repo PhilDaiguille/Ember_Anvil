@@ -200,7 +200,6 @@ export default {
     rgba(50, 93, 68, 0.15)
   );
   border: 1px solid rgba(161, 152, 130, 0.3);
-  border-radius: 2rem;
   font-size: 0.85rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -276,7 +275,6 @@ export default {
     rgba(161, 152, 130, 0.1)
   );
   border: 2px solid rgba(212, 175, 55, 0.3);
-  border-radius: 1rem;
   box-shadow:
     0 8px 32px rgba(212, 175, 55, 0.15),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
@@ -331,7 +329,6 @@ export default {
     rgba(25, 25, 25, 0.3)
   );
   border-left: 4px solid var(--sea-green);
-  border-radius: 0.75rem;
   backdrop-filter: blur(10px);
 }
 
@@ -375,7 +372,6 @@ export default {
   padding: 0.75rem 1.5rem;
   background: rgba(25, 25, 25, 0.6);
   border: 2px solid rgba(161, 152, 130, 0.2);
-  border-radius: 0.5rem;
   color: var(--dun);
   font-size: 0.95rem;
   font-weight: 600;
@@ -414,7 +410,6 @@ export default {
   padding: 0.875rem 3rem 0.875rem 1.25rem;
   background: rgba(25, 25, 25, 0.6);
   border: 2px solid rgba(161, 152, 130, 0.2);
-  border-radius: 0.5rem;
   color: white;
   font-size: 0.95rem;
   transition: all 0.3s ease;
@@ -459,7 +454,6 @@ export default {
     rgba(161, 152, 130, 0.05)
   );
   border: 2px solid rgba(212, 175, 55, 0.2);
-  border-radius: 1rem;
   box-shadow: 0 4px 20px rgba(212, 175, 55, 0.1);
 }
 
