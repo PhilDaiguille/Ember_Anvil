@@ -5,7 +5,6 @@ import tailwindcss from "@tailwindcss/vite";
 import { compression } from "vite-plugin-compression2";
 import vitePluginSitemap from "./scripts/vite-plugin-sitemap.js";
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     vue(),

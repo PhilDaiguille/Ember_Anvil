@@ -1,0 +1,238 @@
+# EmberAnvil
+
+> A Vue 3 + Vite web application for a virtual forge/crafting experience with medieval aesthetics
+
+**Live Demo**: https://ember-anvil.vercel.app/
+
+## Tech Stack
+
+- **Framework**: Vue 3 (Options API)
+- **Build Tool**: Vite 7.x
+- **Styling**: Tailwind CSS 4.x + Custom CSS
+- **Router**: Vue Router 5.x
+- **Icons**: Lucide Vue Next
+- **Language**: JavaScript (ES modules)
+- **Testing**: Vitest 4.x
+
+## Quick Start
+
+```bash
+# Install dependencies
+npm install
+
+# Development server
+npm run dev
+
+# Production build
+npm run build
+
+# Preview production build
+npm run preview
+
+# Lint with auto-fix
+npm run lint
+
+# Format code
+npm run format
+
+# Generate sitemap
+npm run sitemap
+
+# Build and generate sitemap
+npm run build:sitemap
+```
+
+## Project Structure (Domain-Driven Design)
+
+```
+src/
+├── assets/                    # Static assets
+│   ├── style/                # Global CSS (base.css, main.css)
+│   └── materials/            # Images (backgrounds, icons)
+│
+├── domains/                   # Business domains (DDD)
+│   ├── crafting/             # Forging system
+│   │   ├── components/       # Crafting.vue
+│   │   └── views/            # CraftingView.vue
+│   ├── inventory/            # Inventory management
+│   │   ├── components/       # Inventory.vue
+│   │   └── views/            # InventoryView.vue
+│   ├── player/               # Player profile & stats
+│   │   ├── components/       # Profile.vue
+│   │   └── views/            # ProfileView.vue
+│   ├── shop/                 # Shop/market
+│   │   ├── components/       # Shop.vue, ShopCard.vue
+│   │   └── views/            # ShopView.vue
+│   ├── wiki/                 # Encyclopedia/codex
+│   │   ├── components/       # Wiki.vue
+│   │   └── views/            # WikiView.vue
+│   └── workshop/             # Workshop/tools management
+│       ├── components/       # Workshop.vue
+│       └── views/            # WorkshopView.vue
+│
+├── infrastructure/           # Technical infrastructure
+│   └── router/              # Vue Router config
+│
+├── shared/                   # Common elements
+│   ├── layout/              # Header, Footer, Home
+│   ├── ui/                  # Reusable UI (MainCard)
+│   └── Material.json        # Materials database
+│
+├── App.vue                  # Root component
+└── main.js                  # Entry point
+```
+
+## Application Pages
+
+1. **Home** (`/`) - Landing page with hero section
+2. **Forge** (`/forge`) - Main crafting interface
+3. **Marché** (`/marche`) - Shop for materials and tools
+4. **Codex** (`/codex`) - Wiki/encyclopedia
+5. **Inventaire** (`/inventaire`) - Inventory management
+6. **Atelier** (`/atelier`) - Workshop with upgrades and quests
+7. **Profil** (`/profil`) - Player profile and achievements
+
+## Code Style Guidelines
+
+### Vue Components
+
+- Use **Options API** (not Composition API)
+- Template-first structure: `<template>`, `<script>`, `<style>`
+- 2-space indentation
+- Component names in PascalCase (matching filename)
+- Self-closing tags when no content: `<router-view />`
+
+### Naming Conventions
+
+- **Components**: PascalCase (`PageHeader.vue`, `ShopCard.vue`)
+- **Files**: PascalCase for components, camelCase for JS
+- **Variables**: camelCase for methods, properties
+- **Views**: PascalCase in `src/views/`
+
+### Imports
+
+- Use ES modules (`import/export`)
+- `@` alias for `src/` directory
+- Order: external libs → internal modules → relative imports
+- Double quotes for strings
+
+### CSS/Tailwind
+
+- Tailwind utilities for layout and spacing
+- Custom CSS for animations and component-specific styling
+- CSS variables in `src/assets/style/base.css`:
+  - `--jet`: rgb(25, 25, 25) - Background
+  - `--auburn`: rgb(133, 50, 51) - Accent/Buttons
+  - `--dun`: rgb(161, 152, 130) - Secondary
+  - `--viridian`: rgb(50, 93, 68) - Success/Links
+  - `--sea-green`: rgb(0, 114, 87) - Primary action
+
+## Key Features by Domain
+
+### Crafting Domain
+- Animated forge station with fire effects
+- Real-time progress bar system
+- Dynamic particle effects (sparks)
+- Craft counter tracking
+- Start/stop crafting controls
+
+### Shop Domain
+- Material catalog with grid layout
+- Wallet system (écus currency)
+- Filter by rarity (common, rare, legendary)
+- Search functionality
+- Purchase system with price display
+
+### Workshop Domain
+- **Resource Economy**: Écus (currency), Or (rare currency), XP
+- **Tools Management**: 4 upgradeable tools (Hammer, Anvil, Forge, Bellows), 10 levels each
+- **Facilities System**: 3 facilities with activation/deactivation, 5 upgrade levels
+- **Synergy System**: Tools + facilities combos with productivity bonuses
+- **Quest System**: Daily objectives with rewards
+- **Activity History**: Recent upgrades log with timestamps
+- **Notifications**: Toast system for all actions
+- **Animations**: Full-screen upgrade animations with hammer strikes
+
+### Inventory Domain
+- Tab system (materials vs crafted items)
+- Storage statistics with capacity tracking
+- Total value calculator
+- Item details (name, quantity, rarity, quality, value)
+
+### Wiki Domain
+- Material database browser
+- Recipe reference guide
+- Search and filter system
+- Detailed item properties
+
+### Player Domain
+- Character information
+- Achievement tracking
+- Statistics display
+- Level and title system
+
+## Icon Library
+
+Uses **Lucide Vue Next** for all icons:
+
+```javascript
+import { Hammer, Coins, Sparkles } from "lucide-vue-next"
+```
+
+Common icons:
+- Workshop: `Wrench`, `Hammer`, `Anvil`, `Flame`, `Wind`, `Building2`, `ArrowUp`
+- Resources: `Coins`, `Award`, `TrendingUp`
+- Facilities: `Droplet`, `Sparkles`, `Zap`
+- Status: `Target`, `Clock`, `CheckCircle`
+
+Props: `:size="32"`, `:stroke-width="2"`, `class="..."`
+
+## Data Management
+
+- No state management library (Vuex/Pinia) currently
+- Component-level state using Options API `data()`
+- Shared data in `src/shared/Material.json`
+- Future consideration: Pinia for global state
+
+## Testing
+
+Vitest configured but no test files yet:
+
+```bash
+# Run tests
+npx vitest
+
+# Watch mode
+npx vitest --watch
+
+# With coverage
+npx vitest run --coverage
+```
+
+Test naming: `*.spec.js` or `*.test.js`
+Location: `src/components/__tests__/` or `src/__tests__/`
+
+## Build Configuration
+
+- Compression enabled (gzip, brotli, zstd)
+- PWA manifest configured
+- SEO meta tags and JSON-LD structured data
+- Sitemap generation script
+
+## Important Notes
+
+- Project content is in **French**
+- ESLint config: `no-console: off`, `no-unused-vars: warn`
+- Uses vue-router for SPA navigation
+- Medieval forge theme with custom animations
+- Progressive enhancement approach
+
+## Documentation
+
+- **AGENTS.md**: Comprehensive project documentation for AI agents
+- **README.md**: Basic project introduction
+- **llms.txt**: This file - LLM-optimized project reference
+
+---
+
+For detailed guidelines and domain features, see AGENTS.md
