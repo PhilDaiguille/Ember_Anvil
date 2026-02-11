@@ -59,7 +59,7 @@ Recommended location: `src/components/__tests__/` or `src/__tests__/`
 - Import order: external libs first, then internal modules, then relative imports
 - Use double quotes for strings
 
-### Vue Components
+### Vue Components (Vue 3)
 
 **Template section:**
 
@@ -69,14 +69,43 @@ Recommended location: `src/components/__tests__/` or `src/__tests__/`
 - Bind attributes with `:` shorthand
 - Use `@` for event listeners
 
-**Script section:**
+**Script section (Options API):**
 
 - Use Options API (not Composition API)
 - Export default with `name` property matching filename
-- Use `data()` returning object for reactive state
-- Place methods in `methods` object
+- Use `data()` returning object for reactive state (Vue auto-wraps in reactivity system)
+- Place methods in `methods` object with automatic `this` binding
 - Use camelCase for method names
 - Use PascalCase for component names
+- Lifecycle hooks: `mounted()`, `created()`, `updated()`, `unmounted()`
+- Access component instance via `this` in methods and lifecycle hooks
+
+**Example structure:**
+
+```vue
+<template>
+  <button @click="increment">Count is: {{ count }}</button>
+</template>
+
+<script>
+export default {
+  name: "ComponentName",
+  data() {
+    return {
+      count: 0,
+    };
+  },
+  methods: {
+    increment() {
+      this.count++;
+    },
+  },
+  mounted() {
+    console.log(`Initial count: ${this.count}`);
+  },
+};
+</script>
+```
 
 **Style section:**
 
@@ -105,7 +134,17 @@ Recommended location: `src/components/__tests__/` or `src/__tests__/`
 
 ### CSS/Tailwind Conventions
 
+**Tailwind CSS 4.x Features:**
+
 - Use Tailwind utility classes for layout and spacing
+- Define custom utilities with `@utility` directive instead of `@layer utilities`
+- Use `@theme` directive for custom CSS variables and theme tokens
+- Leverage CSS custom properties for colors (e.g., `--color-*`)
+- Use arbitrary CSS properties with square brackets: `class="[mask-type:luminance]"`
+- Access Tailwind's built-in CSS variables: `var(--text-xl)`, `var(--text-xl--line-height)`
+
+**Custom CSS:**
+
 - Custom CSS in `<style>` blocks for complex animations and component-specific styling
 - CSS variables defined in `src/assets/style/base.css`:
   - `--jet`: rgb(25, 25, 25) - Background
@@ -113,6 +152,20 @@ Recommended location: `src/components/__tests__/` or `src/__tests__/`
   - `--dun`: rgb(161, 152, 130) - Secondary
   - `--viridian`: rgb(50, 93, 68) - Success/Links
   - `--sea-green`: rgb(0, 114, 87) - Primary action
+
+**Examples:**
+
+```css
+/* Define custom utility */
+@utility content-auto {
+  content-visibility: auto;
+}
+
+/* Define custom theme color */
+@theme {
+  --color-regal-blue: #243c5a;
+}
+```
 
 ### Error Handling
 
@@ -309,6 +362,190 @@ Player profile and statistics:
 - Compression enabled for production (gzip, brotli, zstd)
 - PWA manifest configured in index.html
 - SEO meta tags and JSON-LD structured data present
+
+## Vue 3 Best Practices
+
+### Reactivity System
+
+- Vue 3 automatically wraps `data()` properties in a reactivity system (Proxy-based)
+- Access reactive properties via `this` in methods and lifecycle hooks
+- Mutations to data properties trigger automatic re-renders
+- Computed properties and watchers work seamlessly with reactive data
+
+### Lifecycle Hooks
+
+Available lifecycle hooks in Options API:
+
+- `created()` - Called after instance is created (no DOM access yet)
+- `mounted()` - Called after component is inserted into DOM
+- `updated()` - Called after reactive data changes cause re-render
+- `unmounted()` - Called when component is removed from DOM
+- `beforeCreate()`, `beforeMount()`, `beforeUpdate()`, `beforeUnmount()` - Pre-hooks
+
+### Component Communication
+
+- Props for parent-to-child communication
+- Events (`$emit`) for child-to-parent communication
+- Provide/Inject for deep hierarchical communication
+- Consider Pinia for complex global state management
+
+## Vite 7.x Configuration
+
+### Performance Optimizations
+
+**Server Warmup:**
+Pre-transform frequently used modules for faster startup:
+
+```javascript
+// vite.config.js
+export default defineConfig({
+  server: {
+    warmup: {
+      clientFiles: ["./src/main.js", "./src/components/**/*.vue"],
+    },
+  },
+});
+```
+
+**Dependency Optimization:**
+Improve cold start times for large projects:
+
+```javascript
+export default defineConfig({
+  optimizeDeps: {
+    holdUntilCrawlEnd: false,
+  },
+});
+```
+
+### Build Optimizations
+
+- **CSS Code Splitting**: Automatically extracts CSS from async chunks
+- **Preload Directives**: Auto-generates `<link rel="modulepreload">` for entry chunks
+- Compression enabled for production (gzip, brotli, zstd)
+
+### Development Server
+
+- Instant server start with native ESM
+- Lightning-fast Hot Module Replacement (HMR)
+- Configure port and auto-open in `vite.config.js`
+
+## Vue Router 5.x Features
+
+### Navigation Guards
+
+**Global Guards:**
+
+```javascript
+// Global before guard
+router.beforeEach(async (to, from) => {
+  const isAuthenticated = await checkAuth();
+
+  if (to.meta.requiresAuth && !isAuthenticated) {
+    return { name: "login", query: { redirect: to.fullPath } };
+  }
+});
+
+// Global after hook (for analytics)
+router.afterEach((to, from, failure) => {
+  if (!failure) {
+    document.title = to.meta.title || "EmberAnvil";
+  }
+});
+```
+
+**In-Component Guards (Options API):**
+
+```javascript
+export default {
+  beforeRouteEnter(to, from) {
+    // Called before route is confirmed
+    // No access to `this` yet
+  },
+  beforeRouteUpdate(to, from) {
+    // Called when route changes but component is reused
+    // Has access to `this`
+  },
+  beforeRouteLeave(to, from) {
+    // Called when navigating away
+    // Has access to `this`
+  },
+};
+```
+
+### Lazy Loading Components
+
+Use dynamic imports for code splitting:
+
+```javascript
+const routes = [
+  {
+    path: "/forge",
+    component: () => import("@/domains/crafting/views/CraftingView.vue"),
+  },
+];
+```
+
+### Route Meta Fields
+
+Use `meta` for route-level information:
+
+```javascript
+{
+  path: '/atelier',
+  component: WorkshopView,
+  meta: {
+    requiresAuth: true,
+    title: 'Atelier - EmberAnvil'
+  }
+}
+```
+
+## Modern CSS with Tailwind 4.x
+
+### Built-in CSS Variables
+
+Tailwind 4 exposes utility values as CSS variables:
+
+```css
+/* Font sizes with line-heights */
+font-size: var(--text-xl); /* 1.25rem */
+line-height: var(--text-xl--line-height);
+
+/* Spacing */
+padding: var(--spacing-4);
+margin: var(--spacing-8);
+```
+
+### Custom Utilities
+
+```css
+@utility tab-4 {
+  tab-size: 4;
+}
+
+@utility content-auto {
+  content-visibility: auto;
+}
+```
+
+### Theme Customization
+
+```css
+@theme {
+  --color-ember: #d97706;
+  --color-anvil: #4b5563;
+  --font-medieval: "Cinzel", serif;
+}
+```
+
+### Arbitrary Properties
+
+```html
+<div class="[mask-type:luminance] [backdrop-filter:blur(10px)]">
+  <!-- Content -->
+</div>
+```
 
 ## Icon Library
 

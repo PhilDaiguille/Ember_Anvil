@@ -1,14 +1,24 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "@/shared/layout/HomeView.vue";
-import CraftingView from "@/domains/crafting/views/CraftingView.vue";
-import ShopView from "@/domains/shop/views/ShopView.vue";
-import WikiView from "@/domains/wiki/views/WikiView.vue";
-import InventoryView from "@/domains/inventory/views/InventoryView.vue";
-import WorkshopView from "@/domains/workshop/views/WorkshopView.vue";
-import ProfileView from "@/domains/player/views/ProfileView.vue";
+
+const CraftingView = () => import("@/domains/crafting/views/CraftingView.vue");
+const ShopView = () => import("@/domains/shop/views/ShopView.vue");
+const WikiView = () => import("@/domains/wiki/views/WikiView.vue");
+const InventoryView = () =>
+  import("@/domains/inventory/views/InventoryView.vue");
+const WorkshopView = () => import("@/domains/workshop/views/WorkshopView.vue");
+const ProfileView = () => import("@/domains/player/views/ProfileView.vue");
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
+  // Comportement de scroll pour une meilleure UX
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition;
+    } else {
+      return { top: 0, behavior: "smooth" };
+    }
+  },
   routes: [
     {
       path: "/",
@@ -75,14 +85,22 @@ const router = createRouter({
         description: "Consultez votre profil et vos statistiques",
       },
     },
+    // Route 404 - Redirection vers la page d'accueil
+    {
+      path: "/:pathMatch(.*)*",
+      redirect: "/",
+    },
   ],
 });
 
 // Gestion des meta tags pour le SEO
 router.beforeEach((to, from, next) => {
+  // Update document title
   if (to.meta.title) {
     document.title = to.meta.title;
   }
+
+  // Update meta description
   if (to.meta.description) {
     let descriptionTag = document.querySelector('meta[name="description"]');
     if (!descriptionTag) {
@@ -92,6 +110,7 @@ router.beforeEach((to, from, next) => {
     }
     descriptionTag.setAttribute("content", to.meta.description);
   }
+
   next();
 });
 
