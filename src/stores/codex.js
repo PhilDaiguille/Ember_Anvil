@@ -54,11 +54,9 @@ export const useCodexStore = defineStore("codex", {
     filteredMaterials: (state) => {
       let materials = state.discoveredMaterialsList;
 
-      // Filter by category
+      // Filter by category (materials use 'type' property)
       if (state.selectedCategory !== "all") {
-        materials = materials.filter(
-          (m) => m.categorie === state.selectedCategory,
-        );
+        materials = materials.filter((m) => m.type === state.selectedCategory);
       }
 
       // Search filter
@@ -89,11 +87,11 @@ export const useCodexStore = defineStore("codex", {
       };
     },
 
-    // Materials by category (for discovered ones)
+    // Materials by category (for discovered ones) - uses 'type' property
     materialsByCategory: (state) => {
       const categories = {};
       state.discoveredMaterialsList.forEach((material) => {
-        const cat = material.categorie;
+        const cat = material.type;
         if (!categories[cat]) {
           categories[cat] = [];
         }
@@ -211,16 +209,18 @@ export const useCodexStore = defineStore("codex", {
     // Available categories for current tab
     availableCategories: (state) => {
       if (state.selectedTab === "materials") {
-        // Get unique categories from discovered materials
+        // Get unique categories from discovered materials (uses 'type' property)
         const categories = new Set();
-        state.discoveredMaterialsList.forEach((m) =>
-          categories.add(m.categorie),
-        );
+        state.discoveredMaterialsList.forEach((m) => {
+          if (m.type) categories.add(m.type);
+        });
         return ["all", ...Array.from(categories)];
       } else {
-        // Get unique categories from discovered recipes
+        // Get unique categories from discovered recipes (uses 'categorie' property)
         const categories = new Set();
-        state.discoveredRecipesList.forEach((r) => categories.add(r.categorie));
+        state.discoveredRecipesList.forEach((r) => {
+          if (r.categorie) categories.add(r.categorie);
+        });
         return ["all", ...Array.from(categories)];
       }
     },

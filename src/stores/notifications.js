@@ -45,6 +45,14 @@ export const useNotificationsStore = defineStore("notifications", {
     clear() {
       this.notifications = [];
     },
+
+    /**
+     * Alias pour show() - pour compatibilité avec le code existant
+     * @param {Object} options - { type, message }
+     */
+    ajouterNotification({ type = "info", message }) {
+      this.show(message, type);
+    },
   },
 
   persist: false, // Ne pas persister (éphémère)
