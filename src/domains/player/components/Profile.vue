@@ -1,4 +1,7 @@
 <script>
+import { mapState, mapGetters } from "pinia";
+import { usePlayerStore } from "@/stores/player";
+import { useGameStore } from "@/stores/game";
 import {
   Swords,
   Calendar,
@@ -17,6 +20,14 @@ import {
   Target,
   Sparkles,
   Lock,
+  CheckCircle,
+  ShoppingCart,
+  BookOpen,
+  Award,
+  TrendingUp,
+  Wrench,
+  Zap,
+  Star,
 } from "lucide-vue-next";
 
 export default {
@@ -39,91 +50,114 @@ export default {
     Target,
     Sparkles,
     Lock,
+    CheckCircle,
   },
   data() {
     return {
-      profile: {
-        nom: "Thorin Forgepierre",
-        titre: "Maître Forgeron",
-        niveau: 42,
-        experience: 78540,
-        experienceMax: 100000,
-        avatar: "Swords",
-        membre_depuis: "Janvier 2024",
-      },
-      stats: {
-        objets_crees: 487,
-        valeur_creations: 125600,
-        heures_forge: 156,
-        rang_mondial: 284,
-        materiel_utilise: 3420,
-        recettes_debloquees: 87,
-      },
-      badges: [
-        {
-          id: 1,
-          nom: "Premier Forgeron",
-          description: "Créer votre premier objet",
-          icone: "ShieldCheck",
-          obtenu: true,
-        },
-        {
-          id: 2,
-          nom: "Maître du Fer",
-          description: "Forger 100 objets en fer",
-          icone: "Settings",
-          obtenu: true,
-        },
-        {
-          id: 3,
-          nom: "Collectionneur",
-          description: "Obtenir 50 matériaux différents",
-          icone: "Gem",
-          obtenu: true,
-        },
-        {
-          id: 4,
-          nom: "Artisan Légendaire",
-          description: "Créer un objet légendaire",
-          icone: "Crown",
-          obtenu: false,
-        },
-        {
-          id: 5,
-          nom: "Économiste",
-          description: "Amasser 100,000 écus",
-          icone: "Coins",
-          obtenu: true,
-        },
-        {
-          id: 6,
-          nom: "Perfectionniste",
-          description: "Créer 10 objets de qualité parfaite",
-          icone: "Sparkles",
-          obtenu: false,
-        },
-      ],
-      achievements: [
-        { nom: "Forge Débutante", valeur: 100, max: 100 },
-        { nom: "Maître Artisan", valeur: 487, max: 1000 },
-        { nom: "Roi du Commerce", valeur: 68, max: 100 },
-        { nom: "Explorateur", valeur: 87, max: 150 },
-      ],
+      selectedAchievementCategory: "all",
     };
   },
-  methods: {
-    getExperiencePercentage() {
-      return (this.profile.experience / this.profile.experienceMax) * 100;
+  computed: {
+    ...mapState(usePlayerStore, [
+      "nom",
+      "titre",
+      "niveau",
+      "experience",
+      "experienceMax",
+      "avatar",
+      "membreDepuis",
+      "stats",
+      "ecus",
+      "or",
+    ]),
+    ...mapGetters(usePlayerStore, [
+      "progressionNiveau",
+      "niveauSuivant",
+      "titreActuel",
+    ]),
+    ...mapState(useGameStore, ["achievementsProgress"]),
+    ...mapGetters(useGameStore, [
+      "allAchievementsWithStatus",
+      "achievementsDebloquesCount",
+      "totalAchievements",
+    ]),
+
+    // Profile pour le template
+    profile() {
+      return {
+        nom: this.nom,
+        titre: this.titre,
+        niveau: this.niveau,
+        experience: this.experience,
+        experienceMax: this.experienceMax,
+        avatar: "Swords",
+        membre_depuis: this.formatMembreDepuis(),
+      };
     },
-    getAchievementPercentage(achievement) {
-      return (achievement.valeur / achievement.max) * 100;
+
+    // Stats pour le template avec formatage
+    statsFormatted() {
+      return {
+        objets_crees: this.stats.objetsCrees,
+        valeur_creations: this.stats.valeurCreations,
+        heures_forge: Math.floor(this.stats.heuresJeu),
+        rang_mondial: this.stats.rangMondial,
+        materiel_utilise: this.stats.materielUtilise,
+        recettes_debloquees: this.stats.recettesDebloquees,
+      };
+    },
+
+    // Achievements filtrés par catégorie
+    filteredAchievements() {
+      if (this.selectedAchievementCategory === "all") {
+        return this.allAchievementsWithStatus;
+      }
+      return this.allAchievementsWithStatus.filter(
+        (a) => a.categorie === this.selectedAchievementCategory,
+      );
+    },
+
+    // Badges (alias pour compatibilité template)
+    badgesWithStatus() {
+      return this.allAchievementsWithStatus;
+    },
+  },
+  methods: {
+    formatMembreDepuis() {
+      if (!this.membreDepuis) return "Récemment";
+      const date = new Date(this.membreDepuis);
+      const options = { year: "numeric", month: "long" };
+      return date.toLocaleDateString("fr-FR", options);
+    },
+    getExperiencePercentage() {
+      return this.progressionNiveau;
+    },
+    getAchievementIcon(iconName) {
+      const iconMap = {
+        Hammer,
+        Crown,
+        Star,
+        Sparkles,
+        TrendingUp,
+        ShoppingCart,
+        Coins,
+        Gem,
+        Wrench,
+        Award,
+        Zap,
+        Target,
+        CheckCircle,
+        BookOpen,
+        ScrollText,
+      };
+      return iconMap[iconName] || Trophy;
     },
   },
 };
 </script>
 
 <template>
-  <main class="profile-page">
+  <main class="profile-page" id="main-content" aria-label="Profil du joueur">
     <div class="profile-container">
       <!-- Profile Header Card -->
       <section class="profile-header-card">
@@ -191,7 +225,7 @@ export default {
             <div class="stat-item">
               <Hammer :size="40" :stroke-width="2" class="stat-icon" />
               <div class="stat-content">
-                <div class="stat-value">{{ stats.objets_crees }}</div>
+                <div class="stat-value">{{ statsFormatted.objets_crees }}</div>
                 <div class="stat-label">Objets Créés</div>
               </div>
             </div>
@@ -200,7 +234,7 @@ export default {
               <Coins :size="40" :stroke-width="2" class="stat-icon" />
               <div class="stat-content">
                 <div class="stat-value">
-                  {{ stats.valeur_creations.toLocaleString() }}
+                  {{ statsFormatted.valeur_creations.toLocaleString() }}
                 </div>
                 <div class="stat-label">Valeur des Créations</div>
               </div>
@@ -209,7 +243,7 @@ export default {
             <div class="stat-item">
               <Clock :size="40" :stroke-width="2" class="stat-icon" />
               <div class="stat-content">
-                <div class="stat-value">{{ stats.heures_forge }}h</div>
+                <div class="stat-value">{{ statsFormatted.heures_forge }}h</div>
                 <div class="stat-label">Heures de Forge</div>
               </div>
             </div>
@@ -217,7 +251,7 @@ export default {
             <div class="stat-item">
               <Trophy :size="40" :stroke-width="2" class="stat-icon" />
               <div class="stat-content">
-                <div class="stat-value">#{{ stats.rang_mondial }}</div>
+                <div class="stat-value">#{{ statsFormatted.rang_mondial }}</div>
                 <div class="stat-label">Rang Mondial</div>
               </div>
             </div>
@@ -225,7 +259,9 @@ export default {
             <div class="stat-item">
               <Package :size="40" :stroke-width="2" class="stat-icon" />
               <div class="stat-content">
-                <div class="stat-value">{{ stats.materiel_utilise }}</div>
+                <div class="stat-value">
+                  {{ statsFormatted.materiel_utilise }}
+                </div>
                 <div class="stat-label">Matériel Utilisé</div>
               </div>
             </div>
@@ -233,7 +269,9 @@ export default {
             <div class="stat-item">
               <ScrollText :size="40" :stroke-width="2" class="stat-icon" />
               <div class="stat-content">
-                <div class="stat-value">{{ stats.recettes_debloquees }}</div>
+                <div class="stat-value">
+                  {{ statsFormatted.recettes_debloquees }}
+                </div>
                 <div class="stat-label">Recettes Débloquées</div>
               </div>
             </div>
@@ -244,18 +282,18 @@ export default {
         <section class="badges-section">
           <h2 class="section-title">
             <Medal :size="28" :stroke-width="2" class="title-icon" />
-            Badges
+            Succès ({{ achievementsDebloquesCount }}/{{ totalAchievements }})
           </h2>
 
           <div class="badges-grid">
             <div
-              v-for="badge in badges"
+              v-for="badge in badgesWithStatus"
               :key="badge.id"
               class="badge-item"
-              :class="{ locked: !badge.obtenu }"
+              :class="{ locked: !badge.unlocked }"
             >
               <component
-                :is="badge.icone"
+                :is="getAchievementIcon(badge.icone)"
                 :size="40"
                 :stroke-width="2"
                 class="badge-icon"
@@ -265,42 +303,37 @@ export default {
                 <p class="badge-description">{{ badge.description }}</p>
               </div>
               <Lock
-                v-if="!badge.obtenu"
+                v-if="!badge.unlocked"
                 :size="24"
                 :stroke-width="2"
                 class="badge-lock"
+              />
+              <CheckCircle
+                v-else
+                :size="24"
+                :stroke-width="2"
+                class="badge-check"
               />
             </div>
           </div>
         </section>
       </div>
 
-      <!-- Achievements Section -->
+      <!-- Progression Section -->
       <section class="achievements-section">
         <h2 class="section-title">
           <Target :size="28" :stroke-width="2" class="title-icon" />
           Progression des Succès
         </h2>
 
-        <div class="achievements-grid">
-          <div
-            v-for="(achievement, index) in achievements"
-            :key="index"
-            class="achievement-item"
-          >
-            <div class="achievement-header">
-              <span class="achievement-name">{{ achievement.nom }}</span>
-              <span class="achievement-progress"
-                >{{ achievement.valeur }}/{{ achievement.max }}</span
-              >
-            </div>
-            <div class="achievement-bar">
-              <div
-                class="achievement-fill"
-                :style="{ width: getAchievementPercentage(achievement) + '%' }"
-              ></div>
-            </div>
+        <div class="progress-overview">
+          <div class="progress-ring">
+            <span class="progress-value">{{ achievementsProgress }}%</span>
           </div>
+          <p class="progress-text">
+            {{ achievementsDebloquesCount }} succès débloqués sur
+            {{ totalAchievements }}
+          </p>
         </div>
       </section>
     </div>
@@ -660,6 +693,46 @@ export default {
 .badge-lock {
   color: rgba(161, 152, 130, 0.5);
   opacity: 0.5;
+}
+
+.badge-check {
+  color: var(--sea-green);
+}
+
+/* Progress Overview */
+.progress-overview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 2rem;
+}
+
+.progress-ring {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 4px solid rgba(161, 152, 130, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(
+    135deg,
+    rgba(0, 114, 87, 0.1),
+    rgba(50, 93, 68, 0.05)
+  );
+}
+
+.progress-value {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--sea-green);
+  font-family: "Georgia", serif;
+}
+
+.progress-text {
+  color: var(--dun);
+  font-size: 0.95rem;
 }
 
 /* Achievements Section */

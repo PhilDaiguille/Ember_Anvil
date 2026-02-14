@@ -20,7 +20,6 @@ export default defineConfig({
       algorithms: [
         ["gzip", { level: 9 }],
         ["brotliCompress", { level: 11 }],
-        ["zstandard", { level: 22 }],
       ],
       threshold: 1024,
       deleteOriginalAssets: false,
@@ -35,12 +34,10 @@ export default defineConfig({
       "@": fileURLToPath(new URL("./src", import.meta.url)),
     },
   },
-  // Optimisation des dépendances (Vite 7)
   optimizeDeps: {
     include: ["vue", "vue-router", "lucide-vue-next"],
-    holdUntilCrawlEnd: false, // Améliore le cold start pour les grands projets
+    holdUntilCrawlEnd: false,
   },
-  // Server warmup pour pré-transformer les fichiers fréquemment utilisés
   server: {
     warmup: {
       clientFiles: [
@@ -54,7 +51,6 @@ export default defineConfig({
       ],
     },
   },
-  // Optimisations de build
   build: {
     rolldownOptions: {
       output: {

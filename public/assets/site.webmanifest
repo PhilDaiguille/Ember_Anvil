@@ -1,19 +1,27 @@
 {
-  "name": "",
-  "short_name": "",
+  "name": "Ember Anvil - Forge Virtuelle",
+  "short_name": "Ember Anvil",
+  "description": "Forge virtuelle pour l'artisanat et la création d'objets uniques",
+  "start_url": "/",
+  "scope": "/",
   "icons": [
     {
-      "src": "/android-chrome-192x192.png",
+      "src": "/assets/android-chrome-192x192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
-      "src": "/android-chrome-512x512.png",
+      "src": "/assets/android-chrome-512x512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ],
-  "theme_color": "#ffffff",
-  "background_color": "#ffffff",
-  "display": "standalone"
+  "theme_color": "#191919",
+  "background_color": "#191919",
+  "display": "standalone",
+  "orientation": "any",
+  "categories": ["games", "entertainment"],
+  "lang": "fr"
 }
