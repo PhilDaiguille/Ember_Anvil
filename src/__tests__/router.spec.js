@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from "vitest";
-import { createRouter, createWebHistory } from "vue-router";
+import { createRouter, createMemoryHistory } from "vue-router";
 import { routes } from "@/infrastructure/router/index.js";
 
 describe("Router", () => {
@@ -7,7 +7,7 @@ describe("Router", () => {
 
   beforeEach(async () => {
     router = createRouter({
-      history: createWebHistory(),
+      history: createMemoryHistory(),
       routes,
     });
 

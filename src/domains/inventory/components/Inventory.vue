@@ -45,6 +45,7 @@ export default {
       "valeurTotale",
       "materialsList",
       "craftedItemsSorted",
+      "hasEnough",
     ]),
     ...mapState(usePlayerStore, ["ecus"]),
 
@@ -143,11 +144,10 @@ export default {
     },
 
     vendreMaterial(material) {
-      const inventoryStore = useInventoryStore();
       const quantite = 1;
 
       // Vérifier quantité
-      if (!inventoryStore.hasEnough(material.id, quantite)) {
+      if (!this.hasEnough(material.id, quantite)) {
         this.ajouterNotification({
           type: "error",
           message: `Vous n'avez pas assez de ${material.nom}.`,

@@ -111,21 +111,21 @@ export const MATERIALS = {
     },
   },
 
-  mithril: {
-    id: "mithril",
-    nom: "Mithril",
+  titane: {
+    id: "titane",
+    nom: "Titane",
     type: "metal",
     rarity: "rare",
     tier: 3,
-    prixAchat: 120,
-    prixVente: 85,
-    image: "./assets/materials/mithril.png",
+    prixAchat: 110,
+    prixVente: 80,
+    image: "./assets/materials/titane.png",
     description:
-      "Métal légendaire d'un blanc argenté, léger comme une plume et dur comme le diamant.",
+      "Métal léger et extrêmement résistant, utilisé pour les équipements de haute technologie.",
     proprietes: {
-      resistance: 95,
-      conductivite: 85,
-      malleabilite: 80,
+      resistance: 92,
+      conductivite: 60,
+      malleabilite: 70,
     },
   },
 
@@ -152,7 +152,7 @@ export const MATERIALS = {
   chene: {
     id: "chene",
     nom: "Chêne",
-    type: "wood",
+    type: "bois",
     rarity: "common",
     tier: 1,
     prixAchat: 3,
@@ -161,15 +161,33 @@ export const MATERIALS = {
     description: "Bois robuste et durable, parfait pour les manches d'armes.",
     proprietes: {
       resistance: 40,
-      flexibilite: 60,
-      durete: 50,
+      conductivite: 60,
+      malleabilite: 50,
+    },
+  },
+
+  erable: {
+    id: "erable",
+    nom: "Érable",
+    type: "bois",
+    rarity: "common",
+    tier: 1,
+    prixAchat: 4,
+    prixVente: 2,
+    image: "./assets/materials/erable.png",
+    description:
+      "Bois clair et élégant, prisé pour sa beauté et sa résistance.",
+    proprietes: {
+      resistance: 45,
+      conductivite: 55,
+      malleabilite: 60,
     },
   },
 
   pin: {
     id: "pin",
     nom: "Pin",
-    type: "wood",
+    type: "bois",
     rarity: "common",
     tier: 1,
     prixAchat: 2,
@@ -178,15 +196,15 @@ export const MATERIALS = {
     description: "Bois léger et accessible, utilisé pour les constructions.",
     proprietes: {
       resistance: 30,
-      flexibilite: 70,
-      durete: 35,
+      conductivite: 70,
+      malleabilite: 65,
     },
   },
 
   ebene: {
     id: "ebene",
     nom: "Ébène",
-    type: "wood",
+    type: "bois",
     rarity: "uncommon",
     tier: 2,
     prixAchat: 30,
@@ -196,71 +214,53 @@ export const MATERIALS = {
       "Bois noir profond, dense et précieux, symbole de luxe et de raffinement.",
     proprietes: {
       resistance: 70,
-      flexibilite: 40,
-      durete: 85,
+      conductivite: 40,
+      malleabilite: 55,
     },
   },
 
-  bois_ancestral: {
-    id: "bois_ancestral",
-    nom: "Bois Ancestral",
-    type: "wood",
-    rarity: "rare",
-    tier: 3,
-    prixAchat: 90,
-    prixVente: 65,
-    image: "./assets/materials/bois_ancestral.png",
+  acajou: {
+    id: "acajou",
+    nom: "Acajou",
+    type: "bois",
+    rarity: "uncommon",
+    tier: 2,
+    prixAchat: 32,
+    prixVente: 22,
+    image: "./assets/materials/acajou.png",
     description:
-      "Bois millénaire imprégné de magie ancienne, récolté dans les forêts sacrées.",
+      "Bois rouge noble et résistant, symbole de qualité et de durabilité.",
     proprietes: {
-      resistance: 80,
-      flexibilite: 75,
-      durete: 70,
-    },
-  },
-
-  bois_petrifie: {
-    id: "bois_petrifie",
-    nom: "Bois Pétrifié",
-    type: "wood",
-    rarity: "epic",
-    tier: 4,
-    prixAchat: 350,
-    prixVente: 250,
-    image: "./assets/materials/bois_petrifie.png",
-    description:
-      "Bois transformé en pierre après des millénaires, combinant les propriétés des deux.",
-    proprietes: {
-      resistance: 90,
-      flexibilite: 20,
-      durete: 95,
+      resistance: 75,
+      conductivite: 45,
+      malleabilite: 58,
     },
   },
 
   // ========== PIERRES (5) ==========
 
-  granite: {
-    id: "granite",
-    nom: "Granite",
-    type: "stone",
+  granit: {
+    id: "granit",
+    nom: "Granit",
+    type: "pierre",
     rarity: "common",
     tier: 1,
     prixAchat: 5,
     prixVente: 3,
-    image: "./assets/materials/granite.png",
+    image: "./assets/materials/granit.png",
     description:
       "Pierre robuste et abondante, utilisée pour les fondations et les enclumes.",
     proprietes: {
       resistance: 85,
-      durete: 75,
-      poids: 90,
+      conductivite: 30,
+      malleabilite: 20,
     },
   },
 
   marbre: {
     id: "marbre",
     nom: "Marbre",
-    type: "stone",
+    type: "pierre",
     rarity: "uncommon",
     tier: 2,
     prixAchat: 28,
@@ -270,15 +270,33 @@ export const MATERIALS = {
       "Pierre blanche noble et élégante, symbole de prestige et de beauté.",
     proprietes: {
       resistance: 70,
-      durete: 65,
-      poids: 85,
+      conductivite: 35,
+      malleabilite: 25,
+    },
+  },
+
+  basalte: {
+    id: "basalte",
+    nom: "Basalte",
+    type: "pierre",
+    rarity: "uncommon",
+    tier: 2,
+    prixAchat: 30,
+    prixVente: 21,
+    image: "./assets/materials/basalte.png",
+    description:
+      "Pierre volcanique noire et dense, formée par le refroidissement de la lave.",
+    proprietes: {
+      resistance: 75,
+      conductivite: 40,
+      malleabilite: 22,
     },
   },
 
   obsidienne: {
     id: "obsidienne",
     nom: "Obsidienne",
-    type: "stone",
+    type: "pierre",
     rarity: "rare",
     tier: 3,
     prixAchat: 100,
@@ -288,107 +306,53 @@ export const MATERIALS = {
       "Verre volcanique noir comme la nuit, tranchant comme un rasoir.",
     proprietes: {
       resistance: 75,
-      durete: 90,
-      poids: 70,
+      conductivite: 45,
+      malleabilite: 30,
     },
   },
 
-  pierre_runique: {
-    id: "pierre_runique",
-    nom: "Pierre Runique",
-    type: "stone",
-    rarity: "epic",
-    tier: 4,
-    prixAchat: 400,
-    prixVente: 280,
-    image: "./assets/materials/pierre_runique.png",
+  jade: {
+    id: "jade",
+    nom: "Jade",
+    type: "pierre",
+    rarity: "rare",
+    tier: 3,
+    prixAchat: 110,
+    prixVente: 75,
+    image: "./assets/materials/jade.png",
     description:
-      "Pierre gravée de runes anciennes, résonant d'une énergie mystique.",
+      "Pierre verte précieuse, symbole de pureté et de sagesse dans les cultures anciennes.",
     proprietes: {
-      resistance: 85,
-      durete: 80,
-      poids: 75,
-    },
-  },
-
-  cristal_draconique: {
-    id: "cristal_draconique",
-    nom: "Cristal Draconique",
-    type: "stone",
-    rarity: "legendary",
-    tier: 5,
-    prixAchat: 1200,
-    prixVente: 900,
-    image: "./assets/materials/cristal_draconique.png",
-    description:
-      "Cristal formé dans le cœur des volcans draconiques, pulsant de pouvoir primordial.",
-    proprietes: {
-      resistance: 95,
-      durete: 98,
-      poids: 60,
+      resistance: 80,
+      conductivite: 50,
+      malleabilite: 35,
     },
   },
 
   // ========== GEMMES (7) ==========
 
-  rubis: {
-    id: "rubis",
-    nom: "Rubis",
-    type: "gem",
-    rarity: "rare",
-    tier: 3,
-    prixAchat: 250,
-    prixVente: 180,
-    image: "./assets/materials/rubis.png",
+  quartz: {
+    id: "quartz",
+    nom: "Quartz",
+    type: "gemme",
+    rarity: "common",
+    tier: 1,
+    prixAchat: 12,
+    prixVente: 8,
+    image: "./assets/materials/quartz.png",
     description:
-      "Gemme rouge écarlate, symbole de passion et de puissance. Confère des propriétés de feu.",
+      "Gemme cristalline transparente, abondante et facile à travailler.",
     proprietes: {
-      pouvoir_magique: 85,
-      eclat: 95,
-      purete: 80,
-    },
-  },
-
-  saphir: {
-    id: "saphir",
-    nom: "Saphir",
-    type: "gem",
-    rarity: "rare",
-    tier: 3,
-    prixAchat: 260,
-    prixVente: 185,
-    image: "./assets/materials/saphir.png",
-    description:
-      "Gemme bleue profonde comme l'océan, associée à la sagesse et à l'eau.",
-    proprietes: {
-      pouvoir_magique: 85,
-      eclat: 90,
-      purete: 85,
-    },
-  },
-
-  emeraude: {
-    id: "emeraude",
-    nom: "Émeraude",
-    type: "gem",
-    rarity: "rare",
-    tier: 3,
-    prixAchat: 270,
-    prixVente: 190,
-    image: "./assets/materials/emeraude.png",
-    description:
-      "Gemme verte éclatante, liée à la nature et aux forces vitales.",
-    proprietes: {
-      pouvoir_magique: 80,
-      eclat: 92,
-      purete: 82,
+      resistance: 50,
+      conductivite: 75,
+      malleabilite: 40,
     },
   },
 
   amethyste: {
     id: "amethyste",
     nom: "Améthyste",
-    type: "gem",
+    type: "gemme",
     rarity: "uncommon",
     tier: 2,
     prixAchat: 45,
@@ -397,33 +361,16 @@ export const MATERIALS = {
     description:
       "Gemme violette mystique, favorisant la concentration et la clarté d'esprit.",
     proprietes: {
-      pouvoir_magique: 65,
-      eclat: 75,
-      purete: 70,
-    },
-  },
-
-  topaze: {
-    id: "topaze",
-    nom: "Topaze",
-    type: "gem",
-    rarity: "uncommon",
-    tier: 2,
-    prixAchat: 40,
-    prixVente: 28,
-    image: "./assets/materials/topaze.png",
-    description: "Gemme dorée lumineuse, symbole de richesse et de prospérité.",
-    proprietes: {
-      pouvoir_magique: 60,
-      eclat: 85,
-      purete: 68,
+      resistance: 65,
+      conductivite: 80,
+      malleabilite: 45,
     },
   },
 
   opale: {
     id: "opale",
     nom: "Opale",
-    type: "gem",
+    type: "gemme",
     rarity: "uncommon",
     tier: 2,
     prixAchat: 38,
@@ -432,119 +379,173 @@ export const MATERIALS = {
     description:
       "Gemme iridescente aux reflets changeants, capturant toutes les couleurs de l'arc-en-ciel.",
     proprietes: {
-      pouvoir_magique: 55,
-      eclat: 80,
-      purete: 65,
+      resistance: 55,
+      conductivite: 78,
+      malleabilite: 42,
+    },
+  },
+
+  rubis: {
+    id: "rubis",
+    nom: "Rubis",
+    type: "gemme",
+    rarity: "rare",
+    tier: 3,
+    prixAchat: 250,
+    prixVente: 180,
+    image: "./assets/materials/rubis.png",
+    description:
+      "Gemme rouge écarlate, symbole de passion et de puissance. Confère des propriétés de feu.",
+    proprietes: {
+      resistance: 85,
+      conductivite: 90,
+      malleabilite: 50,
+    },
+  },
+
+  saphir: {
+    id: "saphir",
+    nom: "Saphir",
+    type: "gemme",
+    rarity: "rare",
+    tier: 3,
+    prixAchat: 260,
+    prixVente: 185,
+    image: "./assets/materials/saphir.png",
+    description:
+      "Gemme bleue profonde comme l'océan, associée à la sagesse et à l'eau.",
+    proprietes: {
+      resistance: 85,
+      conductivite: 88,
+      malleabilite: 52,
+    },
+  },
+
+  emeraude: {
+    id: "emeraude",
+    nom: "Émeraude",
+    type: "gemme",
+    rarity: "rare",
+    tier: 3,
+    prixAchat: 270,
+    prixVente: 190,
+    image: "./assets/materials/emeraude.png",
+    description:
+      "Gemme verte éclatante, liée à la nature et aux forces vitales.",
+    proprietes: {
+      resistance: 80,
+      conductivite: 87,
+      malleabilite: 48,
     },
   },
 
   diamant: {
     id: "diamant",
     nom: "Diamant",
-    type: "gem",
-    rarity: "epic",
-    tier: 4,
+    type: "gemme",
+    rarity: "legendary",
+    tier: 5,
     prixAchat: 500,
     prixVente: 360,
     image: "./assets/materials/diamant.png",
     description:
       "La gemme la plus dure et la plus pure, symbole ultime de perfection et d'éternité.",
     proprietes: {
-      pouvoir_magique: 90,
-      eclat: 100,
-      purete: 95,
+      resistance: 100,
+      conductivite: 95,
+      malleabilite: 30,
     },
   },
 
   // ========== RESSOURCES SPÉCIALES (5) ==========
 
-  poussiere_magique: {
-    id: "poussiere_magique",
-    nom: "Poussière Magique",
+  cuir: {
+    id: "cuir",
+    nom: "Cuir",
+    type: "special",
+    rarity: "common",
+    tier: 1,
+    prixAchat: 8,
+    prixVente: 5,
+    image: "./assets/materials/cuir.png",
+    description:
+      "Matériau organique résistant, idéal pour les armures légères et les manches.",
+    proprietes: {
+      resistance: 55,
+      conductivite: 30,
+      malleabilite: 85,
+    },
+  },
+
+  soie: {
+    id: "soie",
+    nom: "Soie",
+    type: "special",
+    rarity: "uncommon",
+    tier: 2,
+    prixAchat: 35,
+    prixVente: 25,
+    image: "./assets/materials/soie.png",
+    description:
+      "Fibre précieuse et résistante, parfaite pour les enchantements et les protections magiques.",
+    proprietes: {
+      resistance: 45,
+      conductivite: 85,
+      malleabilite: 90,
+    },
+  },
+
+  mithril: {
+    id: "mithril",
+    nom: "Mithril",
     type: "special",
     rarity: "rare",
     tier: 3,
     prixAchat: 150,
     prixVente: 110,
-    image: "./assets/materials/poussiere_magique.png",
+    image: "./assets/materials/mithril.png",
     description:
-      "Particules scintillantes imprégnées de mana pur, essence de la magie elle-même.",
+      "Métal légendaire d'un blanc argenté, léger comme une plume et dur comme le diamant.",
     proprietes: {
-      pouvoir_magique: 95,
-      purete: 85,
-      volatilite: 70,
+      resistance: 95,
+      conductivite: 88,
+      malleabilite: 75,
     },
   },
 
-  essence_elementaire: {
-    id: "essence_elementaire",
-    nom: "Essence Élémentaire",
+  orichalque: {
+    id: "orichalque",
+    nom: "Orichalque",
     type: "special",
     rarity: "epic",
     tier: 4,
     prixAchat: 420,
     prixVente: 300,
-    image: "./assets/materials/essence_elementaire.png",
+    image: "./assets/materials/orichalque.png",
     description:
-      "Concentration pure des quatre éléments primordiaux : feu, eau, terre et air.",
+      "Métal mythique aux reflets cuivrés dorés, utilisé par les civilisations perdues.",
     proprietes: {
-      pouvoir_magique: 92,
-      purete: 90,
-      volatilite: 80,
+      resistance: 92,
+      conductivite: 93,
+      malleabilite: 70,
     },
   },
 
-  fragment_ame: {
-    id: "fragment_ame",
-    nom: "Fragment d'Âme",
+  eternium: {
+    id: "eternium",
+    nom: "Éternium",
     type: "special",
     rarity: "legendary",
     tier: 5,
     prixAchat: 1500,
     prixVente: 1100,
-    image: "./assets/materials/fragment_ame.png",
+    image: "./assets/materials/eternium.png",
     description:
-      "Éclat d'essence vitale cristallisée, contenant la mémoire d'êtres disparus.",
+      "Matière primordiale existant hors du temps, forgée au commencement de l'univers.",
     proprietes: {
-      pouvoir_magique: 98,
-      purete: 95,
-      volatilite: 90,
-    },
-  },
-
-  cristal_temporel: {
-    id: "cristal_temporel",
-    nom: "Cristal Temporel",
-    type: "special",
-    rarity: "legendary",
-    tier: 5,
-    prixAchat: 1800,
-    prixVente: 1300,
-    image: "./assets/materials/cristal_temporel.png",
-    description:
-      "Fragment du tissu même du temps, permettant de voir passé et futur.",
-    proprietes: {
-      pouvoir_magique: 100,
-      purete: 98,
-      volatilite: 95,
-    },
-  },
-
-  coeur_forge: {
-    id: "coeur_forge",
-    nom: "Cœur de Forge",
-    type: "special",
-    rarity: "legendary",
-    tier: 5,
-    prixAchat: 2000,
-    prixVente: 1500,
-    image: "./assets/materials/coeur_forge.png",
-    description:
-      "Noyau ardent d'une forge ancestrale, contenant le savoir de mille générations de forgerons.",
-    proprietes: {
-      pouvoir_magique: 95,
-      purete: 92,
-      volatilite: 50,
+      resistance: 98,
+      conductivite: 97,
+      malleabilite: 65,
     },
   },
 };
@@ -560,7 +561,7 @@ export const MATERIALS_ARRAY = Object.values(MATERIALS);
 
 /**
  * Obtenir tous les matériaux d'un type
- * @param {string} type - metal, wood, stone, gem, special
+ * @param {string} type - metal, bois, pierre, gemme, special
  * @returns {Array} Tableau de matériaux
  */
 export function getMaterialsByType(type) {

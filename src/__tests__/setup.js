@@ -50,5 +50,14 @@ vi.mock("lucide-vue-next", () => {
     Clock: mockIcon,
     CheckCircle: mockIcon,
     X: mockIcon,
+    // Additional icons for component tests
+    Star: mockIcon,
+    DollarSign: mockIcon,
+    ShoppingCart: mockIcon,
+    BookOpen: mockIcon,
+    Store: mockIcon,
+    ChevronDown: mockIcon,
+    User: mockIcon,
+    Sword: mockIcon,
   };
 });
