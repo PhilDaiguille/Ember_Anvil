@@ -481,7 +481,7 @@ bg-linear-to-br
 ```css
 @import url("https://fonts.googleapis.com/css2?family=...");
 @import url("base.css");
-@import "tailwindcss";
+@import "../node_modules/tailwindcss/dist/lib.d.mts";
 ```
 
 ### Classes Fréquentes
