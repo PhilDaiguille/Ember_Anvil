@@ -23,14 +23,12 @@ body {
 }
 
 main {
-  margin: 0.5rem auto;
   overflow-y: auto;
   min-height: 95dvh;
   padding: 1.25rem;
 }
 
 main .row {
-  margin: 0.5rem auto;
   flex-wrap: wrap;
   align-content: center;
   align-items: center;
@@ -40,4 +38,57 @@ footer {
   background-color: var(--viridian);
   padding: 0.5rem;
   text-align: center;
+}
+
+/* Focus visible for keyboard navigation */
+:focus-visible {
+  outline: 3px solid var(--sea-green);
+  outline-offset: 2px;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid var(--sea-green);
+  outline-offset: 2px;
+}
+
+/* Rarity colors */
+.rarity-common {
+  background: rgba(156, 163, 175, 0.2);
+  color: #9ca3af;
+}
+
+.rarity-uncommon {
+  background: rgba(34, 197, 94, 0.2);
+  color: #22c55e;
+}
+
+.rarity-rare {
+  background: rgba(59, 130, 246, 0.2);
+  color: #3b82f6;
+}
+
+.rarity-epic {
+  background: rgba(168, 85, 247, 0.2);
+  color: #a855f7;
+}
+
+.rarity-legendary {
+  background: rgba(251, 191, 36, 0.2);
+  color: #fbbf24;
+}
+
+/* Skip animations for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

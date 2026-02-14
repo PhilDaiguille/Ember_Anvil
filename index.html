@@ -2,11 +2,6 @@
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
-    <link
-      rel="shortcut icon"
-      href="./src/assets/favicon.ico"
-      type="image/x-icon"
-    />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>
@@ -48,10 +43,10 @@
     />
     <meta
       property="og:image"
-      content="https://ember-anvil.vercel.app//src/assets/og-image.jpg"
+      content="https://ember-anvil.vercel.app/assets/android-chrome-512x512.png"
     />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
+    <meta property="og:image:width" content="512" />
+    <meta property="og:image:height" content="512" />
     <meta property="og:image:alt" content="Ember Anvil - Forge Virtuelle" />
 
     <!-- Twitter -->
@@ -67,31 +62,32 @@
     />
     <meta
       name="twitter:image"
-      content="https://ember-anvil.vercel.app//src/assets/og-image.jpg"
+      content="https://ember-anvil.vercel.app/assets/android-chrome-512x512.png"
     />
     <meta name="twitter:image:alt" content="Ember Anvil - Forge Virtuelle" />
 
+    <!-- Favicon -->
     <link
       rel="apple-touch-icon"
       sizes="180x180"
-      href="./src/assets/apple-touch-icon.png"
+      href="/assets/apple-touch-icon.png"
     />
     <link
       rel="icon"
       type="image/png"
       sizes="32x32"
-      href="./src/assets/favicon-32x32.png"
+      href="/assets/favicon-32x32.png"
     />
     <link
       rel="icon"
       type="image/png"
       sizes="16x16"
-      href="./src/assets/favicon-16x16.png"
+      href="/assets/favicon-16x16.png"
     />
-    <link rel="manifest" href="./src/assets/site.webmanifest" />
-    <meta name="theme-color" content="#854233" />
-    <meta name="msapplication-TileColor" content="#854233" />
-    <meta name="robots" content="index, follow" />
+    <link rel="manifest" href="/assets/site.webmanifest" />
+    <meta name="theme-color" content="#191919" />
+    <meta name="msapplication-TileColor" content="#191919" />
+
     <!-- JSON-LD Structured Data -->
     <script type="application/ld+json">
       {
@@ -100,17 +96,13 @@
         "name": "Ember Anvil",
         "url": "https://ember-anvil.vercel.app/",
         "description": "Forge virtuelle pour l'artisanat et la création d'objets uniques",
-        "potentialAction": {
-          "@type": "SearchAction",
-          "target": "https://ember-anvil.vercel.app//search?q={search_term_string}",
-          "query-input": "required name=search_term_string"
-        },
+        "inLanguage": "fr",
         "publisher": {
           "@type": "Organization",
           "name": "Ember Anvil",
           "logo": {
             "@type": "ImageObject",
-            "url": "https://ember-anvil.vercel.app//src/assets/android-chrome-512x512.png"
+            "url": "https://ember-anvil.vercel.app/assets/android-chrome-512x512.png"
           }
         }
       }
@@ -124,15 +116,11 @@
         "url": "https://ember-anvil.vercel.app/",
         "applicationCategory": "Game",
         "operatingSystem": "Web Browser",
+        "inLanguage": "fr",
         "offers": {
           "@type": "Offer",
           "price": "0",
           "priceCurrency": "EUR"
-        },
-        "aggregateRating": {
-          "@type": "AggregateRating",
-          "ratingValue": "4.8",
-          "ratingCount": "1250"
         },
         "description": "Application de forge virtuelle avec système de crafting avancé, encyclopédie de matériaux et boutique d'outils artisanaux."
       }
