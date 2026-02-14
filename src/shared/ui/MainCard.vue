@@ -8,8 +8,13 @@
         }}</span>
       </div>
       <div class="entry-category">
-        <FlaskConical :size="16" :stroke-width="2" class="category-icon" />
-        <span class="category-text">Métal {{ getRarity(item.nom) }}</span>
+        <component
+          :is="getCategoryIcon()"
+          :size="16"
+          :stroke-width="2"
+          class="category-icon"
+        />
+        <span class="category-text">{{ getCategoryLabel() }}</span>
       </div>
     </div>
 
@@ -23,11 +28,29 @@
 
           <div class="image-wrapper">
             <div class="image-glow"></div>
-            <img :src="item.image" :alt="item.nom" class="entry-image" />
+            <img
+              v-if="item.image"
+              :src="item.image"
+              :alt="item.nom"
+              class="entry-image"
+            />
+            <component
+              v-else
+              :is="getDefaultIcon()"
+              :size="120"
+              :stroke-width="1.5"
+              class="entry-icon-placeholder"
+            />
           </div>
         </div>
 
-        <div class="visual-label">Spécimen Authentifié</div>
+        <div class="visual-label">
+          {{
+            itemType === "materials"
+              ? "Spécimen Authentifié"
+              : "Recette Certifiée"
+          }}
+        </div>
       </div>
 
       <div class="entry-content">
@@ -39,54 +62,125 @@
         </div>
 
         <div class="content-body">
+          <!-- Classification Block -->
           <div class="classification-block">
-            <div class="classification-item">
-              <span class="class-label">Origine</span>
-              <span class="class-value">{{ getOrigin(item.nom) }}</span>
+            <div v-if="itemType === 'materials'" class="classification-item">
+              <span class="class-label">Type</span>
+              <span class="class-value">{{ item.type }}</span>
+            </div>
+            <div v-if="itemType === 'materials'" class="classification-item">
+              <span class="class-label">Tier</span>
+              <span class="class-value">Tier {{ item.tier }}</span>
             </div>
             <div class="classification-item">
-              <span class="class-label">État</span>
-              <span class="class-value">Solide Métallique</span>
+              <span class="class-label">Rareté</span>
+              <span class="class-value">{{ getRarityLabel(item.rarity) }}</span>
             </div>
-            <div class="classification-item">
-              <span class="class-label">Disponibilité</span>
-              <span class="class-value">{{ getAvailability(item.nom) }}</span>
+            <div v-if="itemType === 'recipes'" class="classification-item">
+              <span class="class-label">Niveau Requis</span>
+              <span class="class-value">Niveau {{ item.niveauRequis }}</span>
+            </div>
+            <div v-if="itemType === 'recipes'" class="classification-item">
+              <span class="class-label">Temps de Forge</span>
+              <span class="class-value">{{ item.tempsForge }}s</span>
             </div>
           </div>
 
+          <!-- Description Section -->
           <div class="description-section">
             <h3 class="section-title">
               <ScrollText :size="20" :stroke-width="2" class="section-icon" />
-              Description Alchimique
+              Description
             </h3>
             <p class="entry-description">{{ item.description }}</p>
           </div>
 
-          <div class="properties-section">
+          <!-- Material Properties (Materials only) -->
+          <div v-if="itemType === 'materials'" class="properties-section">
             <h3 class="section-title">
               <Scale :size="20" :stroke-width="2" class="section-icon" />
-              Propriétés & Applications
+              Valeurs
             </h3>
             <div class="properties-grid">
               <div class="property-card">
-                <Flame :size="28" :stroke-width="2" class="prop-icon" />
+                <Coins :size="28" :stroke-width="2" class="prop-icon" />
                 <div class="prop-text">
-                  <div class="prop-label">Résistance</div>
-                  <div class="prop-value">{{ getResistance(item.nom) }}</div>
+                  <div class="prop-label">Prix d'Achat</div>
+                  <div class="prop-value">{{ item.prixAchat }} écus</div>
                 </div>
               </div>
               <div class="property-card">
-                <Zap :size="28" :stroke-width="2" class="prop-icon" />
+                <TrendingUp :size="28" :stroke-width="2" class="prop-icon" />
                 <div class="prop-text">
-                  <div class="prop-label">Conductivité</div>
-                  <div class="prop-value">{{ getConductivity(item.nom) }}</div>
+                  <div class="prop-label">Prix de Vente</div>
+                  <div class="prop-value">{{ item.prixVente }} écus</div>
                 </div>
               </div>
               <div class="property-card">
-                <Sparkles :size="28" :stroke-width="2" class="prop-icon" />
+                <Star :size="28" :stroke-width="2" class="prop-icon" />
                 <div class="prop-text">
-                  <div class="prop-label">Malléabilité</div>
-                  <div class="prop-value">{{ getMalleability(item.nom) }}</div>
+                  <div class="prop-label">Catégorie</div>
+                  <div class="prop-value">
+                    {{ getCategorieLabel(item.categorie) }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recipe Ingredients (Recipes only) -->
+          <div v-if="itemType === 'recipes'" class="ingredients-section">
+            <h3 class="section-title">
+              <Package :size="20" :stroke-width="2" class="section-icon" />
+              Ingrédients Requis
+            </h3>
+            <div class="ingredients-list">
+              <div
+                v-for="ingredient in item.ingredients"
+                :key="ingredient.materialId"
+                class="ingredient-item"
+              >
+                <FlaskConical
+                  :size="20"
+                  :stroke-width="2"
+                  class="ingredient-icon"
+                />
+                <span class="ingredient-name">{{
+                  getMaterialName(ingredient.materialId)
+                }}</span>
+                <span class="ingredient-quantity"
+                  >× {{ ingredient.quantite }}</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- Recipe Stats (Recipes only) -->
+          <div v-if="itemType === 'recipes'" class="properties-section">
+            <h3 class="section-title">
+              <Trophy :size="20" :stroke-width="2" class="section-icon" />
+              Récompenses & Statistiques
+            </h3>
+            <div class="properties-grid">
+              <div class="property-card">
+                <Award :size="28" :stroke-width="2" class="prop-icon" />
+                <div class="prop-text">
+                  <div class="prop-label">XP Gagnée</div>
+                  <div class="prop-value">{{ item.xpGain }} XP</div>
+                </div>
+              </div>
+              <div class="property-card">
+                <Coins :size="28" :stroke-width="2" class="prop-icon" />
+                <div class="prop-text">
+                  <div class="prop-label">Valeur de Vente</div>
+                  <div class="prop-value">{{ item.valeurVente }} écus</div>
+                </div>
+              </div>
+              <div class="property-card">
+                <Star :size="28" :stroke-width="2" class="prop-icon" />
+                <div class="prop-text">
+                  <div class="prop-label">Qualité de Base</div>
+                  <div class="prop-value">{{ item.qualiteBase }}/5</div>
                 </div>
               </div>
             </div>
@@ -110,11 +204,20 @@ import {
   FlaskConical,
   ScrollText,
   Scale,
-  Flame,
-  Zap,
-  Sparkles,
+  Coins,
+  TrendingUp,
+  Star,
+  Package,
+  Trophy,
+  Award,
   Check,
+  Hammer,
+  Shield,
+  Wrench,
+  Gem,
+  Sparkles,
 } from "lucide-vue-next";
+import { MATERIALS } from "@/data/materials";
 
 export default {
   name: "PageMainCard",
@@ -122,10 +225,18 @@ export default {
     FlaskConical,
     ScrollText,
     Scale,
-    Flame,
-    Zap,
-    Sparkles,
+    Coins,
+    TrendingUp,
+    Star,
+    Package,
+    Trophy,
+    Award,
     Check,
+    Hammer,
+    Shield,
+    Wrench,
+    Gem,
+    Sparkles,
   },
   props: {
     item: {
@@ -136,62 +247,92 @@ export default {
       type: Number,
       required: true,
     },
+    itemType: {
+      type: String,
+      default: "materials", // "materials" or "recipes"
+    },
   },
   methods: {
-    getRarity(nom) {
-      const rarities = {
-        Aluminium: "Commun",
-        Cuivre: "Rare",
-        Fer: "Fondamental",
-        Etain: "Commun",
-      };
-      return rarities[nom] || "Rare";
+    getCategoryIcon() {
+      if (this.itemType === "materials") {
+        const iconMap = {
+          metaux: FlaskConical,
+          bois: Package,
+          pierres: Gem,
+          gemmes: Sparkles,
+          speciaux: Star,
+        };
+        return iconMap[this.item.categorie] || FlaskConical;
+      } else {
+        // recipes
+        const iconMap = {
+          arme: Hammer,
+          armure: Shield,
+          outil: Wrench,
+          bijou: Gem,
+          consommable: FlaskConical,
+        };
+        return iconMap[this.item.categorie] || Hammer;
+      }
     },
-    getOrigin(nom) {
-      const origins = {
-        Aluminium: "Mines Célestes",
-        Cuivre: "Veines Volcaniques",
-        Fer: "Montagnes Naines",
-        Etain: "Vallées Profondes",
-      };
-      return origins[nom] || "Diverses Régions";
+
+    getCategoryLabel() {
+      if (this.itemType === "materials") {
+        return `${this.item.type} • ${this.getRarityLabel(this.item.rarity)}`;
+      } else {
+        const categoryLabels = {
+          arme: "Arme",
+          armure: "Armure",
+          outil: "Outil",
+          bijou: "Bijou",
+          consommable: "Consommable",
+        };
+        return `${categoryLabels[this.item.categorie] || this.item.categorie} • ${this.getRarityLabel(this.item.rarity)}`;
+      }
     },
-    getAvailability(nom) {
-      const availability = {
-        Aluminium: "Abondante",
-        Cuivre: "Modérée",
-        Fer: "Très Abondante",
-        Etain: "Limitée",
+
+    getRarityLabel(rarity) {
+      const rarityLabels = {
+        common: "Commun",
+        uncommon: "Peu Commun",
+        rare: "Rare",
+        epic: "Épique",
+        legendary: "Légendaire",
       };
-      return availability[nom] || "Modérée";
+      return rarityLabels[rarity] || rarity;
     },
-    getResistance(nom) {
-      const resistance = {
-        Aluminium: "Élevée",
-        Cuivre: "Moyenne",
-        Fer: "Très Élevée",
-        Etain: "Faible",
+
+    getCategorieLabel(categorie) {
+      const labels = {
+        metaux: "Métaux",
+        bois: "Bois",
+        pierres: "Pierres",
+        gemmes: "Gemmes",
+        speciaux: "Spéciaux",
       };
-      return resistance[nom] || "Moyenne";
+      return labels[categorie] || categorie;
     },
-    getConductivity(nom) {
-      const conductivity = {
-        Aluminium: "Bonne",
-        Cuivre: "Excellente",
-        Fer: "Faible",
-        Etain: "Moyenne",
-      };
-      return conductivity[nom] || "Moyenne";
+
+    getMaterialName(materialId) {
+      const material = MATERIALS[materialId];
+      return material ? material.nom : materialId;
     },
-    getMalleability(nom) {
-      const malleability = {
-        Aluminium: "Très Élevée",
-        Cuivre: "Élevée",
-        Fer: "Moyenne",
-        Etain: "Élevée",
-      };
-      return malleability[nom] || "Moyenne";
+
+    getDefaultIcon() {
+      if (this.itemType === "materials") {
+        return FlaskConical;
+      } else {
+        const iconMap = {
+          arme: Hammer,
+          armure: Shield,
+          outil: Wrench,
+          bijou: Gem,
+          consommable: FlaskConical,
+        };
+        return iconMap[this.item.categorie] || Hammer;
+      }
     },
+
     getCurrentYear() {
       return new Date().getFullYear();
     },
@@ -409,7 +550,14 @@ export default {
   transition: transform 0.4s ease;
 }
 
-.codex-entry:hover .entry-image {
+.entry-icon-placeholder {
+  color: rgba(161, 152, 130, 0.4);
+  position: relative;
+  z-index: 2;
+}
+
+.codex-entry:hover .entry-image,
+.codex-entry:hover .entry-icon-placeholder {
   transform: scale(1.05);
 }
 
@@ -614,5 +762,52 @@ export default {
   font-size: 0.8rem;
   color: rgba(161, 152, 130, 0.6);
   font-style: italic;
+}
+
+/* Ingredients Section (Recipes only) */
+.ingredients-section {
+  margin-top: 2rem;
+}
+
+.ingredients-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.ingredient-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: rgba(25, 25, 25, 0.5);
+  border: 1px solid rgba(161, 152, 130, 0.2);
+  border-left: 3px solid var(--viridian);
+  transition: all 0.3s ease;
+}
+
+.ingredient-item:hover {
+  background: rgba(50, 93, 68, 0.15);
+  border-left-color: var(--sea-green);
+  transform: translateX(4px);
+}
+
+.ingredient-icon {
+  color: var(--viridian);
+  flex-shrink: 0;
+}
+
+.ingredient-name {
+  flex: 1;
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+}
+
+.ingredient-quantity {
+  font-size: 0.9rem;
+  color: var(--dun);
+  font-weight: 700;
+  font-family: "Courier New", monospace;
 }
 </style>

@@ -1,4 +1,6 @@
 <script>
+import { mapState, mapGetters } from "pinia";
+import { usePlayerStore } from "@/stores/player";
 import {
   Swords,
   Calendar,
@@ -42,23 +44,6 @@ export default {
   },
   data() {
     return {
-      profile: {
-        nom: "Thorin Forgepierre",
-        titre: "Maître Forgeron",
-        niveau: 42,
-        experience: 78540,
-        experienceMax: 100000,
-        avatar: "Swords",
-        membre_depuis: "Janvier 2024",
-      },
-      stats: {
-        objets_crees: 487,
-        valeur_creations: 125600,
-        heures_forge: 156,
-        rang_mondial: 284,
-        materiel_utilise: 3420,
-        recettes_debloquees: 87,
-      },
       badges: [
         {
           id: 1,
@@ -93,7 +78,7 @@ export default {
           nom: "Économiste",
           description: "Amasser 100,000 écus",
           icone: "Coins",
-          obtenu: true,
+          obtenu: false,
         },
         {
           id: 6,
@@ -103,17 +88,107 @@ export default {
           obtenu: false,
         },
       ],
-      achievements: [
-        { nom: "Forge Débutante", valeur: 100, max: 100 },
-        { nom: "Maître Artisan", valeur: 487, max: 1000 },
-        { nom: "Roi du Commerce", valeur: 68, max: 100 },
-        { nom: "Explorateur", valeur: 87, max: 150 },
-      ],
     };
   },
+  computed: {
+    ...mapState(usePlayerStore, [
+      "nom",
+      "titre",
+      "niveau",
+      "experience",
+      "experienceMax",
+      "avatar",
+      "membreDepuis",
+      "stats",
+      "ecus",
+      "or",
+    ]),
+    ...mapGetters(usePlayerStore, [
+      "progressionNiveau",
+      "niveauSuivant",
+      "titreActuel",
+    ]),
+
+    // Profile pour le template
+    profile() {
+      return {
+        nom: this.nom,
+        titre: this.titre,
+        niveau: this.niveau,
+        experience: this.experience,
+        experienceMax: this.experienceMax,
+        avatar: "Swords",
+        membre_depuis: this.formatMembreDepuis(),
+      };
+    },
+
+    // Stats pour le template avec formatage
+    statsFormatted() {
+      return {
+        objets_crees: this.stats.objetsCrees,
+        valeur_creations: this.stats.valeurCreations,
+        heures_forge: Math.floor(this.stats.heuresJeu),
+        rang_mondial: this.stats.rangMondial,
+        materiel_utilise: this.stats.materielUtilise,
+        recettes_debloquees: this.stats.recettesDebloquees,
+      };
+    },
+
+    // Achievements dynamiques basés sur les stats
+    achievements() {
+      return [
+        {
+          nom: "Forge Débutante",
+          valeur: Math.min(this.stats.objetsCrees, 100),
+          max: 100,
+        },
+        {
+          nom: "Maître Artisan",
+          valeur: this.stats.objetsCrees,
+          max: 1000,
+        },
+        {
+          nom: "Roi du Commerce",
+          valeur: Math.min(Math.floor(this.ecus / 1000), 100),
+          max: 100,
+        },
+        {
+          nom: "Explorateur",
+          valeur: this.stats.recettesDebloquees,
+          max: 150,
+        },
+      ];
+    },
+
+    // Update badges dynamically based on stats
+    badgesWithStatus() {
+      return this.badges.map((badge) => {
+        let obtenu = badge.obtenu;
+
+        // Dynamically check badge conditions
+        if (badge.id === 1) {
+          obtenu = this.stats.objetsCrees >= 1;
+        } else if (badge.id === 2) {
+          obtenu = this.stats.objetsCrees >= 100;
+        } else if (badge.id === 3) {
+          obtenu = this.stats.materielUtilise >= 50;
+        } else if (badge.id === 5) {
+          obtenu = this.ecus >= 100000;
+        }
+
+        return { ...badge, obtenu };
+      });
+    },
+  },
   methods: {
+    formatMembreDepuis() {
+      if (!this.membreDepuis) return "Récemment";
+      const date = new Date(this.membreDepuis);
+      const options = { year: "numeric", month: "long" };
+      return date.toLocaleDateString("fr-FR", options);
+    },
     getExperiencePercentage() {
-      return (this.profile.experience / this.profile.experienceMax) * 100;
+      return this.progressionNiveau;
     },
     getAchievementPercentage(achievement) {
       return (achievement.valeur / achievement.max) * 100;
@@ -191,7 +266,7 @@ export default {
             <div class="stat-item">
               <Hammer :size="40" :stroke-width="2" class="stat-icon" />
               <div class="stat-content">
-                <div class="stat-value">{{ stats.objets_crees }}</div>
+                <div class="stat-value">{{ statsFormatted.objets_crees }}</div>
                 <div class="stat-label">Objets Créés</div>
               </div>
             </div>
@@ -200,7 +275,7 @@ export default {
               <Coins :size="40" :stroke-width="2" class="stat-icon" />
               <div class="stat-content">
                 <div class="stat-value">
-                  {{ stats.valeur_creations.toLocaleString() }}
+                  {{ statsFormatted.valeur_creations.toLocaleString() }}
                 </div>
                 <div class="stat-label">Valeur des Créations</div>
               </div>
@@ -209,7 +284,7 @@ export default {
             <div class="stat-item">
               <Clock :size="40" :stroke-width="2" class="stat-icon" />
               <div class="stat-content">
-                <div class="stat-value">{{ stats.heures_forge }}h</div>
+                <div class="stat-value">{{ statsFormatted.heures_forge }}h</div>
                 <div class="stat-label">Heures de Forge</div>
               </div>
             </div>
@@ -217,7 +292,7 @@ export default {
             <div class="stat-item">
               <Trophy :size="40" :stroke-width="2" class="stat-icon" />
               <div class="stat-content">
-                <div class="stat-value">#{{ stats.rang_mondial }}</div>
+                <div class="stat-value">#{{ statsFormatted.rang_mondial }}</div>
                 <div class="stat-label">Rang Mondial</div>
               </div>
             </div>
@@ -225,7 +300,9 @@ export default {
             <div class="stat-item">
               <Package :size="40" :stroke-width="2" class="stat-icon" />
               <div class="stat-content">
-                <div class="stat-value">{{ stats.materiel_utilise }}</div>
+                <div class="stat-value">
+                  {{ statsFormatted.materiel_utilise }}
+                </div>
                 <div class="stat-label">Matériel Utilisé</div>
               </div>
             </div>
@@ -233,7 +310,9 @@ export default {
             <div class="stat-item">
               <ScrollText :size="40" :stroke-width="2" class="stat-icon" />
               <div class="stat-content">
-                <div class="stat-value">{{ stats.recettes_debloquees }}</div>
+                <div class="stat-value">
+                  {{ statsFormatted.recettes_debloquees }}
+                </div>
                 <div class="stat-label">Recettes Débloquées</div>
               </div>
             </div>
@@ -249,7 +328,7 @@ export default {
 
           <div class="badges-grid">
             <div
-              v-for="badge in badges"
+              v-for="badge in badgesWithStatus"
               :key="badge.id"
               class="badge-item"
               :class="{ locked: !badge.obtenu }"

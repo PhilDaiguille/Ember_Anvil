@@ -840,6 +840,12 @@ export const RECIPES_PAR_CATEGORIE = {
   consommable: CONSOMMABLES,
 };
 
+// Export RECIPES as object for direct ID lookup (similar to MATERIALS)
+export const RECIPES_BY_ID = RECIPES.reduce((acc, recipe) => {
+  acc[recipe.id] = recipe;
+  return acc;
+}, {});
+
 /**
  * Récupère une recette par son ID
  */

@@ -70,7 +70,7 @@ export const useInventoryStore = defineStore("inventory", {
     // Liste des matériaux possédés (pour affichage)
     materialsList: (state) => {
       return Object.entries(state.materials)
-        .filter(([id, qty]) => qty > 0)
+        .filter(([_id, qty]) => qty > 0)
         .map(([id, qty]) => ({
           ...MATERIALS[id],
           quantite: qty,

@@ -144,10 +144,18 @@ export default {
     };
   },
   computed: {
-    ...mapState(usePlayerStore, ["ecus", "or", "niveau", "xp"]),
+    ...mapState(usePlayerStore, [
+      "ecus",
+      "or",
+      "niveau",
+      "experience",
+      "experienceMax",
+    ]),
+    xp() {
+      return this.experience;
+    },
     xpRequis() {
-      const playerStore = usePlayerStore();
-      return playerStore.xpPourProchainNiveau;
+      return this.experienceMax;
     },
     xpPourcentage() {
       return Math.min((this.xp / this.xpRequis) * 100, 100);

@@ -13,6 +13,7 @@ import {
 import { usePlayerStore } from "@/stores/player";
 import { useInventoryStore } from "@/stores/inventory";
 import { useNotificationsStore } from "@/stores/notifications";
+import { useCodexStore } from "@/stores/codex";
 import { MATERIALS_ARRAY } from "@/data/materials";
 
 export default {
@@ -70,6 +71,7 @@ export default {
     acheterMaterial(material, quantite = 1) {
       const cout = material.prixAchat * quantite;
       const playerStore = usePlayerStore();
+      const codexStore = useCodexStore();
 
       // Vérifier si le joueur a assez d'écus
       if (!playerStore.peutAcheter(cout)) {
@@ -83,6 +85,15 @@ export default {
       // Effectuer la transaction
       this.retirerEcus(cout);
       this.ajouterMaterial(material.id, quantite);
+
+      // Découvrir le matériau dans le codex
+      const wasNew = codexStore.autoDiscoverFromPurchase(material.id);
+      if (wasNew) {
+        this.ajouterNotification({
+          type: "info",
+          message: `📖 Nouveau matériau découvert dans le Codex : ${material.nom} !`,
+        });
+      }
 
       this.ajouterNotification({
         type: "success",

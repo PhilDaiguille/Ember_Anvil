@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import { useNotificationsStore } from "./notifications";
 
 export const usePlayerStore = defineStore("player", {
   state: () => ({
@@ -87,7 +88,32 @@ export const usePlayerStore = defineStore("player", {
       return false;
     },
 
+    // ========== UNIFIED CURRENCY METHODS ==========
+
+    // Gagner de l'argent (écus ou or)
+    gagner(montant, devise = "ecus") {
+      if (devise === "or") {
+        this.ajouterOr(montant);
+      } else {
+        this.ajouterEcus(montant);
+      }
+    },
+
+    // Dépenser de l'argent (écus ou or)
+    depenser(montant, devise = "ecus") {
+      if (devise === "or") {
+        return this.retirerOr(montant);
+      } else {
+        return this.retirerEcus(montant);
+      }
+    },
+
     // ========== GESTION DE L'XP ==========
+
+    // Alias for consistency
+    ajouterXP(montant) {
+      this.ajouterExperience(montant);
+    },
 
     ajouterExperience(montant) {
       this.experience += montant;
@@ -108,14 +134,26 @@ export const usePlayerStore = defineStore("player", {
 
       // Récompenses de niveau
       const recompenseEcus = 100 * this.niveau;
-      const recompenseOr = Math.floor(this.niveau / 5) * 10;
+      const recompenseOr = Math.floor(this.niveau / 5);
 
       this.ajouterEcus(recompenseEcus);
       if (recompenseOr > 0) {
         this.ajouterOr(recompenseOr);
       }
 
-      // TODO: Notification de level up
+      // Notification de level up
+      const notifications = useNotificationsStore();
+      let recompenseText = `+${recompenseEcus} écus`;
+      if (recompenseOr > 0) {
+        recompenseText += `, +${recompenseOr} or`;
+      }
+
+      notifications.show(
+        `🎉 Niveau ${this.niveau} ! ${this.titre} - ${recompenseText}`,
+        "success",
+        5000,
+      );
+
       console.log(
         `🎉 NIVEAU ${this.niveau} ! +${recompenseEcus} écus, +${recompenseOr} or`,
       );

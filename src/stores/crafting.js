@@ -6,6 +6,7 @@ import { defineStore } from "pinia";
 import { usePlayerStore } from "./player";
 import { useInventoryStore } from "./inventory";
 import { useNotificationsStore } from "./notifications";
+import { useCodexStore } from "./codex";
 import { getRecipeById } from "@/data/recipes";
 
 export const useCraftingStore = defineStore("crafting", {
@@ -181,6 +182,7 @@ export const useCraftingStore = defineStore("crafting", {
       const playerStore = usePlayerStore();
       const inventoryStore = useInventoryStore();
       const notifStore = useNotificationsStore();
+      const codexStore = useCodexStore();
 
       // Calculer la qualité (base + bonus aléatoire + bonus niveau)
       const bonusNiveau = Math.floor(playerStore.niveau / 5); // +1 qualité tous les 5 niveaux
@@ -206,7 +208,15 @@ export const useCraftingStore = defineStore("crafting", {
 
       // Gagner XP
       const xpGagne = Math.floor(recipe.xpGain * (1 + qualite * 0.1));
-      playerStore.gagnerXp(xpGagne);
+      playerStore.ajouterXP(xpGagne);
+
+      // Mettre à jour les stats du joueur
+      playerStore.incrementerStat("objetsCrees");
+      playerStore.incrementerStat("valeurCreations", objetForge.valeur);
+      playerStore.incrementerStat("recettesDebloquees");
+
+      // Découvrir la recette et ses ingrédients dans le codex
+      codexStore.autoDiscoverFromCraft(recipe.id);
 
       // Mettre à jour les stats
       this.stats.totalObjetsForges++;
@@ -232,6 +242,12 @@ export const useCraftingStore = defineStore("crafting", {
       notifStore.ajouterNotification({
         type: "success",
         message: `${recipe.nom} forgé ! Qualité: ${etoiles} (+${xpGagne} XP)`,
+      });
+
+      // Notification de découverte codex
+      notifStore.ajouterNotification({
+        type: "info",
+        message: `📖 Recette ajoutée au Codex : ${recipe.nom}`,
       });
 
       // Réinitialiser l'état

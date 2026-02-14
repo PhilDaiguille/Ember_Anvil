@@ -7,20 +7,79 @@
           <div class="codex-emblem">
             <BookOpen :size="48" :stroke-width="2" />
           </div>
-          <h2 class="sidebar-title">Codex des Métaux</h2>
-          <p class="sidebar-subtitle">Index Alchimique</p>
+          <h2 class="sidebar-title">{{ tabTitle }}</h2>
+          <p class="sidebar-subtitle">{{ tabSubtitle }}</p>
+        </div>
+
+        <!-- Tab Switcher -->
+        <div class="tab-switcher">
+          <button
+            class="tab-button"
+            :class="{ active: selectedTab === 'materials' }"
+            @click="switchTab('materials')"
+          >
+            <Filter :size="16" :stroke-width="2" />
+            Matériaux
+          </button>
+          <button
+            class="tab-button"
+            :class="{ active: selectedTab === 'recipes' }"
+            @click="switchTab('recipes')"
+          >
+            <Hammer :size="16" :stroke-width="2" />
+            Recettes
+          </button>
+        </div>
+
+        <!-- Search & Filter Controls -->
+        <div class="controls-section">
+          <!-- Search Input -->
+          <div class="search-box">
+            <Search :size="16" :stroke-width="2" class="search-icon" />
+            <input
+              type="text"
+              class="search-input"
+              placeholder="Rechercher..."
+              :value="localSearchQuery"
+              @input="handleSearchInput"
+            />
+          </div>
+
+          <!-- Category Filter -->
+          <div class="filter-box">
+            <Filter :size="16" :stroke-width="2" class="filter-icon" />
+            <select
+              class="filter-select"
+              :value="selectedCategory"
+              @change="handleCategoryChange"
+            >
+              <option
+                v-for="category in availableCategories"
+                :key="category"
+                :value="category"
+              >
+                {{
+                  category === "all"
+                    ? "Toutes catégories"
+                    : category.charAt(0).toUpperCase() + category.slice(1)
+                }}
+              </option>
+            </select>
+          </div>
         </div>
 
         <nav class="codex-nav">
           <div class="nav-section">
-            <h3 class="nav-section-title">Table des Matières</h3>
-            <ul class="nav-list">
+            <h3 class="nav-section-title">
+              {{ categoryDisplayName }} ({{ displayedItems.length }})
+            </h3>
+            <ul v-if="displayedItems.length > 0" class="nav-list">
               <li
-                v-for="(item, index) in bdd.metaux"
+                v-for="(item, index) in displayedItems"
                 :key="item.id"
                 class="nav-item"
-                :class="{ active: selectedMaterial === index }"
-                @click="scrollToMaterial(index)"
+                :class="{ active: selectedItemIndex === index }"
+                @click="scrollToItem(index)"
               >
                 <span class="nav-number">{{
                   String(index + 1).padStart(2, "0")
@@ -29,11 +88,21 @@
                 <span class="nav-arrow">→</span>
               </li>
             </ul>
+            <div v-else class="empty-state">
+              <p class="empty-text">Aucun élément découvert</p>
+              <p class="empty-hint">
+                {{
+                  selectedTab === "materials"
+                    ? "Achetez des matériaux pour les découvrir"
+                    : "Forgez des objets pour découvrir des recettes"
+                }}
+              </p>
+            </div>
           </div>
 
           <div class="sidebar-footer">
             <div class="progress-indicator">
-              <div class="progress-label">Documentation</div>
+              <div class="progress-label">Documentation ({{ statsText }})</div>
               <div class="progress-bar-mini">
                 <div
                   class="progress-fill-mini"
@@ -58,14 +127,11 @@
           </div>
           <h1 class="content-title">
             <span class="title-ornament">◆</span>
-            Encyclopédie des Matériaux Nobles
+            {{ contentTitle }}
             <span class="title-ornament">◆</span>
           </h1>
           <p class="content-description">
-            Recueil exhaustif des métaux, alliages et matériaux précieux
-            utilisés dans l'art ancestral de la forge. Chaque entrée détaille
-            les propriétés, origines et applications légendaires de ces
-            ressources exceptionnelles.
+            {{ contentDescription }}
           </p>
           <div class="header-ornament-bottom">
             <Hammer :size="16" :stroke-width="2" class="ornament-icon" />
@@ -74,19 +140,40 @@
           </div>
         </header>
 
-        <div class="materials-list">
+        <div v-if="displayedItems.length > 0" class="materials-list">
           <Card
-            :ref="'material-' + index"
-            v-for="(item, index) in bdd.metaux"
+            :ref="'item-' + index"
+            v-for="(item, index) in displayedItems"
             :key="item.id"
             :item="item"
             :index="index"
+            :item-type="selectedTab"
           />
         </div>
 
-        <footer class="content-footer">
+        <div v-else class="content-empty-state">
+          <div class="empty-icon">
+            <BookOpen :size="64" :stroke-width="1.5" />
+          </div>
+          <h2 class="empty-title">Aucune entrée découverte</h2>
+          <p class="empty-description">
+            {{
+              selectedTab === "materials"
+                ? "Explorez le marché et achetez des matériaux pour les ajouter au codex."
+                : "Forgez vos premières créations pour découvrir de nouvelles recettes."
+            }}
+          </p>
+        </div>
+
+        <footer v-if="displayedItems.length > 0" class="content-footer">
           <div class="footer-ornament">◆</div>
-          <p class="footer-text">Fin du Chapitre I : Les Métaux Fondamentaux</p>
+          <p class="footer-text">
+            {{
+              selectedTab === "materials"
+                ? `Chapitre ${categoryDisplayName} : ${displayedItems.length} entrée(s)`
+                : `Recettes ${categoryDisplayName} : ${displayedItems.length} formule(s)`
+            }}
+          </p>
           <p class="footer-subtext">
             Pour plus d'informations, consultez les maîtres forgerons de la
             guilde
@@ -99,8 +186,9 @@
 
 <script>
 import Card from "@/shared/ui/MainCard.vue";
-import bdd from "@/shared/Material.json";
-import { BookOpen, Hammer } from "lucide-vue-next";
+import { mapState, mapActions } from "pinia";
+import { useCodexStore } from "@/stores/codex";
+import { BookOpen, Hammer, Search, Filter } from "lucide-vue-next";
 
 export default {
   name: "WikiCodex",
@@ -108,22 +196,132 @@ export default {
     Card,
     BookOpen,
     Hammer,
+    Search,
+    Filter,
   },
   data() {
     return {
-      bdd: bdd,
-      selectedMaterial: 0,
-      completionRate: 100,
+      selectedItemIndex: 0,
+      localSearchQuery: "",
     };
   },
+  computed: {
+    ...mapState(useCodexStore, [
+      "filteredMaterials",
+      "filteredRecipes",
+      "selectedTab",
+      "selectedCategory",
+      "materialsDiscoveryStats",
+      "recipesDiscoveryStats",
+      "globalCompletionRate",
+      "availableCategories",
+    ]),
+
+    // Switch between materials and recipes based on tab
+    displayedItems() {
+      return this.selectedTab === "materials"
+        ? this.filteredMaterials
+        : this.filteredRecipes;
+    },
+
+    // Dynamic completion rate
+    completionRate() {
+      return this.selectedTab === "materials"
+        ? this.materialsDiscoveryStats.percentage
+        : this.recipesDiscoveryStats.percentage;
+    },
+
+    // Dynamic stats text
+    statsText() {
+      const stats =
+        this.selectedTab === "materials"
+          ? this.materialsDiscoveryStats
+          : this.recipesDiscoveryStats;
+      return `${stats.discovered} / ${stats.total}`;
+    },
+
+    // Tab title
+    tabTitle() {
+      return this.selectedTab === "materials"
+        ? "Codex des Matériaux"
+        : "Codex des Recettes";
+    },
+
+    // Tab subtitle
+    tabSubtitle() {
+      return this.selectedTab === "materials"
+        ? "Index Alchimique"
+        : "Recueil des Créations";
+    },
+
+    // Content title
+    contentTitle() {
+      return this.selectedTab === "materials"
+        ? "Encyclopédie des Matériaux Nobles"
+        : "Encyclopédie des Créations Légendaires";
+    },
+
+    // Content description
+    contentDescription() {
+      return this.selectedTab === "materials"
+        ? "Recueil exhaustif des métaux, alliages et matériaux précieux utilisés dans l'art ancestral de la forge. Chaque entrée détaille les propriétés, origines et applications légendaires de ces ressources exceptionnelles."
+        : "Collection complète des recettes de forge, des armes communes aux artefacts légendaires. Chaque recette détaille les matériaux requis, le niveau nécessaire et les propriétés exceptionnelles des créations.";
+    },
+
+    // Category display name
+    categoryDisplayName() {
+      const categoryNames = {
+        all: "Toutes",
+        // Materials
+        metaux: "Métaux",
+        bois: "Bois",
+        pierres: "Pierres",
+        gemmes: "Gemmes",
+        speciaux: "Spéciaux",
+        // Recipes
+        armes: "Armes",
+        armures: "Armures",
+        outils: "Outils",
+        bijoux: "Bijoux",
+        consommables: "Consommables",
+      };
+      return categoryNames[this.selectedCategory] || this.selectedCategory;
+    },
+  },
   methods: {
-    scrollToMaterial(index) {
-      this.selectedMaterial = index;
-      const element = this.$refs["material-" + index];
+    ...mapActions(useCodexStore, [
+      "setTab",
+      "setCategory",
+      "setSearchQuery",
+      "initialize",
+    ]),
+
+    scrollToItem(index) {
+      this.selectedItemIndex = index;
+      const element = this.$refs["item-" + index];
       if (element && element[0]) {
         element[0].$el.scrollIntoView({ behavior: "smooth", block: "start" });
       }
     },
+
+    handleSearchInput(event) {
+      this.localSearchQuery = event.target.value;
+      this.setSearchQuery(this.localSearchQuery);
+    },
+
+    handleCategoryChange(event) {
+      this.setCategory(event.target.value);
+    },
+
+    switchTab(tab) {
+      this.setTab(tab);
+      this.selectedItemIndex = 0;
+      this.localSearchQuery = "";
+    },
+  },
+  mounted() {
+    const codexStore = useCodexStore();
+    codexStore.initialize(); // Auto-discover tier 1 materials
   },
 };
 </script>
@@ -225,6 +423,103 @@ export default {
   font-weight: 300;
 }
 
+/* Tab Switcher */
+.tab-switcher {
+  display: flex;
+  gap: 0.5rem;
+  padding: 1rem 1.5rem;
+  border-bottom: 2px solid rgba(161, 152, 130, 0.2);
+}
+
+.tab-button {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: rgba(25, 25, 25, 0.5);
+  border: 1px solid rgba(161, 152, 130, 0.3);
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.tab-button:hover {
+  background: rgba(161, 152, 130, 0.15);
+  color: white;
+  border-color: var(--auburn);
+}
+
+.tab-button.active {
+  background: linear-gradient(135deg, var(--auburn), rgba(133, 50, 51, 0.8));
+  color: white;
+  border-color: var(--auburn);
+  box-shadow: 0 2px 8px rgba(133, 50, 51, 0.4);
+}
+
+/* Controls Section */
+.controls-section {
+  padding: 1rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  border-bottom: 2px solid rgba(161, 152, 130, 0.2);
+}
+
+.search-box,
+.filter-box {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(25, 25, 25, 0.5);
+  border: 1px solid rgba(161, 152, 130, 0.3);
+  padding: 0.5rem 0.75rem;
+  transition: all 0.3s ease;
+}
+
+.search-box:focus-within,
+.filter-box:focus-within {
+  border-color: var(--viridian);
+  background: rgba(25, 25, 25, 0.7);
+}
+
+.search-icon,
+.filter-icon {
+  color: var(--dun);
+  flex-shrink: 0;
+}
+
+.search-input,
+.filter-select {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: white;
+  font-size: 0.9rem;
+  font-family: inherit;
+}
+
+.search-input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.filter-select {
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.filter-select option {
+  background: var(--jet);
+  color: white;
+}
+
+/* Navigation */
 .codex-nav {
   padding: 1.5rem 0;
 }
@@ -307,6 +602,61 @@ export default {
   transform: translateX(0);
 }
 
+/* Empty States */
+.empty-state {
+  padding: 2rem 1rem;
+  text-align: center;
+}
+
+.empty-text {
+  font-size: 0.95rem;
+  color: rgba(161, 152, 130, 0.6);
+  margin: 0 0 0.5rem 0;
+  font-style: italic;
+}
+
+.empty-hint {
+  font-size: 0.8rem;
+  color: rgba(161, 152, 130, 0.4);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.content-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  padding: 3rem;
+  text-align: center;
+  background: rgba(25, 25, 25, 0.3);
+  border: 2px dashed rgba(161, 152, 130, 0.3);
+  margin: 2rem 0;
+}
+
+.empty-icon {
+  color: rgba(161, 152, 130, 0.3);
+  margin-bottom: 1.5rem;
+}
+
+.empty-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--dun);
+  margin: 0 0 1rem 0;
+  font-family: "Palatino", serif;
+}
+
+.empty-description {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.6);
+  max-width: 500px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Sidebar Footer */
 .sidebar-footer {
   padding: 1.5rem;
   border-top: 2px solid rgba(161, 152, 130, 0.2);

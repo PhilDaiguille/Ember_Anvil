@@ -1,4 +1,7 @@
 <script>
+import { mapState, mapActions, mapWritableState } from "pinia";
+import { usePlayerStore } from "@/stores/player";
+import { useWorkshopStore } from "@/stores/workshop";
 import {
   Wrench,
   Hammer,
@@ -40,279 +43,103 @@ export default {
   },
   data() {
     return {
-      playerResources: {
-        ecus: 5000,
-        or: 250,
-        experience: 1850,
-      },
-      tools: [
-        {
-          id: 1,
-          nom: "Marteau Lourd",
-          niveau: 5,
-          niveauMax: 10,
-          pouvoir: 85,
-          icone: "Hammer",
-          coutUpgrade: 500,
-          bonusFacilite: "Station de Trempage",
-        },
-        {
-          id: 2,
-          nom: "Enclume Renforcée",
-          niveau: 3,
-          niveauMax: 10,
-          pouvoir: 60,
-          icone: "Anvil",
-          coutUpgrade: 800,
-          bonusFacilite: "Forge Élémentaire",
-        },
-        {
-          id: 3,
-          nom: "Four à Forge",
-          niveau: 7,
-          niveauMax: 10,
-          pouvoir: 92,
-          icone: "Flame",
-          coutUpgrade: 1200,
-          bonusFacilite: null,
-        },
-        {
-          id: 4,
-          nom: "Soufflet Magique",
-          niveau: 2,
-          niveauMax: 10,
-          pouvoir: 45,
-          icone: "Wind",
-          coutUpgrade: 400,
-          bonusFacilite: "Table d'Enchantement",
-        },
-      ],
-      facilities: [
-        {
-          id: 1,
-          nom: "Station de Trempage",
-          niveau: 4,
-          niveauMax: 5,
-          description: "Améliore la qualité des armes",
-          icone: "Droplet",
-          actif: true,
-          coutUpgrade: 1000,
-          coutActivation: 50,
-          bonusProductivite: 15,
-        },
-        {
-          id: 2,
-          nom: "Table d'Enchantement",
-          niveau: 2,
-          niveauMax: 5,
-          description: "Ajoute des propriétés magiques",
-          icone: "Sparkles",
-          actif: false,
-          coutUpgrade: 1500,
-          coutActivation: 75,
-          bonusProductivite: 25,
-        },
-        {
-          id: 3,
-          nom: "Forge Élémentaire",
-          niveau: 1,
-          niveauMax: 5,
-          description: "Travaille les métaux rares",
-          icone: "Zap",
-          actif: true,
-          coutUpgrade: 2000,
-          coutActivation: 100,
-          bonusProductivite: 30,
-        },
-      ],
-      quetes: [
-        {
-          id: 1,
-          nom: "Améliorer 3 outils",
-          progression: 0,
-          objectif: 3,
-          recompense: { ecus: 1000, experience: 200 },
-          terminee: false,
-        },
-        {
-          id: 2,
-          nom: "Activer toutes les installations",
-          progression: 2,
-          objectif: 3,
-          recompense: { ecus: 1500, or: 50 },
-          terminee: false,
-        },
-      ],
-      historique: [],
       selectedTool: null,
       upgrading: false,
-      showNotification: false,
-      notificationMessage: "",
-      notificationType: "success",
     };
   },
   computed: {
-    productiviteGlobale() {
-      let total = 0;
-      this.tools.forEach((tool) => {
-        total += tool.pouvoir;
-      });
-      this.facilities.forEach((facility) => {
-        if (facility.actif) {
-          total += facility.bonusProductivite;
-        }
-      });
-      return Math.round(total / (this.tools.length + 1));
+    ...mapState(usePlayerStore, ["ecus", "or", "experience"]),
+    ...mapState(useWorkshopStore, [
+      "allTools",
+      "allFacilities",
+      "activeQuests",
+      "historique",
+      "productiviteGlobale",
+      "bonusActifs",
+      "hasActiveSynergy",
+      "activeSynergiesCount",
+    ]),
+
+    // Player resources for display
+    playerResources() {
+      return {
+        ecus: this.ecus,
+        or: this.or,
+        experience: this.experience,
+      };
     },
-    bonusActifs() {
-      return this.facilities.filter((f) => f.actif).length;
+
+    // Tools for iteration
+    tools() {
+      return this.allTools;
     },
-    hasActiveSynergy() {
-      return this.tools.some((tool) => {
-        const facility = this.facilities.find(
-          (f) => f.nom === tool.bonusFacilite && f.actif,
-        );
-        return facility !== undefined;
-      });
+
+    // Facilities for iteration
+    facilities() {
+      return this.allFacilities;
+    },
+
+    // Quests for iteration
+    quetes() {
+      return this.activeQuests;
     },
   },
+  mounted() {
+    // Initialize workshop on mount
+    const workshopStore = useWorkshopStore();
+    workshopStore.initialize();
+  },
   methods: {
+    ...mapActions(useWorkshopStore, [
+      "upgradeTool",
+      "toggleFacility",
+      "upgradeFacility",
+    ]),
+
     selectTool(tool) {
       this.selectedTool = tool;
     },
-    upgradeTool(tool) {
-      if (
-        tool.niveau < tool.niveauMax &&
-        this.playerResources.ecus >= tool.coutUpgrade
-      ) {
-        this.upgrading = true;
-        this.playerResources.ecus -= tool.coutUpgrade;
 
-        setTimeout(() => {
-          tool.niveau++;
-          tool.pouvoir = Math.min(100, tool.pouvoir + 5);
-          const oldCost = tool.coutUpgrade;
-          tool.coutUpgrade = Math.floor(tool.coutUpgrade * 1.5);
+    async handleUpgradeTool(tool) {
+      this.upgrading = true;
 
-          this.historique.unshift({
-            type: "upgrade",
-            nom: tool.nom,
-            details: `Niveau ${tool.niveau - 1} → ${tool.niveau}`,
-            cout: oldCost,
-            timestamp: new Date().toLocaleTimeString("fr-FR", {
-              hour: "2-digit",
-              minute: "2-digit",
-            }),
-          });
-
-          if (this.historique.length > 5) {
-            this.historique.pop();
-          }
-
-          this.playerResources.experience += 50;
-          this.upgrading = false;
-          this.showNotificationMessage(
-            `${tool.nom} amélioré avec succès!`,
-            "success",
-          );
-          this.verifierQuetes("upgrade");
-        }, 2000);
-      } else if (this.playerResources.ecus < tool.coutUpgrade) {
-        this.showNotificationMessage("Pas assez d'écus!", "error");
-      }
+      // Wait 2 seconds for animation
+      setTimeout(() => {
+        this.upgradeTool(tool.id);
+        this.upgrading = false;
+      }, 2000);
     },
-    toggleFacility(facility) {
-      if (facility.actif) {
-        facility.actif = false;
-        this.showNotificationMessage(`${facility.nom} désactivé`, "info");
-      } else if (this.playerResources.ecus >= facility.coutActivation) {
-        this.playerResources.ecus -= facility.coutActivation;
-        facility.actif = true;
-        this.showNotificationMessage(`${facility.nom} activé!`, "success");
-        this.verifierQuetes("activate");
-      } else {
-        this.showNotificationMessage("Pas assez d'écus!", "error");
-      }
+
+    handleToggleFacility(facility) {
+      this.toggleFacility(facility.id);
     },
-    upgradeFacility(facility) {
-      if (
-        facility.niveau < facility.niveauMax &&
-        this.playerResources.or >= facility.coutUpgrade / 10
-      ) {
-        const coutOr = facility.coutUpgrade / 10;
-        this.playerResources.or -= coutOr;
-        facility.niveau++;
-        facility.bonusProductivite += 5;
-        facility.coutUpgrade = Math.floor(facility.coutUpgrade * 1.5);
 
-        this.historique.unshift({
-          type: "facility",
-          nom: facility.nom,
-          details: `Niveau ${facility.niveau}`,
-          cout: coutOr,
-          timestamp: new Date().toLocaleTimeString("fr-FR", {
-            hour: "2-digit",
-            minute: "2-digit",
-          }),
-        });
-
-        if (this.historique.length > 5) {
-          this.historique.pop();
-        }
-
-        this.showNotificationMessage(`${facility.nom} amélioré!`, "success");
-      } else {
-        this.showNotificationMessage("Pas assez d'or!", "error");
-      }
+    handleUpgradeFacility(facility) {
+      this.upgradeFacility(facility.id);
     },
+
     getProgressPercentage(niveau, niveauMax) {
       return (niveau / niveauMax) * 100;
     },
-    showNotificationMessage(message, type = "success") {
-      this.notificationMessage = message;
-      this.notificationType = type;
-      this.showNotification = true;
-      setTimeout(() => {
-        this.showNotification = false;
-      }, 3000);
-    },
-    verifierQuetes(action) {
-      this.quetes.forEach((quete) => {
-        if (!quete.terminee) {
-          if (action === "upgrade" && quete.nom.includes("outils")) {
-            quete.progression = Math.min(quete.progression + 1, quete.objectif);
-          } else if (
-            action === "activate" &&
-            quete.nom.includes("installations")
-          ) {
-            quete.progression = this.facilities.filter((f) => f.actif).length;
-          }
 
-          if (quete.progression >= quete.objectif && !quete.terminee) {
-            quete.terminee = true;
-            if (quete.recompense.ecus) {
-              this.playerResources.ecus += quete.recompense.ecus;
-            }
-            if (quete.recompense.or) {
-              this.playerResources.or += quete.recompense.or;
-            }
-            if (quete.recompense.experience) {
-              this.playerResources.experience += quete.recompense.experience;
-            }
-            this.showNotificationMessage(
-              `Quête terminée: ${quete.nom}!`,
-              "success",
-            );
-          }
-        }
-      });
-    },
     hasSynergy(tool) {
-      if (!tool.bonusFacilite) return false;
-      const facility = this.facilities.find(
-        (f) => f.nom === tool.bonusFacilite && f.actif,
-      );
-      return facility !== undefined;
+      const workshopStore = useWorkshopStore();
+      return workshopStore.hasSynergy(tool.id);
+    },
+
+    canUpgradeTool(tool) {
+      const workshopStore = useWorkshopStore();
+      return workshopStore.canUpgradeTool(tool.id);
+    },
+
+    canUpgradeFacility(facility) {
+      const workshopStore = useWorkshopStore();
+      return workshopStore.canUpgradeFacility(facility.id);
+    },
+
+    canActivateFacility(facility) {
+      const workshopStore = useWorkshopStore();
+      return workshopStore.canActivateFacility(facility.id);
     },
   },
 };
@@ -491,12 +318,8 @@ export default {
 
               <button
                 class="upgrade-btn"
-                :disabled="
-                  tool.niveau >= tool.niveauMax ||
-                  upgrading ||
-                  playerResources.ecus < tool.coutUpgrade
-                "
-                @click.stop="upgradeTool(tool)"
+                :disabled="!canUpgradeTool(tool) || upgrading"
+                @click.stop="handleUpgradeTool(tool)"
               >
                 <span v-if="tool.niveau >= tool.niveauMax" class="btn-text"
                   >MAX</span
@@ -583,28 +406,29 @@ export default {
                 <button
                   v-if="facility.actif"
                   class="facility-btn deactivate-btn"
-                  @click="toggleFacility(facility)"
+                  @click="handleToggleFacility(facility)"
                 >
                   Désactiver
                 </button>
                 <button
                   v-else
                   class="facility-btn activate-btn"
-                  @click="toggleFacility(facility)"
+                  :disabled="!canActivateFacility(facility)"
+                  @click="handleToggleFacility(facility)"
                 >
                   Activer ({{ facility.coutActivation }} écus)
                 </button>
                 <button
                   class="facility-btn upgrade-facility-btn"
-                  :disabled="
-                    facility.niveau >= facility.niveauMax ||
-                    playerResources.or < facility.coutUpgrade / 10
-                  "
-                  @click="upgradeFacility(facility)"
+                  :disabled="!canUpgradeFacility(facility)"
+                  @click="handleUpgradeFacility(facility)"
                 >
                   <span v-if="facility.niveau >= facility.niveauMax">MAX</span>
                   <span v-else
-                    >Améliorer ({{ facility.coutUpgrade / 10 }} or)</span
+                    >Améliorer ({{
+                      Math.floor(facility.coutUpgrade / 10)
+                    }}
+                    or)</span
                   >
                 </button>
               </div>
@@ -714,10 +538,9 @@ export default {
             </div>
             <div class="history-meta">
               <span class="history-cost"
-                >-{{ item.cout }}
-                {{ item.type === "facility" ? "or" : "écus" }}</span
+                >-{{ item.cout }} {{ item.devise }}</span
               >
-              <span class="history-time">{{ item.timestamp }}</span>
+              <span class="history-time">{{ item.time }}</span>
             </div>
           </div>
         </div>
@@ -737,30 +560,6 @@ export default {
           <p class="upgrade-text">Amélioration en cours...</p>
         </div>
       </div>
-    </Teleport>
-
-    <!-- Notification Toast -->
-    <Teleport to="body">
-      <transition name="notification">
-        <div
-          v-if="showNotification"
-          class="notification-toast"
-          :class="`notification-${notificationType}`"
-        >
-          <CheckCircle
-            v-if="notificationType === 'success'"
-            :size="20"
-            :stroke-width="2"
-          />
-          <Flame
-            v-else-if="notificationType === 'error'"
-            :size="20"
-            :stroke-width="2"
-          />
-          <Sparkles v-else :size="20" :stroke-width="2" />
-          <span>{{ notificationMessage }}</span>
-        </div>
-      </transition>
     </Teleport>
   </main>
 </template>
@@ -1146,7 +945,6 @@ export default {
 .tool-level-badge {
   padding: 0.5rem 1rem;
   background: var(--auburn);
-
   font-size: 0.85rem;
   font-weight: 700;
   color: white;
@@ -1194,7 +992,6 @@ export default {
 .progress-bar-small {
   height: 8px;
   background: rgba(25, 25, 25, 0.8);
-
   overflow: hidden;
   margin-bottom: 1rem;
 }
@@ -1202,7 +999,6 @@ export default {
 .progress-fill-small {
   height: 100%;
   background: linear-gradient(90deg, var(--auburn), var(--viridian));
-
   transition: width 0.5s ease;
 }
 
@@ -1224,7 +1020,6 @@ export default {
   position: relative;
   height: 32px;
   background: rgba(25, 25, 25, 0.8);
-
   overflow: hidden;
   border: 1px solid rgba(161, 152, 130, 0.2);
 }
@@ -1232,7 +1027,6 @@ export default {
 .power-fill {
   height: 100%;
   background: linear-gradient(90deg, var(--viridian), var(--sea-green));
-
   transition: width 0.5s ease;
   box-shadow: 0 0 12px rgba(0, 114, 87, 0.5);
 }
@@ -1253,7 +1047,6 @@ export default {
   padding: 1rem;
   background: linear-gradient(135deg, var(--sea-green), var(--viridian));
   border: none;
-
   color: white;
   font-weight: 700;
   cursor: pointer;
@@ -1434,114 +1227,6 @@ export default {
   font-size: 1.25rem;
   font-weight: 800;
   color: var(--sea-green);
-}
-
-.facility-card:hover {
-  border-color: rgba(161, 152, 130, 0.5);
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-}
-
-.facility-card.inactive {
-  opacity: 0.6;
-}
-
-.facility-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1.5rem;
-}
-
-.facility-icon-wrapper {
-  width: 60px;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: radial-gradient(circle, rgba(161, 152, 130, 0.2), transparent);
-}
-
-.facility-icon {
-  color: var(--sea-green);
-}
-
-.facility-status {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  background: rgba(25, 25, 25, 0.5);
-
-  font-size: 0.85rem;
-  font-weight: 600;
-}
-
-.status-dot {
-  width: 8px;
-  height: 8px;
-  background: rgba(161, 152, 130, 0.5);
-
-  animation: statusPulse 2s ease-in-out infinite;
-}
-
-.status-dot.active {
-  background: var(--sea-green);
-  box-shadow: 0 0 8px rgba(0, 114, 87, 0.6);
-}
-
-@keyframes statusPulse {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
-  }
-}
-
-.facility-name {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--dun);
-  margin: 0 0 0.75rem 0;
-  font-family: "Georgia", serif;
-}
-
-.facility-description {
-  font-size: 0.95rem;
-  line-height: 1.6;
-  color: rgba(255, 255, 255, 0.75);
-  margin: 0 0 1.5rem 0;
-}
-
-.facility-level {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1.5rem;
-}
-
-.level-label {
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: var(--dun);
-}
-
-.level-stars {
-  display: flex;
-  gap: 0.25rem;
-}
-
-.star {
-  font-size: 1.2rem;
-  color: rgba(161, 152, 130, 0.3);
-  transition: color 0.3s ease;
-}
-
-.star.filled {
-  color: #d4af37;
-  text-shadow: 0 0 8px rgba(212, 175, 55, 0.6);
 }
 
 .facility-actions {
@@ -1806,54 +1491,6 @@ export default {
 .history-time {
   font-size: 0.75rem;
   color: rgba(161, 152, 130, 0.6);
-}
-
-/* Notification Toast */
-.notification-toast {
-  position: fixed;
-  top: 2rem;
-  right: 2rem;
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 1rem 1.5rem;
-  background: rgba(15, 13, 10, 0.95);
-  border: 2px solid;
-  border-radius: 0.75rem;
-  font-weight: 600;
-  z-index: 9999;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(10px);
-}
-
-.notification-success {
-  border-color: var(--sea-green);
-  color: var(--sea-green);
-}
-
-.notification-error {
-  border-color: var(--auburn);
-  color: var(--auburn);
-}
-
-.notification-info {
-  border-color: rgba(161, 152, 130, 0.5);
-  color: var(--dun);
-}
-
-.notification-enter-active,
-.notification-leave-active {
-  transition: all 0.3s ease;
-}
-
-.notification-enter-from {
-  opacity: 0;
-  transform: translateX(100px);
-}
-
-.notification-leave-to {
-  opacity: 0;
-  transform: translateX(100px);
 }
 
 /* Upgrade Overlay */
