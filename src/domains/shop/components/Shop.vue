@@ -1,4 +1,5 @@
 <script>
+import { mapState, mapActions } from "pinia";
 import ShopCardVue from "@/domains/shop/components/ShopCard.vue";
 import {
   Crown,
@@ -9,6 +10,10 @@ import {
   Search,
   Shield,
 } from "lucide-vue-next";
+import { usePlayerStore } from "@/stores/player";
+import { useInventoryStore } from "@/stores/inventory";
+import { useNotificationsStore } from "@/stores/notifications";
+import { MATERIALS_ARRAY } from "@/data/materials";
 
 export default {
   name: "ShopPage",
@@ -25,13 +30,86 @@ export default {
   data() {
     return {
       selectedFilter: "all",
-      walletBalance: 1250,
       searchQuery: "",
     };
   },
+  computed: {
+    ...mapState(usePlayerStore, ["ecus"]),
+    filteredMaterials() {
+      let filtered = MATERIALS_ARRAY;
+
+      // Filter by rarity
+      if (this.selectedFilter !== "all") {
+        filtered = filtered.filter((mat) => mat.rarity === this.selectedFilter);
+      }
+
+      // Filter by search query
+      if (this.searchQuery.trim()) {
+        const query = this.searchQuery.toLowerCase();
+        filtered = filtered.filter(
+          (mat) =>
+            mat.nom.toLowerCase().includes(query) ||
+            mat.type.toLowerCase().includes(query),
+        );
+      }
+
+      return filtered;
+    },
+  },
   methods: {
+    ...mapActions(usePlayerStore, ["retirerEcus", "ajouterEcus"]),
+    ...mapActions(useInventoryStore, [
+      "ajouterMaterial",
+      "retirerMaterial",
+      "hasEnough",
+    ]),
+    ...mapActions(useNotificationsStore, ["ajouterNotification"]),
     setFilter(filter) {
       this.selectedFilter = filter;
+    },
+    acheterMaterial(material, quantite = 1) {
+      const cout = material.prixAchat * quantite;
+      const playerStore = usePlayerStore();
+
+      // Vérifier si le joueur a assez d'écus
+      if (!playerStore.peutAcheter(cout)) {
+        this.ajouterNotification({
+          type: "error",
+          message: `Fonds insuffisants ! Il vous manque ${cout - this.ecus} écus.`,
+        });
+        return;
+      }
+
+      // Effectuer la transaction
+      this.retirerEcus(cout);
+      this.ajouterMaterial(material.id, quantite);
+
+      this.ajouterNotification({
+        type: "success",
+        message: `${material.nom} ×${quantite} acheté pour ${cout} écus !`,
+      });
+    },
+    vendreMaterial(material, quantite = 1) {
+      const inventoryStore = useInventoryStore();
+
+      // Vérifier si le joueur a assez de matériau
+      if (!inventoryStore.hasEnough(material.id, quantite)) {
+        this.ajouterNotification({
+          type: "error",
+          message: `Vous n'avez pas assez de ${material.nom} à vendre.`,
+        });
+        return;
+      }
+
+      // Effectuer la transaction
+      const gain = material.prixVente * quantite;
+      this.retirerMaterial(material.id, quantite);
+      this.ajouterEcus(gain);
+
+      this.ajouterNotification({
+        type: "success",
+        message: `${material.nom} ×${quantite} vendu pour ${gain} écus !`,
+      });
     },
   },
 };
@@ -59,7 +137,7 @@ export default {
             <Wallet class="wallet-icon" :size="32" :stroke-width="2" />
             <div class="wallet-info">
               <div class="wallet-label">Votre Trésor</div>
-              <div class="wallet-amount">{{ walletBalance }} écus</div>
+              <div class="wallet-amount">{{ ecus.toLocaleString() }} écus</div>
             </div>
           </div>
         </div>
@@ -119,7 +197,13 @@ export default {
 
       <!-- Shop Cards Grid -->
       <div class="marketplace-grid">
-        <ShopCardVue />
+        <ShopCardVue
+          v-for="material in filteredMaterials"
+          :key="material.id"
+          :material="material"
+          @acheter="acheterMaterial"
+          @vendre="vendreMaterial"
+        />
       </div>
 
       <!-- Footer Banner -->

@@ -1,27 +1,24 @@
 <template>
-  <article
-    v-for="item in bdd.metaux"
-    :key="item.id"
-    class="material-card"
-    :data-material="item.nom.toLowerCase()"
-  >
+  <article class="material-card" :data-material="material.nom.toLowerCase()">
     <div class="card-header">
-      <div class="rarity-badge">
+      <div class="rarity-badge" :class="`rarity-${material.rarity}`">
         <Star class="rarity-icon" :size="14" :stroke-width="2.5" />
-        <span class="rarity-text">Premium</span>
+        <span class="rarity-text">{{ rarityLabel }}</span>
       </div>
       <Crown class="card-ornament" :size="20" :stroke-width="2" />
     </div>
 
     <div class="card-image-container">
       <div class="image-glow"></div>
-      <img :src="item.image" :alt="item.nom" class="material-image" />
+      <div class="material-icon-placeholder">
+        <Package :size="80" :stroke-width="1.5" />
+      </div>
       <div class="image-overlay"></div>
     </div>
 
     <div class="card-content">
-      <h3 class="material-name">{{ item.nom }}</h3>
-      <p class="material-description">{{ item.description }}</p>
+      <h3 class="material-name">{{ material.nom }}</h3>
+      <p class="material-type">{{ typeLabel }} • Tier {{ material.tier }}</p>
 
       <div class="pricing-section">
         <div class="price-box buy-price">
@@ -29,7 +26,7 @@
             <Coins class="price-icon" :size="18" :stroke-width="2" />
             <span>Achat</span>
           </div>
-          <div class="price-value">{{ item.achat }}</div>
+          <div class="price-value">{{ material.prixAchat }}</div>
         </div>
         <div class="price-divider"></div>
         <div class="price-box sell-price">
@@ -37,17 +34,21 @@
             <DollarSign class="price-icon" :size="18" :stroke-width="2" />
             <span>Vente</span>
           </div>
-          <div class="price-value">{{ item.vente }}</div>
+          <div class="price-value">{{ material.prixVente }}</div>
         </div>
       </div>
 
       <div class="card-actions">
-        <button class="action-btn buy-btn">
+        <button class="action-btn buy-btn" @click="$emit('acheter', material)">
           <ShoppingCart class="btn-icon" :size="18" :stroke-width="2" />
           <span class="btn-text">Acheter</span>
           <span class="btn-shine"></span>
         </button>
-        <button class="action-btn sell-btn">
+        <button
+          class="action-btn sell-btn"
+          @click="$emit('vendre', material)"
+          :disabled="quantitePossedee === 0"
+        >
           <TrendingUp class="btn-icon" :size="18" :stroke-width="2" />
           <span class="btn-text">Vendre</span>
         </button>
@@ -55,16 +56,21 @@
     </div>
 
     <div class="card-footer">
-      <div class="stock-indicator">
+      <div class="stock-indicator" v-if="quantitePossedee > 0">
+        <Package class="stock-icon" :size="14" :stroke-width="2" />
+        <span class="stock-text">Vous possédez: {{ quantitePossedee }}</span>
+      </div>
+      <div class="stock-indicator" v-else>
         <span class="stock-dot"></span>
-        <span class="stock-text">En stock</span>
+        <span class="stock-text">Disponible</span>
       </div>
     </div>
   </article>
 </template>
 
 <script>
-import bdd from "@/shared/Material.json";
+import { mapState } from "pinia";
+import { useInventoryStore } from "@/stores/inventory";
 import {
   Star,
   Crown,
@@ -72,6 +78,7 @@ import {
   DollarSign,
   ShoppingCart,
   TrendingUp,
+  Package,
 } from "lucide-vue-next";
 
 export default {
@@ -83,11 +90,39 @@ export default {
     DollarSign,
     ShoppingCart,
     TrendingUp,
+    Package,
   },
-  data() {
-    return {
-      bdd: bdd,
-    };
+  props: {
+    material: {
+      type: Object,
+      required: true,
+    },
+  },
+  computed: {
+    quantitePossedee() {
+      const inventoryStore = useInventoryStore();
+      return inventoryStore.getQuantite(this.material.id);
+    },
+    rarityLabel() {
+      const labels = {
+        common: "Commun",
+        uncommon: "Peu commun",
+        rare: "Rare",
+        epic: "Épique",
+        legendary: "Légendaire",
+      };
+      return labels[this.material.rarity] || "Commun";
+    },
+    typeLabel() {
+      const labels = {
+        metal: "Métal",
+        bois: "Bois",
+        pierre: "Pierre",
+        gemme: "Gemme",
+        special: "Spécial",
+      };
+      return labels[this.material.type] || this.material.type;
+    },
   },
 };
 </script>
@@ -192,6 +227,56 @@ export default {
   color: #d4af37;
 }
 
+.rarity-badge.rarity-common {
+  background: linear-gradient(
+    135deg,
+    rgba(161, 152, 130, 0.2),
+    rgba(161, 152, 130, 0.1)
+  );
+  border-color: rgba(161, 152, 130, 0.3);
+  color: var(--dun);
+}
+
+.rarity-badge.rarity-uncommon {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 255, 0, 0.2),
+    rgba(0, 255, 0, 0.1)
+  );
+  border-color: rgba(0, 255, 0, 0.3);
+  color: #3fde3f;
+}
+
+.rarity-badge.rarity-rare {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 112, 221, 0.2),
+    rgba(0, 112, 221, 0.1)
+  );
+  border-color: rgba(0, 112, 221, 0.3);
+  color: #3a9fff;
+}
+
+.rarity-badge.rarity-epic {
+  background: linear-gradient(
+    135deg,
+    rgba(163, 53, 238, 0.2),
+    rgba(163, 53, 238, 0.1)
+  );
+  border-color: rgba(163, 53, 238, 0.3);
+  color: #a335ee;
+}
+
+.rarity-badge.rarity-legendary {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 128, 0, 0.2),
+    rgba(255, 128, 0, 0.1)
+  );
+  border-color: rgba(255, 128, 0, 0.3);
+  color: #ff8000;
+}
+
 .rarity-icon {
   font-size: 0.85rem;
   animation: starTwinkle 2s ease-in-out infinite;
@@ -265,8 +350,30 @@ export default {
   transition: transform 0.4s ease;
 }
 
-.material-card:hover .material-image {
+.material-icon-placeholder {
+  width: 140px;
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+  color: rgba(161, 152, 130, 0.6);
+  transition: transform 0.4s ease;
+}
+
+.material-card:hover .material-image,
+.material-card:hover .material-icon-placeholder {
   transform: scale(1.08) rotate(5deg);
+}
+
+.material-type {
+  font-size: 0.85rem;
+  color: rgba(161, 152, 130, 0.8);
+  margin: -0.5rem 0 0 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
 }
 
 .image-overlay {
@@ -447,6 +554,22 @@ export default {
   box-shadow: 0 6px 20px rgba(133, 50, 51, 0.35);
 }
 
+.sell-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: linear-gradient(
+    135deg,
+    rgba(100, 100, 100, 0.5),
+    rgba(80, 80, 80, 0.5)
+  );
+  border-color: rgba(100, 100, 100, 0.3);
+}
+
+.sell-btn:disabled:hover {
+  transform: none;
+  box-shadow: none;
+}
+
 .btn-icon {
   font-size: 1.1rem;
 }
@@ -470,6 +593,10 @@ export default {
   color: var(--dun);
   text-transform: uppercase;
   letter-spacing: 0.08em;
+}
+
+.stock-icon {
+  color: var(--sea-green);
 }
 
 .stock-dot {

@@ -56,10 +56,38 @@
 
       <!-- User Section -->
       <div class="user-section">
-        <div class="currency-display">
+        <!-- Écus -->
+        <div class="currency-display ecus">
           <Coins class="currency-icon" :size="20" :stroke-width="2" />
-          <span class="currency-value">1,250</span>
+          <span class="currency-value">{{ ecus.toLocaleString() }}</span>
         </div>
+
+        <!-- Or (Gold) - Only if > 0 -->
+        <div v-if="or > 0" class="currency-display gold">
+          <Gem class="currency-icon" :size="20" :stroke-width="2" />
+          <span class="currency-value">{{ or.toLocaleString() }}</span>
+        </div>
+
+        <!-- Player Level Badge -->
+        <div
+          class="level-badge"
+          @mouseenter="showXpBar = true"
+          @mouseleave="showXpBar = false"
+        >
+          <span class="level-text">Niv. {{ niveau }}</span>
+
+          <!-- XP Progress Bar (shown on hover) -->
+          <transition name="xp-slide">
+            <div v-if="showXpBar" class="xp-progress-container">
+              <div
+                class="xp-progress-bar"
+                :style="{ width: xpPourcentage + '%' }"
+              ></div>
+              <span class="xp-text">{{ xp }} / {{ xpRequis }} XP</span>
+            </div>
+          </transition>
+        </div>
+
         <button class="user-avatar" aria-label="Menu utilisateur">
           <Sword class="avatar-icon" :size="22" :stroke-width="2.5" />
         </button>
@@ -80,6 +108,8 @@
 </template>
 
 <script>
+import { mapState } from "pinia";
+import { usePlayerStore } from "@/stores/player";
 import {
   Flame,
   Hammer,
@@ -89,6 +119,7 @@ import {
   Wrench,
   User,
   Coins,
+  Gem,
   Sword,
 } from "lucide-vue-next";
 
@@ -103,12 +134,24 @@ export default {
     Wrench,
     User,
     Coins,
+    Gem,
     Sword,
   },
   data() {
     return {
       menuOpen: false,
+      showXpBar: false,
     };
+  },
+  computed: {
+    ...mapState(usePlayerStore, ["ecus", "or", "niveau", "xp"]),
+    xpRequis() {
+      const playerStore = usePlayerStore();
+      return playerStore.xpPourProchainNiveau;
+    },
+    xpPourcentage() {
+      return Math.min((this.xp / this.xpRequis) * 100, 100);
+    },
   },
   methods: {
     toggleMenu() {
@@ -299,7 +342,7 @@ export default {
 .user-section {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.75rem;
 }
 
 .currency-display {
@@ -307,16 +350,34 @@ export default {
   align-items: center;
   gap: 0.5rem;
   padding: 0.5rem 1rem;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  font-weight: 700;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+}
+
+.currency-display.ecus {
   background: linear-gradient(
     135deg,
     rgba(212, 175, 55, 0.15),
     rgba(161, 152, 130, 0.1)
   );
-  border: 1px solid rgba(212, 175, 55, 0.3);
-
-  font-weight: 700;
   color: #d4af37;
-  font-size: 0.95rem;
+}
+
+.currency-display.gold {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 128, 0, 0.15),
+    rgba(255, 165, 0, 0.1)
+  );
+  border-color: rgba(255, 128, 0, 0.3);
+  color: #ff8c00;
+}
+
+.currency-display:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .currency-icon {
@@ -332,6 +393,109 @@ export default {
   50% {
     transform: translateY(-3px);
   }
+}
+
+.level-badge {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  background: linear-gradient(135deg, var(--auburn), var(--viridian));
+  border: 2px solid rgba(161, 152, 130, 0.4);
+  font-weight: 800;
+  font-size: 0.9rem;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.level-badge:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+  border-color: var(--dun);
+}
+
+.level-text {
+  position: relative;
+  z-index: 2;
+}
+
+.xp-progress-container {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  width: 200px;
+  background: rgba(25, 25, 25, 0.95);
+  border: 2px solid rgba(161, 152, 130, 0.3);
+  padding: 0.75rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+  z-index: 1100;
+}
+
+.xp-progress-bar {
+  height: 8px;
+  background: linear-gradient(90deg, var(--sea-green), var(--viridian));
+  transition: width 0.4s ease;
+  box-shadow:
+    0 0 10px rgba(0, 114, 87, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.xp-progress-bar::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  animation: xpShine 2s ease-in-out infinite;
+}
+
+@keyframes xpShine {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+.xp-text {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--dun);
+  text-align: center;
+  font-weight: 600;
+}
+
+/* XP Bar Transition */
+.xp-slide-enter-active,
+.xp-slide-leave-active {
+  transition: all 0.3s ease;
+}
+
+.xp-slide-enter-from {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+.xp-slide-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
 }
 
 .user-avatar {
@@ -442,6 +606,15 @@ export default {
 
   .currency-display {
     display: none;
+  }
+
+  .level-badge {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.8rem;
+  }
+
+  .xp-progress-container {
+    width: 160px;
   }
 
   .user-avatar {

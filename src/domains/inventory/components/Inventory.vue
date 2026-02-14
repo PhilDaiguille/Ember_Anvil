@@ -1,5 +1,20 @@
 <script>
-import { Package, Coins, Hammer, FlaskConical, Swords } from "lucide-vue-next";
+import { mapState, mapGetters, mapActions } from "pinia";
+import { useInventoryStore } from "@/stores/inventory";
+import { usePlayerStore } from "@/stores/player";
+import { useNotificationsStore } from "@/stores/notifications";
+import {
+  Package,
+  Coins,
+  Hammer,
+  FlaskConical,
+  Swords,
+  Star,
+  Search,
+  Shield,
+  Gem,
+  Wrench,
+} from "lucide-vue-next";
 
 export default {
   name: "InventoryComponent",
@@ -9,93 +24,162 @@ export default {
     Hammer,
     FlaskConical,
     Swords,
+    Star,
+    Search,
+    Shield,
+    Gem,
+    Wrench,
   },
   data() {
     return {
       selectedTab: "materials",
-      materials: [
-        {
-          id: 1,
-          nom: "Aluminium",
-          quantite: 45,
-          image: "./assets/Material/aluminium.png",
-          rarete: "Commun",
-        },
-        {
-          id: 2,
-          nom: "Cuivre",
-          quantite: 32,
-          image: "./assets/Material/cuivre.png",
-          rarete: "Rare",
-        },
-        {
-          id: 3,
-          nom: "Fer",
-          quantite: 78,
-          image: "./assets/Material/fer.png",
-          rarete: "Commun",
-        },
-        {
-          id: 4,
-          nom: "Étain",
-          quantite: 12,
-          image: "./assets/Material/fer.png",
-          rarete: "Rare",
-        },
-      ],
-      craftedItems: [
-        {
-          id: 1,
-          nom: "Épée de Fer",
-          type: "Arme",
-          qualite: "Excellente",
-          valeur: 350,
-        },
-        {
-          id: 2,
-          nom: "Marteau de Cuivre",
-          type: "Outil",
-          qualite: "Bonne",
-          valeur: 180,
-        },
-        {
-          id: 3,
-          nom: "Armure d'Aluminium",
-          type: "Protection",
-          qualite: "Supérieure",
-          valeur: 520,
-        },
-      ],
-      stats: {
-        capaciteMax: 500,
-        capaciteUtilisee: 167,
-        valeursTotal: 8940,
-        objetsCrees: 23,
-      },
+      searchQuery: "",
+      selectedFilter: "all", // all, common, uncommon, rare, epic, legendary
     };
   },
+  computed: {
+    ...mapState(useInventoryStore, ["capaciteMax", "craftedItems"]),
+    ...mapGetters(useInventoryStore, [
+      "capaciteUtilisee",
+      "pourcentageRemplissage",
+      "valeurTotale",
+      "materialsList",
+      "craftedItemsSorted",
+    ]),
+    ...mapState(usePlayerStore, ["ecus"]),
+
+    // Matériaux filtrés
+    materialsFiltered() {
+      let filtered = this.materialsList;
+
+      // Filtrer par rareté
+      if (this.selectedFilter !== "all") {
+        filtered = filtered.filter((m) => m.rarity === this.selectedFilter);
+      }
+
+      // Filtrer par recherche
+      if (this.searchQuery.trim()) {
+        const query = this.searchQuery.toLowerCase();
+        filtered = filtered.filter(
+          (m) =>
+            m.nom.toLowerCase().includes(query) ||
+            m.type.toLowerCase().includes(query),
+        );
+      }
+
+      return filtered;
+    },
+
+    // Objets forgés filtrés
+    craftedFiltered() {
+      let filtered = this.craftedItemsSorted;
+
+      // Filtrer par recherche
+      if (this.searchQuery.trim()) {
+        const query = this.searchQuery.toLowerCase();
+        filtered = filtered.filter(
+          (item) =>
+            item.nom.toLowerCase().includes(query) ||
+            item.categorie.toLowerCase().includes(query),
+        );
+      }
+
+      return filtered;
+    },
+
+    // Statistiques
+    stats() {
+      return {
+        capaciteMax: this.capaciteMax,
+        capaciteUtilisee: this.capaciteUtilisee,
+        valeurTotale: this.valeurTotale,
+        objetsCrees: this.craftedItems.length,
+      };
+    },
+  },
   methods: {
+    ...mapActions(useInventoryStore, ["retirerMaterial", "supprimerObjet"]),
+    ...mapActions(usePlayerStore, ["ajouterEcus"]),
+    ...mapActions(useNotificationsStore, ["ajouterNotification"]),
+
     setTab(tab) {
       this.selectedTab = tab;
+      this.searchQuery = "";
+      this.selectedFilter = "all";
     },
+
+    setFilter(filter) {
+      this.selectedFilter = filter;
+    },
+
     getCapacityPercentage() {
-      return (this.stats.capaciteUtilisee / this.stats.capaciteMax) * 100;
+      return this.pourcentageRemplissage;
     },
-    getRarityColor(rarete) {
-      const colors = {
-        Commun: "#a19880",
-        Rare: "#d4af37",
-        Légendaire: "#ff6420",
-      };
-      return colors[rarete] || "#a19880";
+
+    getRarityClass(rarity) {
+      return `rarity-${rarity}`;
     },
-    getQualityColor(qualite) {
-      const colors = {
-        Bonne: "#007257",
-        Excellente: "#d4af37",
-        Supérieure: "#ff6420",
+
+    getRarityLabel(rarity) {
+      const labels = {
+        common: "Commun",
+        uncommon: "Peu commun",
+        rare: "Rare",
+        epic: "Épique",
+        legendary: "Légendaire",
       };
-      return colors[qualite] || "#007257";
+      return labels[rarity] || "Commun";
+    },
+
+    getCategorieIcon(categorie) {
+      const icons = {
+        arme: "Swords",
+        armure: "Shield",
+        outil: "Wrench",
+        bijou: "Gem",
+        consommable: "FlaskConical",
+      };
+      return icons[categorie] || "Package";
+    },
+
+    vendreMaterial(material) {
+      const inventoryStore = useInventoryStore();
+      const quantite = 1;
+
+      // Vérifier quantité
+      if (!inventoryStore.hasEnough(material.id, quantite)) {
+        this.ajouterNotification({
+          type: "error",
+          message: `Vous n'avez pas assez de ${material.nom}.`,
+        });
+        return;
+      }
+
+      // Effectuer vente
+      const gain = material.prixVente * quantite;
+      this.retirerMaterial(material.id, quantite);
+      this.ajouterEcus(gain);
+
+      this.ajouterNotification({
+        type: "success",
+        message: `${material.nom} vendu pour ${gain} écus !`,
+      });
+    },
+
+    vendreObjet(item) {
+      // Vendre objet forgé
+      const gain = item.valeur;
+      this.supprimerObjet(item.id);
+      this.ajouterEcus(gain);
+
+      this.ajouterNotification({
+        type: "success",
+        message: `${item.nom} vendu pour ${gain} écus !`,
+      });
+    },
+
+    renderQualityStars(qualite) {
+      return qualite || 1;
     },
   },
 };
@@ -129,7 +213,9 @@ export default {
             <Coins :size="40" :stroke-width="2" class="stat-icon" />
             <div class="stat-info">
               <div class="stat-label">Valeur Totale</div>
-              <div class="stat-value">{{ stats.valeursTotal }} écus</div>
+              <div class="stat-value">
+                {{ Math.floor(stats.valeurTotale) }} écus
+              </div>
             </div>
           </div>
           <div class="stat-card">
@@ -166,7 +252,7 @@ export default {
         >
           <FlaskConical :size="20" :stroke-width="2" class="tab-icon" />
           <span class="tab-text">Matériaux</span>
-          <span class="tab-count">{{ materials.length }}</span>
+          <span class="tab-count">{{ materialsList.length }}</span>
         </button>
         <button
           :class="['tab-button', { active: selectedTab === 'crafted' }]"
@@ -178,36 +264,95 @@ export default {
         </button>
       </div>
 
+      <!-- Search & Filters -->
+      <div class="filters-bar">
+        <div class="search-box">
+          <Search :size="20" :stroke-width="2" class="search-icon" />
+          <input
+            v-model="searchQuery"
+            type="text"
+            placeholder="Rechercher..."
+            class="search-input"
+          />
+        </div>
+
+        <div v-if="selectedTab === 'materials'" class="filter-buttons">
+          <button
+            :class="['filter-btn', { active: selectedFilter === 'all' }]"
+            @click="setFilter('all')"
+          >
+            Tous
+          </button>
+          <button
+            :class="['filter-btn', { active: selectedFilter === 'common' }]"
+            @click="setFilter('common')"
+          >
+            Commun
+          </button>
+          <button
+            :class="['filter-btn', { active: selectedFilter === 'uncommon' }]"
+            @click="setFilter('uncommon')"
+          >
+            Peu commun
+          </button>
+          <button
+            :class="['filter-btn', { active: selectedFilter === 'rare' }]"
+            @click="setFilter('rare')"
+          >
+            Rare
+          </button>
+          <button
+            :class="['filter-btn', { active: selectedFilter === 'epic' }]"
+            @click="setFilter('epic')"
+          >
+            Épique
+          </button>
+          <button
+            :class="['filter-btn', { active: selectedFilter === 'legendary' }]"
+            @click="setFilter('legendary')"
+          >
+            Légendaire
+          </button>
+        </div>
+      </div>
+
       <!-- Materials Tab -->
       <div v-if="selectedTab === 'materials'" class="tab-content">
-        <div class="items-grid">
+        <div v-if="materialsFiltered.length === 0" class="empty-state">
+          <Package :size="64" :stroke-width="1.5" class="empty-icon" />
+          <p class="empty-text">Aucun matériau trouvé</p>
+          <p class="empty-hint">
+            Achetez des matériaux au Marché pour commencer à forger !
+          </p>
+        </div>
+
+        <div v-else class="items-grid">
           <div
-            v-for="material in materials"
+            v-for="material in materialsFiltered"
             :key="material.id"
             class="inventory-item material-item"
           >
             <div class="item-header">
-              <span
-                class="item-rarity"
-                :style="{ color: getRarityColor(material.rarete) }"
-              >
-                {{ material.rarete }}
+              <span :class="['item-rarity', getRarityClass(material.rarity)]">
+                {{ getRarityLabel(material.rarity) }}
               </span>
               <span class="item-quantity">×{{ material.quantite }}</span>
             </div>
-            <div class="item-image-wrapper">
-              <img
-                :src="material.image"
-                :alt="material.nom"
-                class="item-image"
-              />
-            </div>
-            <div class="item-info">
+            <div class="item-body">
               <h3 class="item-name">{{ material.nom }}</h3>
-              <div class="item-actions">
-                <button class="action-btn use-btn">Utiliser</button>
-                <button class="action-btn sell-btn">Vendre</button>
+              <p class="item-type">{{ material.type }}</p>
+              <div class="item-value">
+                <Coins :size="16" :stroke-width="2" class="value-icon" />
+                <span>{{ material.prixVente }} écus</span>
               </div>
+            </div>
+            <div class="item-actions">
+              <button
+                class="action-btn sell-btn"
+                @click="vendreMaterial(material)"
+              >
+                Vendre (×1)
+              </button>
             </div>
           </div>
         </div>
@@ -215,31 +360,62 @@ export default {
 
       <!-- Crafted Items Tab -->
       <div v-if="selectedTab === 'crafted'" class="tab-content">
-        <div class="items-grid crafted-grid">
+        <div v-if="craftedFiltered.length === 0" class="empty-state">
+          <Hammer :size="64" :stroke-width="1.5" class="empty-icon" />
+          <p class="empty-text">Aucune création</p>
+          <p class="empty-hint">
+            Forgez des objets à l'Atelier de Forge pour remplir votre inventaire
+            !
+          </p>
+        </div>
+
+        <div v-else class="items-grid crafted-grid">
           <div
-            v-for="item in craftedItems"
+            v-for="item in craftedFiltered"
             :key="item.id"
             class="inventory-item crafted-item"
           >
             <div class="crafted-header">
-              <span class="item-type">{{ item.type }}</span>
-              <span
-                class="item-quality"
-                :style="{ color: getQualityColor(item.qualite) }"
-              >
-                {{ item.qualite }}
+              <div class="header-left">
+                <component
+                  :is="getCategorieIcon(item.categorie)"
+                  :size="20"
+                  :stroke-width="2"
+                  class="categorie-icon"
+                />
+                <span class="item-type">{{ item.categorie }}</span>
+              </div>
+              <span :class="['item-rarity-badge', getRarityClass(item.rarity)]">
+                {{ getRarityLabel(item.rarity) }}
               </span>
             </div>
             <div class="crafted-body">
               <h3 class="crafted-name">{{ item.nom }}</h3>
+              <div class="quality-stars">
+                <Star
+                  v-for="i in renderQualityStars(item.qualite)"
+                  :key="i"
+                  :size="18"
+                  :stroke-width="2"
+                  class="quality-star filled"
+                />
+                <Star
+                  v-for="i in 5 - renderQualityStars(item.qualite)"
+                  :key="'empty-' + i"
+                  :size="18"
+                  :stroke-width="2"
+                  class="quality-star empty"
+                />
+              </div>
               <div class="crafted-value">
                 <Coins :size="18" :stroke-width="2" class="value-icon" />
                 <span class="value-amount">{{ item.valeur }} écus</span>
               </div>
             </div>
             <div class="crafted-actions">
-              <button class="action-btn equip-btn">Équiper</button>
-              <button class="action-btn sell-btn">Vendre</button>
+              <button class="action-btn sell-btn" @click="vendreObjet(item)">
+                Vendre
+              </button>
             </div>
           </div>
         </div>
@@ -310,7 +486,7 @@ export default {
     rgba(15, 13, 10, 0.8)
   );
   border: 2px solid rgba(161, 152, 130, 0.2);
-
+  border-radius: 8px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
   transition: all 0.3s ease;
 }
@@ -348,7 +524,7 @@ export default {
 .capacity-bar-container {
   background: rgba(25, 25, 25, 0.5);
   padding: 1.5rem;
-
+  border-radius: 8px;
   border: 1px solid rgba(161, 152, 130, 0.15);
 }
 
@@ -377,7 +553,7 @@ export default {
 .capacity-bar {
   height: 24px;
   background: rgba(25, 25, 25, 0.8);
-
+  border-radius: 12px;
   overflow: hidden;
   border: 1px solid rgba(161, 152, 130, 0.2);
 }
@@ -385,7 +561,7 @@ export default {
 .capacity-fill {
   height: 100%;
   background: linear-gradient(90deg, var(--viridian), var(--sea-green));
-
+  border-radius: 12px;
   transition: width 0.5s ease;
   box-shadow: 0 0 16px rgba(0, 114, 87, 0.5);
 }
@@ -433,13 +609,116 @@ export default {
 .tab-count {
   padding: 0.25rem 0.75rem;
   background: rgba(161, 152, 130, 0.2);
-
+  border-radius: 12px;
   font-size: 0.85rem;
   font-weight: 900;
 }
 
 .tab-button.active .tab-count {
   background: var(--auburn);
+}
+
+/* Filters Bar */
+.filters-bar {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.search-box {
+  flex: 1;
+  min-width: 250px;
+  position: relative;
+}
+
+.search-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(161, 152, 130, 0.5);
+  pointer-events: none;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.75rem 1rem 0.75rem 3rem;
+  background: rgba(25, 25, 25, 0.6);
+  border: 2px solid rgba(161, 152, 130, 0.2);
+  border-radius: 8px;
+  color: white;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--auburn);
+  background: rgba(25, 25, 25, 0.8);
+}
+
+.search-input::placeholder {
+  color: rgba(161, 152, 130, 0.5);
+}
+
+.filter-buttons {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  padding: 0.75rem 1.25rem;
+  background: rgba(25, 25, 25, 0.6);
+  border: 2px solid rgba(161, 152, 130, 0.2);
+  border-radius: 8px;
+  color: var(--dun);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.filter-btn:hover {
+  background: rgba(161, 152, 130, 0.1);
+  border-color: rgba(161, 152, 130, 0.4);
+}
+
+.filter-btn.active {
+  background: var(--auburn);
+  border-color: var(--auburn);
+  color: white;
+}
+
+/* Empty State */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+.empty-icon {
+  color: rgba(161, 152, 130, 0.3);
+  margin-bottom: 1.5rem;
+}
+
+.empty-text {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--dun);
+  margin: 0 0 0.5rem 0;
+}
+
+.empty-hint {
+  font-size: 1rem;
+  color: rgba(161, 152, 130, 0.6);
+  margin: 0;
 }
 
 /* Items Grid */
@@ -461,10 +740,12 @@ export default {
     rgba(15, 13, 10, 0.9)
   );
   border: 2px solid rgba(161, 152, 130, 0.2);
-
+  border-radius: 8px;
   padding: 1.5rem;
   transition: all 0.3s ease;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
 }
 
 .inventory-item:hover {
@@ -481,10 +762,37 @@ export default {
 }
 
 .item-rarity {
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   font-weight: 700;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+}
+
+.rarity-common {
+  background: rgba(156, 163, 175, 0.2);
+  color: #9ca3af;
+}
+
+.rarity-uncommon {
+  background: rgba(34, 197, 94, 0.2);
+  color: #22c55e;
+}
+
+.rarity-rare {
+  background: rgba(59, 130, 246, 0.2);
+  color: #3b82f6;
+}
+
+.rarity-epic {
+  background: rgba(168, 85, 247, 0.2);
+  color: #a855f7;
+}
+
+.rarity-legendary {
+  background: rgba(251, 191, 36, 0.2);
+  color: #fbbf24;
 }
 
 .item-quantity {
@@ -494,32 +802,41 @@ export default {
   font-family: "Georgia", serif;
 }
 
-.item-image-wrapper {
+.item-body {
+  flex: 1;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 140px;
+  flex-direction: column;
+  gap: 0.5rem;
   margin-bottom: 1rem;
-  background: radial-gradient(circle, rgba(161, 152, 130, 0.1), transparent);
-}
-
-.item-image {
-  max-width: 120px;
-  max-height: 120px;
-  object-fit: contain;
-  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.5));
-}
-
-.item-info {
-  text-align: center;
 }
 
 .item-name {
   font-size: 1.25rem;
   font-weight: 700;
   color: var(--dun);
-  margin: 0 0 1rem 0;
+  margin: 0;
   font-family: "Georgia", serif;
+}
+
+.item-type {
+  font-size: 0.85rem;
+  color: rgba(161, 152, 130, 0.7);
+  text-transform: capitalize;
+  margin: 0;
+}
+
+.item-value {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+  color: #d4af37;
+  font-weight: 600;
+  margin-top: auto;
+}
+
+.value-icon {
+  color: #d4af37;
 }
 
 /* Crafted Items */
@@ -532,6 +849,16 @@ export default {
   border-bottom: 1px solid rgba(161, 152, 130, 0.2);
 }
 
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.categorie-icon {
+  color: var(--auburn);
+}
+
 .item-type {
   font-size: 0.75rem;
   text-transform: uppercase;
@@ -540,14 +867,17 @@ export default {
   font-weight: 600;
 }
 
-.item-quality {
-  font-size: 0.85rem;
+.item-rarity-badge {
+  font-size: 0.7rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
 }
 
 .crafted-body {
+  flex: 1;
   margin-bottom: 1.5rem;
 }
 
@@ -559,6 +889,26 @@ export default {
   font-family: "Georgia", serif;
 }
 
+.quality-stars {
+  display: flex;
+  gap: 0.25rem;
+  margin-bottom: 1rem;
+}
+
+.quality-star {
+  transition: all 0.2s ease;
+}
+
+.quality-star.filled {
+  color: #fbbf24;
+  fill: #fbbf24;
+}
+
+.quality-star.empty {
+  color: rgba(161, 152, 130, 0.3);
+  fill: none;
+}
+
 .crafted-value {
   display: flex;
   align-items: center;
@@ -566,10 +916,6 @@ export default {
   font-size: 1.1rem;
   color: #d4af37;
   font-weight: 700;
-}
-
-.value-icon {
-  color: #d4af37;
 }
 
 /* Actions */
@@ -583,26 +929,13 @@ export default {
   flex: 1;
   padding: 0.75rem;
   border: none;
-
+  border-radius: 6px;
   font-size: 0.85rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   cursor: pointer;
   transition: all 0.3s ease;
-}
-
-.use-btn,
-.equip-btn {
-  background: linear-gradient(135deg, var(--viridian), var(--sea-green));
-  color: white;
-  box-shadow: 0 2px 8px rgba(0, 114, 87, 0.3);
-}
-
-.use-btn:hover,
-.equip-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 114, 87, 0.4);
 }
 
 .sell-btn {
@@ -622,6 +955,10 @@ export default {
 }
 
 @media (max-width: 768px) {
+  .inventory-page {
+    padding: 1rem;
+  }
+
   .page-title {
     font-size: 2rem;
   }
@@ -633,6 +970,14 @@ export default {
 
   .inventory-tabs {
     overflow-x: auto;
+  }
+
+  .filters-bar {
+    flex-direction: column;
+  }
+
+  .filter-buttons {
+    justify-content: flex-start;
   }
 }
 </style>
