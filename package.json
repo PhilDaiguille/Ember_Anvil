@@ -25,7 +25,7 @@
     "@vitest/eslint-plugin": "^1.6.9",
     "@vue/eslint-config-prettier": "^10.2.0",
     "@vue/test-utils": "^2.4.6",
-    "autoprefixer": "^10.4.16",
+    "autoprefixer": "^10.4.27",
     "eslint": "^10.0.2",
     "eslint-plugin-oxlint": "^1.50.0",
     "eslint-plugin-vue": "^10.3.0",
