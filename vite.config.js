@@ -56,29 +56,26 @@ export default defineConfig({
   },
   // Optimisations de build
   build: {
-    // Code splitting optimisé
-    rollupOptions: {
+    rolldownOptions: {
       output: {
-        manualChunks: {
-          // Vendor chunk pour les dépendances
-          vendor: ["vue", "vue-router"],
-          // Icons chunk séparé
-          icons: ["lucide-vue-next"],
+        manualChunks: (id) => {
+          if (
+            id.includes("node_modules/vue") ||
+            id.includes("node_modules/vue-router")
+          ) {
+            return "vendor";
+          }
+          if (id.includes("node_modules/lucide-vue-next")) {
+            return "icons";
+          }
         },
       },
     },
-    // Optimiser la taille du bundle
     cssCodeSplit: true,
-    // Source maps pour debugging en prod (optionnel)
     sourcemap: false,
-    // Minification
-    minify: "esbuild",
-    // Chunk size warnings
     chunkSizeWarningLimit: 600,
-    // Optimiser les assets
-    assetsInlineLimit: 4096, // 4kb - inline les petits assets
+    assetsInlineLimit: 4096,
   },
-  // Optimisation CSS
   css: {
     devSourcemap: true,
   },
