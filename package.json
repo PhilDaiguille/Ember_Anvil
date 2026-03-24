@@ -33,10 +33,10 @@
     "prettier": "^3.6.2",
     "sitemap": "^9.0.1",
     "tailwindcss": "^4.1.11",
-    "vite": "^8.0.1",
+    "vite": "^8.0.2",
     "vite-plugin-compression2": "^2.5.3",
-    "vite-plugin-vue-devtools": "^8.1.0",
-    "vitest": "^4.1.0"
+    "vite-plugin-vue-devtools": "^8.1.1",
+    "vitest": "^4.1.1"
   },
   "description": "This template should help get you started developing with Vue 3 in Vite.\r <hr>",
   "author": "",
