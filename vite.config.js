@@ -24,10 +24,7 @@ export default defineConfig({
       threshold: 1024,
       deleteOriginalAssets: false,
     }),
-    vitePluginSitemap({
-      hostname: process.env.VITE_SITE_URL || "https://ember-anvil.vercel.app/",
-      outDir: "dist",
-    }),
+    vitePluginSitemap(),
   ],
   resolve: {
     alias: {
