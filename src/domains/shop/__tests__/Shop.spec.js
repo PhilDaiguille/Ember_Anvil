@@ -48,7 +48,7 @@ describe("ShopComponent", () => {
 
     it("devrait afficher le badge Premium", () => {
       expect(wrapper.find(".hero-badge").exists()).toBe(true);
-      expect(wrapper.text()).toContain("Marché premium");
+      expect(wrapper.text()).toContain("Marché Premium");
     });
 
     it("devrait afficher le solde d'écus du joueur", () => {

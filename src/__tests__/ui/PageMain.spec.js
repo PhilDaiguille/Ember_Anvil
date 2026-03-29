@@ -32,7 +32,7 @@ describe("PageMain.vue", () => {
 
     it("should render hero subtitle", () => {
       expect(wrapper.find(".hero-subtitle").text()).toBe(
-        "La Forge Virtuelle de vos Rêves",
+        "La forge virtuelle de vos rêves",
       );
     });
 
