@@ -2,9 +2,10 @@ import { fileURLToPath, URL } from "node:url";
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 import tailwindcss from "@tailwindcss/vite";
-import { compression } from "vite-plugin-compression2";
 import vitePluginSitemap from "./scripts/vite-plugin-sitemap.js";
 import vueDevTools from "vite-plugin-vue-devtools";
+
+const isDev = process.env.NODE_ENV !== "production";
 
 export default defineConfig({
   plugins: [
@@ -16,18 +17,11 @@ export default defineConfig({
         },
       },
     }),
-    vueDevTools({
-      launchEditor: "webstorm",
-    }),
+    isDev &&
+      vueDevTools({
+        launchEditor: "webstorm",
+      }),
     tailwindcss(),
-    compression({
-      algorithms: [
-        ["gzip", { level: 9 }],
-        ["brotliCompress", { level: 11 }],
-      ],
-      threshold: 1024,
-      deleteOriginalAssets: false,
-    }),
     vitePluginSitemap(),
   ],
   resolve: {
@@ -36,7 +30,7 @@ export default defineConfig({
     },
   },
   optimizeDeps: {
-    include: ["vue", "vue-router", "lucide-vue-next"],
+    include: ["vue", "vue-router", "pinia", "lucide-vue-next"],
     holdUntilCrawlEnd: false,
   },
   server: {
@@ -53,12 +47,15 @@ export default defineConfig({
     },
   },
   build: {
+    target: "esnext",
     rolldownOptions: {
       output: {
         manualChunks: (id) => {
           if (
             id.includes("node_modules/vue") ||
-            id.includes("node_modules/vue-router")
+            id.includes("node_modules/vue-router") ||
+            id.includes("node_modules/pinia") ||
+            id.includes("node_modules/@vue/")
           ) {
             return "vendor";
           }
