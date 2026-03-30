@@ -4,6 +4,7 @@ import vue from "@vitejs/plugin-vue";
 import tailwindcss from "@tailwindcss/vite";
 import { compression } from "vite-plugin-compression2";
 import vitePluginSitemap from "./scripts/vite-plugin-sitemap.js";
+import vueDevTools from "vite-plugin-vue-devtools";
 
 export default defineConfig({
   plugins: [
@@ -14,6 +15,9 @@ export default defineConfig({
           cacheHandlers: true,
         },
       },
+    }),
+    vueDevTools({
+      launchEditor: "webstorm",
     }),
     tailwindcss(),
     compression({
