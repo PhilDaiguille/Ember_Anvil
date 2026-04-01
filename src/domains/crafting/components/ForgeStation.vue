@@ -1,8 +1,8 @@
 <script>
 import { Hammer, CheckCircle, Flame, Clock } from "lucide-vue-next";
-import { MATERIALS } from "@/data/materials";
 import { usePlayerStore } from "@/stores/player";
 import { useInventoryStore } from "@/stores/inventory";
+import { getMaterialNom, peutCrafter } from "@/shared/utils/craftingHelpers";
 
 export default {
   name: "ForgeStation",
@@ -34,31 +34,20 @@ export default {
     },
   },
   emits: ["forge", "cancel"],
-  methods: {
-    getMaterialNom(materialId) {
-      const material = MATERIALS[materialId];
-      return material ? material.nom : materialId;
+  computed: {
+    canForgeResult() {
+      if (!this.recetteSelectionnee) return { possible: false, raison: "" };
+      return peutCrafter(
+        this.recetteSelectionnee,
+        usePlayerStore().niveau,
+        useInventoryStore(),
+      );
     },
+  },
+  methods: {
+    getMaterialNom,
     getQuantitePossedee(materialId) {
       return useInventoryStore().getQuantite(materialId);
-    },
-    peutCrafter(recipe) {
-      const playerStore = usePlayerStore();
-      const inventoryStore = useInventoryStore();
-
-      if (playerStore.niveau < recipe.niveauRequis) {
-        return { possible: false, raison: "Niveau insuffisant" };
-      }
-
-      for (const ingredient of recipe.ingredients) {
-        if (
-          !inventoryStore.hasEnough(ingredient.materialId, ingredient.quantite)
-        ) {
-          return { possible: false, raison: "Matériaux insuffisants" };
-        }
-      }
-
-      return { possible: true };
     },
   },
 };
@@ -116,14 +105,12 @@ export default {
 
         <button
           class="forge-button"
-          :disabled="!peutCrafter(recetteSelectionnee).possible"
+          :disabled="!canForgeResult.possible"
           @click="$emit('forge')"
         >
           <span class="button-text">
             {{
-              peutCrafter(recetteSelectionnee).possible
-                ? "Forger"
-                : peutCrafter(recetteSelectionnee).raison
+              canForgeResult.possible ? "Forger" : canForgeResult.raison
             }}
           </span>
           <Hammer class="button-icon" :size="24" :stroke-width="2.5" />

@@ -4,8 +4,8 @@ import { useCraftingStore } from "@/stores/crafting";
 import { usePlayerStore } from "@/stores/player";
 import { useInventoryStore } from "@/stores/inventory";
 import { getRecipesByCategorie } from "@/data/recipes";
-import { MATERIALS } from "@/data/materials";
 import { getRarityClass, getRarityLabel } from "@/shared/utils/rarity";
+import { getMaterialNom, peutCrafter } from "@/shared/utils/craftingHelpers";
 import { Swords, Shield, Wrench, Gem, FlaskConical } from "lucide-vue-next";
 import CategoryBar from "./CategoryBar.vue";
 import RecipeList from "./RecipeList.vue";
@@ -25,6 +25,7 @@ export default {
       categorieSelectionnee: "arme",
       recetteSelectionnee: null,
       sparks: [],
+      _sparkTimeoutId: null,
     };
   },
   computed: {
@@ -67,25 +68,10 @@ export default {
 
     getRarityClass,
     getRarityLabel,
-
-    getMaterialNom(materialId) {
-      const material = MATERIALS[materialId];
-      return material ? material.nom : materialId;
-    },
+    getMaterialNom,
 
     peutCrafter(recipe) {
-      const inventoryStore = useInventoryStore();
-      if (this.niveau < recipe.niveauRequis) {
-        return { possible: false, raison: "Niveau insuffisant" };
-      }
-      for (const ingredient of recipe.ingredients) {
-        if (
-          !inventoryStore.hasEnough(ingredient.materialId, ingredient.quantite)
-        ) {
-          return { possible: false, raison: "Matériaux insuffisants" };
-        }
-      }
-      return { possible: true };
+      return peutCrafter(recipe, this.niveau, useInventoryStore());
     },
 
     selectionnerCategorie(categorieId) {
@@ -127,9 +113,16 @@ export default {
       }
 
       if (this.estEnCoursDeForge) {
-        setTimeout(() => this.genererEtincelles(), 400);
+        this._sparkTimeoutId = setTimeout(() => this.genererEtincelles(), 400);
       }
     },
+  },
+
+  beforeUnmount() {
+    if (this._sparkTimeoutId !== null) {
+      clearTimeout(this._sparkTimeoutId);
+      this._sparkTimeoutId = null;
+    }
   },
 };
 </script>
