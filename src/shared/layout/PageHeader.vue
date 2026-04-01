@@ -87,7 +87,7 @@
         <!-- Player Level Badge -->
         <div
           class="level-badge"
-          :aria-label="`Niveau ${niveau}, ${xp} sur ${xpRequis} points d'expérience`"
+          :aria-label="`Niveau ${niveau}, ${experience} sur ${experienceMax} points d'expérience`"
           @mouseenter="showXpBar = true"
           @mouseleave="showXpBar = false"
         >
@@ -100,7 +100,7 @@
                 class="xp-progress-bar"
                 :style="{ width: xpPourcentage + '%' }"
               ></div>
-              <span class="xp-text">{{ xp }} / {{ xpRequis }} XP</span>
+              <span class="xp-text">{{ experience }} / {{ experienceMax }} XP</span>
             </div>
           </transition>
         </div>
@@ -170,14 +170,8 @@ export default {
       "experience",
       "experienceMax",
     ]),
-    xp() {
-      return this.experience;
-    },
-    xpRequis() {
-      return this.experienceMax;
-    },
     xpPourcentage() {
-      return Math.min((this.xp / this.xpRequis) * 100, 100);
+      return Math.min((this.experience / this.experienceMax) * 100, 100);
     },
   },
   methods: {

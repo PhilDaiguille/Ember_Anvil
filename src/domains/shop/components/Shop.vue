@@ -16,6 +16,7 @@ import { useNotificationsStore } from "@/stores/notifications";
 import { useGameStore } from "@/stores/game";
 import { useCodexStore } from "@/stores/codex";
 import { MATERIALS_ARRAY } from "@/data/materials";
+import { filterMaterials } from "@/shared/utils/filterHelpers";
 
 export default {
   name: "ShopPage",
@@ -38,24 +39,7 @@ export default {
   computed: {
     ...mapState(usePlayerStore, ["ecus"]),
     filteredMaterials() {
-      let filtered = MATERIALS_ARRAY;
-
-      // Filter by rarity
-      if (this.selectedFilter !== "all") {
-        filtered = filtered.filter((mat) => mat.rarity === this.selectedFilter);
-      }
-
-      // Filter by search query
-      if (this.searchQuery.trim()) {
-        const query = this.searchQuery.toLowerCase();
-        filtered = filtered.filter(
-          (mat) =>
-            mat.nom.toLowerCase().includes(query) ||
-            mat.type.toLowerCase().includes(query),
-        );
-      }
-
-      return filtered;
+      return filterMaterials(MATERIALS_ARRAY, this.selectedFilter, this.searchQuery);
     },
   },
   methods: {

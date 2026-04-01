@@ -4,6 +4,7 @@ import { useInventoryStore } from "@/stores/inventory";
 import { usePlayerStore } from "@/stores/player";
 import { useNotificationsStore } from "@/stores/notifications";
 import { getRarityClass, getRarityLabel } from "@/shared/utils/rarity";
+import { filterMaterials } from "@/shared/utils/filterHelpers";
 import {
   Package,
   Coins,
@@ -52,24 +53,7 @@ export default {
 
     // Matériaux filtrés
     materialsFiltered() {
-      let filtered = this.materialsList;
-
-      // Filtrer par rareté
-      if (this.selectedFilter !== "all") {
-        filtered = filtered.filter((m) => m.rarity === this.selectedFilter);
-      }
-
-      // Filtrer par recherche
-      if (this.searchQuery.trim()) {
-        const query = this.searchQuery.toLowerCase();
-        filtered = filtered.filter(
-          (m) =>
-            m.nom.toLowerCase().includes(query) ||
-            m.type.toLowerCase().includes(query),
-        );
-      }
-
-      return filtered;
+      return filterMaterials(this.materialsList, this.selectedFilter, this.searchQuery);
     },
 
     // Objets forgés filtrés
