@@ -12,10 +12,6 @@
           "value": "1; mode=block"
         },
         {
-          "key": "Access-Control-Allow-Origin",
-          "value": "https://bytemeuh-farm.fr"
-        },
-        {
           "key": "X-Frame-Options",
           "value": "SAMEORIGIN"
         },
