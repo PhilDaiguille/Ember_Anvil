@@ -5,9 +5,9 @@ import {
   Crown,
   Wallet,
   Package,
-  Circle,
+  Circle as CircleIcon,
   Gem,
-  Search,
+  Search as SearchIcon,
   Shield,
 } from "lucide-vue-next";
 import { usePlayerStore } from "@/stores/player";
@@ -25,9 +25,9 @@ export default {
     Crown,
     Wallet,
     Package,
-    Circle,
+    CircleIcon,
     Gem,
-    Search,
+    SearchIcon,
     Shield,
   },
   data() {
@@ -39,7 +39,11 @@ export default {
   computed: {
     ...mapState(usePlayerStore, ["ecus"]),
     filteredMaterials() {
-      return filterMaterials(MATERIALS_ARRAY, this.selectedFilter, this.searchQuery);
+      return filterMaterials(
+        MATERIALS_ARRAY,
+        this.selectedFilter,
+        this.searchQuery,
+      );
     },
   },
   methods: {
@@ -171,7 +175,7 @@ export default {
             :class="['filter-btn', { active: selectedFilter === 'common' }]"
             @click="setFilter('common')"
           >
-            <Circle class="filter-icon" :size="20" :stroke-width="2" />
+            <CircleIcon class="filter-icon" :size="20" :stroke-width="2" />
             <span>Commun</span>
           </button>
           <button
@@ -189,7 +193,7 @@ export default {
             placeholder="Rechercher un matériau..."
             class="search-input"
           />
-          <Search class="search-icon" :size="20" :stroke-width="2" />
+          <SearchIcon class="search-icon" :size="20" :stroke-width="2" />
         </div>
       </div>
 

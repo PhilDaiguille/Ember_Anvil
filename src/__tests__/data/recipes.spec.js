@@ -9,7 +9,6 @@ import {
   getRecipesByRarity,
   peutCrafter,
 } from "@/data/recipes.js";
-import { MATERIALS } from "@/data/materials.js";
 
 describe("Recipes Data", () => {
   // ========== EXPORTS ==========

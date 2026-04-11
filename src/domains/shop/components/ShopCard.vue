@@ -69,7 +69,6 @@
 </template>
 
 <script>
-import { mapState } from "pinia";
 import { useInventoryStore } from "@/stores/inventory";
 import { getRarityLabel } from "@/shared/utils/rarity";
 import {

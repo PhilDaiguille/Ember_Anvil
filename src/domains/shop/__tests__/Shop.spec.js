@@ -1,18 +1,16 @@
-import { describe, it, expect, beforeEach, vi } from "vitest";
+import { describe, it, expect, beforeEach } from "vitest";
 import { mount } from "@vue/test-utils";
 import { createPinia, setActivePinia } from "pinia";
 import ShopComponent from "../components/Shop.vue";
 import { usePlayerStore } from "@/stores/player";
 import { useInventoryStore } from "@/stores/inventory";
 import { useNotificationsStore } from "@/stores/notifications";
-import { useCodexStore } from "@/stores/codex";
 
 describe("ShopComponent", () => {
   let wrapper;
   let playerStore;
   let inventoryStore;
   let notificationsStore;
-  let codexStore;
 
   beforeEach(() => {
     const pinia = createPinia();
@@ -21,7 +19,6 @@ describe("ShopComponent", () => {
     playerStore = usePlayerStore();
     inventoryStore = useInventoryStore();
     notificationsStore = useNotificationsStore();
-    codexStore = useCodexStore();
 
     wrapper = mount(ShopComponent, {
       global: {

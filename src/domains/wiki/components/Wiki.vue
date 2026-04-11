@@ -22,7 +22,7 @@
             :class="{ active: selectedTab === 'materials' }"
             @click="switchTab('materials')"
           >
-            <Filter :size="16" :stroke-width="2" />
+            <FilterIcon :size="16" :stroke-width="2" />
             Matériaux
           </button>
           <button
@@ -39,7 +39,7 @@
         <div class="controls-section">
           <!-- Search Input -->
           <div class="search-box">
-            <Search :size="16" :stroke-width="2" class="search-icon" />
+            <SearchIcon :size="16" :stroke-width="2" class="search-icon" />
             <input
               type="text"
               class="search-input"
@@ -192,7 +192,12 @@
 import Card from "@/shared/ui/MainCard.vue";
 import { mapState, mapActions } from "pinia";
 import { useCodexStore } from "@/stores/codex";
-import { BookOpen, Hammer, Search, Filter } from "lucide-vue-next";
+import {
+  BookOpen,
+  Hammer,
+  Search as SearchIcon,
+  Filter as FilterIcon,
+} from "lucide-vue-next";
 
 export default {
   name: "WikiCodex",
@@ -200,8 +205,8 @@ export default {
     Card,
     BookOpen,
     Hammer,
-    Search,
-    Filter,
+    SearchIcon,
+    FilterIcon,
   },
   data() {
     return {

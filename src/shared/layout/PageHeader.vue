@@ -100,7 +100,9 @@
                 class="xp-progress-bar"
                 :style="{ width: xpPourcentage + '%' }"
               ></div>
-              <span class="xp-text">{{ experience }} / {{ experienceMax }} XP</span>
+              <span class="xp-text"
+                >{{ experience }} / {{ experienceMax }} XP</span
+              >
             </div>
           </transition>
         </div>

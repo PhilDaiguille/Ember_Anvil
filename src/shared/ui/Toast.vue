@@ -10,7 +10,7 @@ import {
 } from "lucide-vue-next";
 
 export default {
-  name: "Toast",
+  name: "ToastNotification",
   components: { X, CheckCircle, AlertCircle, Info, AlertTriangle },
 
   computed: {

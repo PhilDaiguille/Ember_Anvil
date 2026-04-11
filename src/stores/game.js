@@ -10,7 +10,6 @@
 import { defineStore } from "pinia";
 import { ACHIEVEMENTS, getDefaultAchievementsState } from "@/data/achievements";
 import { usePlayerStore } from "./player";
-import { useInventoryStore } from "./inventory";
 import { useCraftingStore } from "./crafting";
 import { useWorkshopStore } from "./workshop";
 import { useCodexStore } from "./codex";
@@ -109,7 +108,6 @@ export const useGameStore = defineStore("game", {
     // Check and unlock achievements based on current game state
     checkAchievements() {
       const playerStore = usePlayerStore();
-      const inventoryStore = useInventoryStore();
       const craftingStore = useCraftingStore();
       const workshopStore = useWorkshopStore();
       const codexStore = useCodexStore();

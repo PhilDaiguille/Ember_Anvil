@@ -175,8 +175,6 @@ describe("WorkshopComponent", () => {
     it("devrait lancer l'animation d'amélioration", async () => {
       vi.useFakeTimers();
 
-      const tool = wrapper.vm.tools[0];
-
       // Simulate the upgrade process
       wrapper.vm.upgrading = true;
 

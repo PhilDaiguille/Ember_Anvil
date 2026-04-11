@@ -12,7 +12,7 @@ import {
   FlaskConical,
   Swords,
   Star,
-  Search,
+  Search as SearchIcon,
   Shield,
   Gem,
   Wrench,
@@ -27,7 +27,7 @@ export default {
     FlaskConical,
     Swords,
     Star,
-    Search,
+    SearchIcon,
     Shield,
     Gem,
     Wrench,
@@ -53,7 +53,11 @@ export default {
 
     // Matériaux filtrés
     materialsFiltered() {
-      return filterMaterials(this.materialsList, this.selectedFilter, this.searchQuery);
+      return filterMaterials(
+        this.materialsList,
+        this.selectedFilter,
+        this.searchQuery,
+      );
     },
 
     // Objets forgés filtrés
@@ -244,7 +248,7 @@ export default {
       <!-- Search & Filters -->
       <div class="filters-bar">
         <div class="search-box">
-          <Search :size="20" :stroke-width="2" class="search-icon" />
+          <SearchIcon :size="20" :stroke-width="2" class="search-icon" />
           <input
             v-model="searchQuery"
             type="text"

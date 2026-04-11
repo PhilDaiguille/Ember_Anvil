@@ -1,9 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { mount } from "@vue/test-utils";
 import HomeView from "@/shared/layout/HomeView.vue";
-import PageHeader from "@/shared/layout/PageHeader.vue";
-import PageMain from "@/shared/layout/PageMain.vue";
-import PageFooter from "@/shared/layout/PageFooter.vue";
 
 describe("HomeView.vue", () => {
   describe("Component Registration", () => {

@@ -6,7 +6,7 @@ import { useInventoryStore } from "@/stores/inventory";
 import { getRecipesByCategorie } from "@/data/recipes";
 import { getRarityClass, getRarityLabel } from "@/shared/utils/rarity";
 import { getMaterialNom, peutCrafter } from "@/shared/utils/craftingHelpers";
-import { Swords, Shield, Wrench, Gem, FlaskConical } from "lucide-vue-next";
+
 import CategoryBar from "./CategoryBar.vue";
 import RecipeList from "./RecipeList.vue";
 import ForgeStation from "./ForgeStation.vue";
@@ -25,7 +25,7 @@ export default {
       categorieSelectionnee: "arme",
       recetteSelectionnee: null,
       sparks: [],
-      _sparkTimeoutId: null,
+      sparkTimeoutId: null,
     };
   },
   computed: {

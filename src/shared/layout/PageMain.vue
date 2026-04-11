@@ -408,7 +408,7 @@
             :class="rarity.cardClass"
           >
             <div class="mb-3 flex justify-center">
-              <Circle
+              <CircleIcon
                 :size="28"
                 fill="currentColor"
                 :stroke-width="0"
@@ -577,7 +577,7 @@ import {
   Wrench,
   TrendingUp,
   ScrollText,
-  Circle,
+  Circle as CircleIcon,
 } from "lucide-vue-next";
 
 export default {
@@ -592,7 +592,7 @@ export default {
     Wrench,
     TrendingUp,
     ScrollText,
-    Circle,
+    CircleIcon,
   },
   data() {
     return {

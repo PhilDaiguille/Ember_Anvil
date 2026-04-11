@@ -109,9 +109,7 @@ export default {
           @click="$emit('forge')"
         >
           <span class="button-text">
-            {{
-              canForgeResult.possible ? "Forger" : canForgeResult.raison
-            }}
+            {{ canForgeResult.possible ? "Forger" : canForgeResult.raison }}
           </span>
           <Hammer class="button-icon" :size="24" :stroke-width="2.5" />
         </button>
