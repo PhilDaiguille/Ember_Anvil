@@ -18,7 +18,14 @@ export default defineConfig({
         },
       },
     }),
-    VitePWA({ registerType: "autoUpdate" }),
+    VitePWA({
+      strategies: "injectManifest",
+      srcDir: "src",
+      filename: "sw.js",
+      injectRegister: null,
+      manifest: false,
+      devOptions: { enabled: false },
+    }),
     isDev &&
       vueDevTools({
         launchEditor: "webstorm",
