@@ -72,6 +72,17 @@ export default {
       return filtered;
     },
 
+    totalCraftedValue() {
+      return this.craftedFiltered.reduce((sum, item) => sum + (item.valeur || 0), 0);
+    },
+
+    totalMaterialsValue() {
+      return this.materialsFiltered.reduce(
+        (sum, m) => sum + (m.prixVente || 0) * (m.quantite || 0),
+        0,
+      );
+    },
+
     // Statistiques
     stats() {
       return {
@@ -147,6 +158,53 @@ export default {
       this.ajouterNotification({
         type: "success",
         message: `${item.nom} vendu pour ${gain} écus !`,
+      });
+    },
+
+    vendreMaterialTout(material) {
+      const quantite = material.quantite;
+      if (!quantite || quantite < 1) return;
+
+      const gain = material.prixVente * quantite;
+      this.retirerMaterial(material.id, quantite);
+      this.ajouterEcus(gain);
+
+      this.ajouterNotification({
+        type: "success",
+        message: `${material.nom} ×${quantite} vendu pour ${gain} écus !`,
+      });
+    },
+
+    vendreToutMateriaux() {
+      const materiaux = this.materialsFiltered;
+      if (materiaux.length === 0) return;
+
+      const total = materiaux.reduce((sum, m) => sum + (m.prixVente || 0) * (m.quantite || 0), 0);
+      for (const m of materiaux) {
+        this.retirerMaterial(m.id, m.quantite);
+      }
+      this.ajouterEcus(total);
+
+      this.ajouterNotification({
+        type: "success",
+        message: `${materiaux.length} matériau(x) vendu(s) pour ${total} écus !`,
+      });
+    },
+
+    vendreTout() {
+      // Vend tous les objets forgés actuellement affichés
+      const items = this.craftedFiltered;
+      if (items.length === 0) return;
+
+      const total = items.reduce((sum, item) => sum + (item.valeur || 0), 0);
+      for (const item of items) {
+        this.supprimerObjet(item.id);
+      }
+      this.ajouterEcus(total);
+
+      this.ajouterNotification({
+        type: "success",
+        message: `${items.length} objet(s) vendu(s) pour ${total} écus !`,
       });
     },
 
@@ -287,12 +345,21 @@ export default {
           <p class="empty-hint">Achetez des matériaux au Marché pour commencer à forger !</p>
         </div>
 
-        <div v-else class="items-grid">
-          <div
-            v-for="material in materialsFiltered"
-            :key="material.id"
-            class="inventory-item material-item"
-          >
+        <div v-else>
+          <div class="sell-all-bar">
+            <span class="sell-all-info">
+              {{ materialsFiltered.length }} matériau(x) · valeur totale
+              {{ totalMaterialsValue }} écus
+            </span>
+            <button class="sell-all-btn" @click="vendreToutMateriaux">Tout vendre</button>
+          </div>
+
+          <div class="items-grid">
+            <div
+              v-for="material in materialsFiltered"
+              :key="material.id"
+              class="inventory-item material-item"
+            >
             <div class="item-header">
               <span :class="['item-rarity', getRarityClass(material.rarity)]">
                 {{ getRarityLabel(material.rarity) }}
@@ -311,6 +378,14 @@ export default {
               <button class="action-btn sell-btn" @click="vendreMaterial(material)">
                 Vendre (×1)
               </button>
+              <button
+                v-if="material.quantite > 1"
+                class="action-btn sell-btn sell-btn-all"
+                @click="vendreMaterialTout(material)"
+              >
+                Tout (×{{ material.quantite }})
+              </button>
+            </div>
             </div>
           </div>
         </div>
@@ -326,8 +401,20 @@ export default {
           </p>
         </div>
 
-        <div v-else class="items-grid crafted-grid">
-          <div v-for="item in craftedFiltered" :key="item.id" class="inventory-item crafted-item">
+        <div v-else>
+          <div class="sell-all-bar">
+            <span class="sell-all-info">
+              {{ craftedFiltered.length }} objet(s) · valeur totale {{ totalCraftedValue }} écus
+            </span>
+            <button class="sell-all-btn" @click="vendreTout">Tout vendre</button>
+          </div>
+
+          <div class="items-grid crafted-grid">
+            <div
+              v-for="item in craftedFiltered"
+              :key="item.id"
+              class="inventory-item crafted-item"
+            >
             <div class="crafted-header">
               <div class="header-left">
                 <component
@@ -369,6 +456,7 @@ export default {
             <div class="crafted-actions">
               <button class="action-btn sell-btn" @click="vendreObjet(item)">Vendre</button>
             </div>
+          </div>
           </div>
         </div>
       </div>
@@ -642,6 +730,40 @@ export default {
 }
 
 /* Empty State */
+.sell-all-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.5rem;
+  background: rgba(0, 114, 87, 0.12);
+  border: 1px solid rgba(0, 114, 87, 0.3);
+}
+
+.sell-all-info {
+  color: var(--dun);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.sell-all-btn {
+  padding: 0.6rem 1.5rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: white;
+  background: linear-gradient(135deg, var(--auburn), #942525);
+  border: none;
+  cursor: pointer;
+  transition: transform var(--t-fast) ease;
+}
+
+.sell-all-btn:hover {
+  transform: translateY(-2px);
+}
+
 .crafted-affixe {
   display: inline-block;
   font-size: 0.8rem;
@@ -854,13 +976,15 @@ export default {
 
 .action-btn {
   flex: 1;
-  padding: 0.75rem;
+  min-width: 0;
+  padding: 0.5rem 0.4rem;
   border: none;
   border-radius: 6px;
-  font-size: 0.85rem;
+  font-size: 0.75rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
   cursor: pointer;
   transition: all 0.3s ease;
 }
@@ -874,6 +998,17 @@ export default {
 
 .sell-btn:hover {
   background: linear-gradient(135deg, var(--auburn), #a03c3e);
+  transform: translateY(-2px);
+}
+
+.sell-btn-all {
+  background: linear-gradient(135deg, rgba(0, 114, 87, 0.8), rgba(50, 93, 68, 0.8));
+  border-color: rgba(0, 114, 87, 0.4);
+  box-shadow: 0 2px 8px rgba(0, 114, 87, 0.2);
+}
+
+.sell-btn-all:hover {
+  background: linear-gradient(135deg, var(--sea-green), var(--viridian));
   transform: translateY(-2px);
 }
 

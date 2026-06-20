@@ -8,10 +8,11 @@ export default {
   name: "OrdersPanel",
   components: { ClipboardList, Coins, Star },
   computed: {
-    ...mapState(useOrdersStore, ["commandes"]),
+    // commandes (state) + estLivrable (getter renvoyant une fonction)
+    ...mapState(useOrdersStore, ["commandes", "estLivrable"]),
   },
   methods: {
-    ...mapActions(useOrdersStore, ["livrer", "estLivrable"]),
+    ...mapActions(useOrdersStore, ["livrer"]),
     nomRecette(recipeId) {
       return getRecipeById(recipeId)?.nom ?? recipeId;
     },
@@ -82,12 +83,15 @@ export default {
 
 .order-card {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
+  flex-direction: column;
+  gap: 0.75rem;
   padding: 1rem;
   background: rgba(25, 25, 25, 0.5);
   border: 1px solid rgba(161, 152, 130, 0.2);
+}
+
+.order-info {
+  min-width: 0;
 }
 
 .order-name {
@@ -95,6 +99,7 @@ export default {
   font-weight: 700;
   color: white;
   margin: 0 0 0.4rem 0;
+  overflow-wrap: anywhere;
 }
 
 .order-req {
@@ -124,15 +129,18 @@ export default {
 }
 
 .order-btn {
-  padding: 0.6rem 1.1rem;
+  padding: 0.6rem 0.5rem;
+  width: 100%;
+  font-size: 0.85rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.03em;
+  text-align: center;
+  white-space: nowrap;
   color: white;
   background: linear-gradient(135deg, var(--sea-green), var(--viridian));
   border: none;
   cursor: pointer;
-  flex-shrink: 0;
   transition: transform var(--t-fast) ease;
 }
 
