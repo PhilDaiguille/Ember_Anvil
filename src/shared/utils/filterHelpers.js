@@ -20,9 +20,7 @@ export function filterMaterials(materials, selectedFilter, searchQuery) {
   const query = searchQuery.trim().toLowerCase();
   if (query) {
     filtered = filtered.filter(
-      (m) =>
-        m.nom.toLowerCase().includes(query) ||
-        m.type.toLowerCase().includes(query),
+      (m) => m.nom.toLowerCase().includes(query) || m.type.toLowerCase().includes(query),
     );
   }
 

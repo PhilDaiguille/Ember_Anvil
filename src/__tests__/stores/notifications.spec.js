@@ -165,9 +165,7 @@ describe("Notifications Store", () => {
       });
 
       expect(notificationsStore.notifications.length).toBe(1);
-      expect(notificationsStore.notifications[0].message).toBe(
-        "Test via alias",
-      );
+      expect(notificationsStore.notifications[0].message).toBe("Test via alias");
       expect(notificationsStore.notifications[0].type).toBe("success");
     });
 

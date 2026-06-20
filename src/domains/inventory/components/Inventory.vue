@@ -16,7 +16,7 @@ import {
   Shield,
   Gem,
   Wrench,
-} from "lucide-vue-next";
+} from "@lucide/vue";
 
 export default {
   name: "InventoryComponent",
@@ -53,11 +53,7 @@ export default {
 
     // Matériaux filtrés
     materialsFiltered() {
-      return filterMaterials(
-        this.materialsList,
-        this.selectedFilter,
-        this.searchQuery,
-      );
+      return filterMaterials(this.materialsList, this.selectedFilter, this.searchQuery);
     },
 
     // Objets forgés filtrés
@@ -69,8 +65,7 @@ export default {
         const query = this.searchQuery.toLowerCase();
         filtered = filtered.filter(
           (item) =>
-            item.nom.toLowerCase().includes(query) ||
-            item.categorie.toLowerCase().includes(query),
+            item.nom.toLowerCase().includes(query) || item.categorie.toLowerCase().includes(query),
         );
       }
 
@@ -163,11 +158,7 @@ export default {
 </script>
 
 <template>
-  <main
-    class="inventory-page"
-    id="main-content"
-    aria-label="Inventaire du joueur"
-  >
+  <main class="inventory-page" id="main-content" aria-label="Inventaire du joueur">
     <div class="inventory-container">
       <!-- Header -->
       <header class="inventory-header">
@@ -185,18 +176,14 @@ export default {
             <Package :size="40" :stroke-width="2" class="stat-icon" />
             <div class="stat-info">
               <div class="stat-label">Capacité</div>
-              <div class="stat-value">
-                {{ stats.capaciteUtilisee }}/{{ stats.capaciteMax }}
-              </div>
+              <div class="stat-value">{{ stats.capaciteUtilisee }}/{{ stats.capaciteMax }}</div>
             </div>
           </div>
           <div class="stat-card">
             <Coins :size="40" :stroke-width="2" class="stat-icon" />
             <div class="stat-info">
               <div class="stat-label">Valeur Totale</div>
-              <div class="stat-value">
-                {{ Math.floor(stats.valeurTotale) }} écus
-              </div>
+              <div class="stat-value">{{ Math.floor(stats.valeurTotale) }} écus</div>
             </div>
           </div>
           <div class="stat-card">
@@ -212,15 +199,10 @@ export default {
         <div class="capacity-bar-container">
           <div class="capacity-header">
             <span class="capacity-label">Espace d'Inventaire</span>
-            <span class="capacity-percentage"
-              >{{ Math.floor(getCapacityPercentage()) }}%</span
-            >
+            <span class="capacity-percentage">{{ Math.floor(getCapacityPercentage()) }}%</span>
           </div>
           <div class="capacity-bar">
-            <div
-              class="capacity-fill"
-              :style="{ width: getCapacityPercentage() + '%' }"
-            ></div>
+            <div class="capacity-fill" :style="{ width: getCapacityPercentage() + '%' }"></div>
           </div>
         </div>
       </header>
@@ -302,9 +284,7 @@ export default {
         <div v-if="materialsFiltered.length === 0" class="empty-state">
           <Package :size="64" :stroke-width="1.5" class="empty-icon" />
           <p class="empty-text">Aucun matériau trouvé</p>
-          <p class="empty-hint">
-            Achetez des matériaux au Marché pour commencer à forger !
-          </p>
+          <p class="empty-hint">Achetez des matériaux au Marché pour commencer à forger !</p>
         </div>
 
         <div v-else class="items-grid">
@@ -328,10 +308,7 @@ export default {
               </div>
             </div>
             <div class="item-actions">
-              <button
-                class="action-btn sell-btn"
-                @click="vendreMaterial(material)"
-              >
+              <button class="action-btn sell-btn" @click="vendreMaterial(material)">
                 Vendre (×1)
               </button>
             </div>
@@ -345,17 +322,12 @@ export default {
           <Hammer :size="64" :stroke-width="1.5" class="empty-icon" />
           <p class="empty-text">Aucune création</p>
           <p class="empty-hint">
-            Forgez des objets à l'Atelier de Forge pour remplir votre inventaire
-            !
+            Forgez des objets à l'Atelier de Forge pour remplir votre inventaire !
           </p>
         </div>
 
         <div v-else class="items-grid crafted-grid">
-          <div
-            v-for="item in craftedFiltered"
-            :key="item.id"
-            class="inventory-item crafted-item"
-          >
+          <div v-for="item in craftedFiltered" :key="item.id" class="inventory-item crafted-item">
             <div class="crafted-header">
               <div class="header-left">
                 <component
@@ -394,9 +366,7 @@ export default {
               </div>
             </div>
             <div class="crafted-actions">
-              <button class="action-btn sell-btn" @click="vendreObjet(item)">
-                Vendre
-              </button>
+              <button class="action-btn sell-btn" @click="vendreObjet(item)">Vendre</button>
             </div>
           </div>
         </div>
@@ -461,11 +431,7 @@ export default {
   align-items: center;
   gap: 1.5rem;
   padding: 1.5rem;
-  background: linear-gradient(
-    135deg,
-    rgba(26, 22, 18, 0.8),
-    rgba(15, 13, 10, 0.8)
-  );
+  background: linear-gradient(135deg, rgba(26, 22, 18, 0.8), rgba(15, 13, 10, 0.8));
   border: 2px solid rgba(161, 152, 130, 0.2);
   border-radius: 8px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
@@ -715,11 +681,7 @@ export default {
 
 /* Inventory Item */
 .inventory-item {
-  background: linear-gradient(
-    135deg,
-    rgba(26, 22, 18, 0.9),
-    rgba(15, 13, 10, 0.9)
-  );
+  background: linear-gradient(135deg, rgba(26, 22, 18, 0.9), rgba(15, 13, 10, 0.9));
   border: 2px solid rgba(161, 152, 130, 0.2);
   border-radius: 8px;
   padding: 1.5rem;
@@ -895,11 +857,7 @@ export default {
 }
 
 .sell-btn {
-  background: linear-gradient(
-    135deg,
-    rgba(133, 50, 51, 0.8),
-    rgba(148, 37, 37, 0.8)
-  );
+  background: linear-gradient(135deg, rgba(133, 50, 51, 0.8), rgba(148, 37, 37, 0.8));
   color: white;
   border: 1px solid rgba(133, 50, 51, 0.4);
   box-shadow: 0 2px 8px rgba(133, 50, 51, 0.2);

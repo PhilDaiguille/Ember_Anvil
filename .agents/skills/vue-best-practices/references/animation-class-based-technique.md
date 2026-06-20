@@ -165,10 +165,7 @@ watch(value, () => {
 
 ```vue
 <template>
-  <div
-    :class="{ bounce: needsAttention }"
-    @animationend="needsAttention = false"
-  >
+  <div :class="{ bounce: needsAttention }" @animationend="needsAttention = false">
     <BellIcon />
   </div>
 </template>
@@ -207,9 +204,7 @@ Instead of `setTimeout`, use the `animationend` event for cleaner code:
 
 ```vue
 <template>
-  <div :class="{ animate: isAnimating }" @animationend="isAnimating = false">
-    Content
-  </div>
+  <div :class="{ animate: isAnimating }" @animationend="isAnimating = false">Content</div>
 </template>
 
 <script setup>
@@ -256,12 +251,8 @@ const pulse = useAnimation(500);
 </script>
 
 <template>
-  <button :class="{ shake: shake.isAnimating.value }" @click="shake.trigger()">
-    Shake me
-  </button>
+  <button :class="{ shake: shake.isAnimating.value }" @click="shake.trigger()">Shake me</button>
 
-  <button :class="{ pulse: pulse.isAnimating.value }" @click="pulse.trigger()">
-    Pulse me
-  </button>
+  <button :class="{ pulse: pulse.isAnimating.value }" @click="pulse.trigger()">Pulse me</button>
 </template>
 ```

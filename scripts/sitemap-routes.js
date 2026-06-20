@@ -4,8 +4,7 @@
  * Les routes sans path fixe (ex: /:pathMatch(.*)*) sont exclues.
  */
 
-export const SITE_URL =
-  process.env.VITE_SITE_URL || "https://ember-anvil.vercel.app/";
+export const SITE_URL = process.env.VITE_SITE_URL || "https://ember-anvil.vercel.app/";
 
 // changefreq : always | hourly | daily | weekly | monthly | yearly | never
 // priority   : 0.0 – 1.0

@@ -4,17 +4,7 @@ impact: MEDIUM
 impactDescription: Suspense coordinates async dependencies with fallback UI; misconfiguration leads to missing loading states or confusing UX
 type: best-practice
 tags:
-  [
-    vue3,
-    suspense,
-    async-components,
-    async-setup,
-    loading,
-    fallback,
-    router,
-    transition,
-    keepalive,
-  ]
+  [vue3, suspense, async-components, async-setup, loading, fallback, router, transition, keepalive]
 ---
 
 # Suspense Component Best Practices

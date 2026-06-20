@@ -391,9 +391,7 @@ this.$router.push('/Shop')
 
 ```html
 <!-- Primary Meta Tags -->
-<title>
-  Ember Anvil - Forge Virtuelle & Artisanat | Crafting, Wiki & Boutique
-</title>
+<title>Ember Anvil - Forge Virtuelle & Artisanat | Crafting, Wiki & Boutique</title>
 <meta name="description" content="..." />
 <meta name="keywords" content="ember anvil, forge virtuelle, crafting..." />
 <meta name="robots" content="index, follow, max-image-preview:large..." />
@@ -402,10 +400,7 @@ this.$router.push('/Shop')
 <meta property="og:type" content="website" />
 <meta property="og:title" content="..." />
 <meta property="og:description" content="..." />
-<meta
-  property="og:image"
-  content="https://ember-anvil.vercel.app//src/assets/og-image.jpg"
-/>
+<meta property="og:image" content="https://ember-anvil.vercel.app//src/assets/og-image.jpg" />
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image" />

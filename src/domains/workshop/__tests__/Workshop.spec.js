@@ -194,9 +194,7 @@ describe("WorkshopComponent", () => {
     it("devrait afficher la liste des installations", () => {
       const facilities = wrapper.vm.facilities;
       expect(facilities.length).toBeGreaterThanOrEqual(3);
-      expect(facilities.some((f) => f.nom === "Station de Trempage")).toBe(
-        true,
-      );
+      expect(facilities.some((f) => f.nom === "Station de Trempage")).toBe(true);
     });
 
     it("devrait activer/désactiver une installation", () => {

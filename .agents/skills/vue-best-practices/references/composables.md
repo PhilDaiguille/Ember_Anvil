@@ -3,16 +3,7 @@ title: Composable Organization Patterns
 impact: MEDIUM
 impactDescription: Well-structured composables improve maintainability, reusability, and update performance
 type: best-practice
-tags:
-  [
-    vue3,
-    composables,
-    composition-api,
-    code-organization,
-    api-design,
-    readonly,
-    utilities,
-  ]
+tags: [vue3, composables, composition-api, code-organization, api-design, readonly, utilities]
 ---
 
 # Composable Organization Patterns
@@ -45,11 +36,7 @@ function onMove(e) {
   y.value = e.pageY;
   if (!el.value) return;
   const r = el.value.getBoundingClientRect();
-  inside.value =
-    x.value >= r.left &&
-    x.value <= r.right &&
-    y.value >= r.top &&
-    y.value <= r.bottom;
+  inside.value = x.value >= r.left && x.value <= r.right && y.value >= r.top && y.value <= r.bottom;
 }
 
 onMounted(() => window.addEventListener("mousemove", onMove));
@@ -99,10 +86,7 @@ export function useMouseInElement(elementRef) {
     if (!elementRef.value) return true;
     const rect = elementRef.value.getBoundingClientRect();
     return (
-      x.value < rect.left ||
-      x.value > rect.right ||
-      y.value < rect.top ||
-      y.value > rect.bottom
+      x.value < rect.left || x.value > rect.right || y.value < rect.top || y.value > rect.bottom
     );
   });
 
@@ -126,13 +110,7 @@ useFetch("/api/users", "GET", null, 5000, 3, true);
 
 ```javascript
 export function useFetch(url, options = {}) {
-  const {
-    method = "GET",
-    headers = {},
-    timeout = 30000,
-    retries = 0,
-    immediate = true,
-  } = options;
+  const { method = "GET", headers = {}, timeout = 30000, retries = 0, immediate = true } = options;
 
   // implementation
   return { method, headers, timeout, retries, immediate };
@@ -166,9 +144,7 @@ export function useCounter(options: UseCounterOptions = {}) {
 ```javascript
 export function useCart() {
   const items = ref([]);
-  const total = computed(() =>
-    items.value.reduce((sum, item) => sum + item.price, 0),
-  );
+  const total = computed(() => items.value.reduce((sum, item) => sum + item.price, 0));
   return { items, total }; // any consumer can mutate directly
 }
 
@@ -271,9 +247,7 @@ const sortBy = ref("name");
 const filter = ref("all");
 const loading = ref(false);
 
-const filtered = computed(() =>
-  items.value.filter((i) => i.category === filter.value),
-);
+const filtered = computed(() => items.value.filter((i) => i.category === filter.value));
 function openModal() {
   showModal.value = true;
 }
@@ -302,8 +276,7 @@ const { items, loading, fetchItems } = useItems();
 const { query, visibleItems } = useSearch(items);
 
 // Selection + modal
-const { selectedItem, isModalOpen, selectItem, closeModal } =
-  useSelectionModal();
+const { selectedItem, isModalOpen, selectItem, closeModal } = useSelectionModal();
 </script>
 ```
 

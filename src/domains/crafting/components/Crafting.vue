@@ -29,11 +29,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(useCraftingStore, [
-      "estEnCoursDeForge",
-      "recetteEnCours",
-      "progressionForge",
-    ]),
+    ...mapState(useCraftingStore, ["estEnCoursDeForge", "recetteEnCours", "progressionForge"]),
     ...mapGetters(useCraftingStore, ["tempsRestant", "historiqueRecent"]),
     ...mapState(usePlayerStore, ["niveau"]),
 
@@ -52,9 +48,7 @@ export default {
     },
 
     categorieNom() {
-      const cat = this.categoriesDisponibles.find(
-        (c) => c.id === this.categorieSelectionnee,
-      );
+      const cat = this.categoriesDisponibles.find((c) => c.id === this.categorieSelectionnee);
       return cat ? cat.nom : "";
     },
 
@@ -128,11 +122,7 @@ export default {
 </script>
 
 <template>
-  <main
-    class="forge-workshop"
-    id="main-content"
-    aria-label="Forge - Création d'objets"
-  >
+  <main class="forge-workshop" id="main-content" aria-label="Forge - Création d'objets">
     <div class="forge-container">
       <div class="forge-header">
         <div class="title-block">
@@ -196,16 +186,8 @@ export default {
   right: 0;
   bottom: 0;
   background:
-    radial-gradient(
-      circle at 30% 50%,
-      rgba(255, 100, 30, 0.03) 0%,
-      transparent 50%
-    ),
-    radial-gradient(
-      circle at 70% 60%,
-      rgba(255, 80, 20, 0.02) 0%,
-      transparent 40%
-    );
+    radial-gradient(circle at 30% 50%, rgba(255, 100, 30, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 70% 60%, rgba(255, 80, 20, 0.02) 0%, transparent 40%);
   pointer-events: none;
 }
 
@@ -267,11 +249,7 @@ export default {
 }
 
 .craft-counter {
-  background: linear-gradient(
-    135deg,
-    rgba(50, 93, 68, 0.2),
-    rgba(25, 25, 25, 0.4)
-  );
+  background: linear-gradient(135deg, rgba(50, 93, 68, 0.2), rgba(25, 25, 25, 0.4));
   border: 2px solid var(--viridian);
   padding: 1.5rem 2rem;
   text-align: center;

@@ -112,14 +112,13 @@ export const useCodexStore = defineStore("codex", {
 
     // Discovered recipes only
     discoveredRecipesList: (state) => {
-      return RECIPES.filter((recipe) =>
-        state.discoveredRecipes.includes(recipe.id),
-      ).sort((a, b) => {
-        // Sort by level requirement then name
-        if (a.niveauRequis !== b.niveauRequis)
-          return a.niveauRequis - b.niveauRequis;
-        return a.nom.localeCompare(b.nom);
-      });
+      return RECIPES.filter((recipe) => state.discoveredRecipes.includes(recipe.id)).sort(
+        (a, b) => {
+          // Sort by level requirement then name
+          if (a.niveauRequis !== b.niveauRequis) return a.niveauRequis - b.niveauRequis;
+          return a.nom.localeCompare(b.nom);
+        },
+      );
     },
 
     // Filtered and searched recipes
@@ -177,11 +176,8 @@ export const useCodexStore = defineStore("codex", {
     // Overall completion percentage
     globalCompletionRate: (state) => {
       const totalItems = MATERIALS_ARRAY.length + RECIPES.length;
-      const discoveredItems =
-        state.discoveredMaterials.length + state.discoveredRecipes.length;
-      return totalItems > 0
-        ? Math.round((discoveredItems / totalItems) * 100)
-        : 0;
+      const discoveredItems = state.discoveredMaterials.length + state.discoveredRecipes.length;
+      return totalItems > 0 ? Math.round((discoveredItems / totalItems) * 100) : 0;
     },
 
     // Get selected item (material or recipe)

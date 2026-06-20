@@ -59,18 +59,14 @@ describe("Router", () => {
 
     it("devrait avoir une route pour l'inventaire", () => {
       const router = createTestRouter();
-      const inventaireRoute = router
-        .getRoutes()
-        .find((r) => r.path === "/inventaire");
+      const inventaireRoute = router.getRoutes().find((r) => r.path === "/inventaire");
       expect(inventaireRoute).toBeDefined();
       expect(inventaireRoute.name).toBe("inventaire");
     });
 
     it("devrait avoir une route pour l'atelier", () => {
       const router = createTestRouter();
-      const atelierRoute = router
-        .getRoutes()
-        .find((r) => r.path === "/atelier");
+      const atelierRoute = router.getRoutes().find((r) => r.path === "/atelier");
       expect(atelierRoute).toBeDefined();
       expect(atelierRoute.name).toBe("atelier");
     });
@@ -96,9 +92,7 @@ describe("Router", () => {
 
     it("toutes les routes principales devraient avoir un nom", () => {
       const router = createTestRouter();
-      const mainRoutes = router
-        .getRoutes()
-        .filter((r) => !r.path.includes(":"));
+      const mainRoutes = router.getRoutes().filter((r) => !r.path.includes(":"));
       mainRoutes.forEach((route) => {
         expect(route.name).toBeDefined();
       });

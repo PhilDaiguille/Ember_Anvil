@@ -55,9 +55,7 @@ describe("ShopComponent", () => {
     });
 
     it("devrait afficher la section de description", () => {
-      expect(wrapper.text()).toContain(
-        "Un Bazar d'Excellence au Cœur de la Forge",
-      );
+      expect(wrapper.text()).toContain("Un Bazar d'Excellence au Cœur de la Forge");
     });
   });
 
@@ -119,8 +117,7 @@ describe("ShopComponent", () => {
       if (filtered.length > 0) {
         filtered.forEach((mat) => {
           expect(
-            mat.nom.toLowerCase().includes("metal") ||
-              mat.type.toLowerCase().includes("metal"),
+            mat.nom.toLowerCase().includes("metal") || mat.type.toLowerCase().includes("metal"),
           ).toBe(true);
         });
       }
@@ -187,9 +184,7 @@ describe("ShopComponent", () => {
 
       wrapper.vm.acheterMaterial(mockMaterial, 1);
 
-      const errorNotif = notificationsStore.notifications.find(
-        (n) => n.type === "error",
-      );
+      const errorNotif = notificationsStore.notifications.find((n) => n.type === "error");
       expect(errorNotif).toBeTruthy();
       expect(errorNotif.message).toContain("Fonds insuffisants");
     });
@@ -204,9 +199,7 @@ describe("ShopComponent", () => {
 
       wrapper.vm.acheterMaterial(mockMaterial, 1);
 
-      const infoNotif = notificationsStore.notifications.find(
-        (n) => n.type === "info",
-      );
+      const infoNotif = notificationsStore.notifications.find((n) => n.type === "info");
       expect(infoNotif).toBeTruthy();
       expect(infoNotif.message).toContain("Nouveau matériau découvert");
     });
@@ -254,9 +247,7 @@ describe("ShopComponent", () => {
 
       wrapper.vm.vendreMaterial(mockMaterial, 5);
 
-      const errorNotif = notificationsStore.notifications.find(
-        (n) => n.type === "error",
-      );
+      const errorNotif = notificationsStore.notifications.find((n) => n.type === "error");
       expect(errorNotif).toBeTruthy();
       expect(errorNotif.message).toContain("n'avez pas assez");
     });

@@ -217,10 +217,7 @@ const emit = defineEmits(["update:modelValue"]);
 </script>
 
 <template>
-  <input
-    :value="props.modelValue"
-    @input="emit('update:modelValue', $event.target.value)"
-  />
+  <input :value="props.modelValue" @input="emit('update:modelValue', $event.target.value)" />
 </template>
 ```
 
@@ -233,18 +230,16 @@ Use provide/inject for cross-tree state, but keep mutations centralized in the p
 **BAD:**
 
 ```vue
-// Provider.vue provide('theme', reactive({ dark: false })) // Consumer.vue
-const theme = inject('theme') // Mutating shared state from any depth becomes
-hard to track theme.dark = true
+// Provider.vue provide('theme', reactive({ dark: false })) // Consumer.vue const theme =
+inject('theme') // Mutating shared state from any depth becomes hard to track theme.dark = true
 ```
 
 **GOOD:**
 
 ```vue
-// Provider.vue const theme = reactive({ dark: false }) const toggleTheme = ()
-=> { theme.dark = !theme.dark } provide(themeKey, readonly(theme))
-provide(themeActionsKey, { toggleTheme }) // Consumer.vue const theme =
-inject(themeKey) const { toggleTheme } = inject(themeActionsKey)
+// Provider.vue const theme = reactive({ dark: false }) const toggleTheme = () => { theme.dark =
+!theme.dark } provide(themeKey, readonly(theme)) provide(themeActionsKey, { toggleTheme }) //
+Consumer.vue const theme = inject(themeKey) const { toggleTheme } = inject(themeActionsKey)
 ```
 
 Use symbols for keys to avoid collisions in large apps:
@@ -262,20 +257,20 @@ In TypeScript projects, type component boundaries directly with `defineProps`, `
 
 ```vue
 <script setup lang="ts">
-import { inject } from 'vue'
+import { inject } from "vue";
 
 const props = defineProps({
-  userId: String
-})
+  userId: String,
+});
 
-const emit = defineEmits(['save'])
-const settings = inject('settings')
+const emit = defineEmits(["save"]);
+const settings = inject("settings");
 
 // Payload shape is not checked here
-emit('save', 123)
+emit("save", 123);
 
 // Key is string-based and not type-safe
-settings?.theme = 'dark'
+settings?.theme = "dark";
 </script>
 ```
 

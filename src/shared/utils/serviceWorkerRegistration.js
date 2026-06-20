@@ -8,10 +8,7 @@ export function registerServiceWorker() {
       navigator.serviceWorker
         .register("/service-worker.js")
         .then((registration) => {
-          console.log(
-            "[SW] Service Worker enregistré avec succès:",
-            registration.scope,
-          );
+          console.log("[SW] Service Worker enregistré avec succès:", registration.scope);
 
           // Vérifier les mises à jour toutes les heures
           setInterval(
@@ -26,17 +23,12 @@ export function registerServiceWorker() {
             const newWorker = registration.installing;
 
             newWorker.addEventListener("statechange", () => {
-              if (
-                newWorker.state === "installed" &&
-                navigator.serviceWorker.controller
-              ) {
+              if (newWorker.state === "installed" && navigator.serviceWorker.controller) {
                 // Nouvelle version disponible
                 console.log("[SW] Nouvelle version disponible");
 
                 // Optionnel: Afficher une notification à l'utilisateur
-                if (
-                  confirm("Une nouvelle version est disponible. Recharger ?")
-                ) {
+                if (confirm("Une nouvelle version est disponible. Recharger ?")) {
                   newWorker.postMessage({ type: "SKIP_WAITING" });
                   window.location.reload();
                 }

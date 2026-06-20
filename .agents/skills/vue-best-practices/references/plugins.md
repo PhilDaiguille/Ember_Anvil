@@ -168,9 +168,7 @@ import { authKey, type AuthService } from "@/injection-keys";
 export function useAuth(): AuthService {
   const auth = inject(authKey);
   if (!auth) {
-    throw new Error(
-      "Auth plugin not installed. Did you forget app.use(authPlugin)?",
-    );
+    throw new Error("Auth plugin not installed. Did you forget app.use(authPlugin)?");
   }
   return auth;
 }

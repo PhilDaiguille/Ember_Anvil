@@ -28,7 +28,7 @@ import {
   Wrench,
   Zap,
   Star,
-} from "lucide-vue-next";
+} from "@lucide/vue";
 
 export default {
   name: "ProfileComponent",
@@ -70,11 +70,7 @@ export default {
       "ecus",
       "or",
     ]),
-    ...mapGetters(usePlayerStore, [
-      "progressionNiveau",
-      "niveauSuivant",
-      "titreActuel",
-    ]),
+    ...mapGetters(usePlayerStore, ["progressionNiveau", "niveauSuivant", "titreActuel"]),
     ...mapState(useGameStore, ["achievementsProgress"]),
     ...mapGetters(useGameStore, [
       "allAchievementsWithStatus",
@@ -169,12 +165,7 @@ export default {
           <div class="avatar-section">
             <div class="avatar-wrapper">
               <div class="avatar-circle">
-                <component
-                  :is="profile.avatar"
-                  :size="80"
-                  :stroke-width="2"
-                  class="avatar-icon"
-                />
+                <component :is="profile.avatar" :size="80" :stroke-width="2" class="avatar-icon" />
               </div>
               <div class="avatar-level">{{ profile.niveau }}</div>
             </div>
@@ -194,19 +185,15 @@ export default {
               <div class="exp-header">
                 <span class="exp-label">Expérience</span>
                 <span class="exp-value"
-                  >{{ profile.experience }} /
-                  {{ profile.experienceMax }} XP</span
+                  >{{ profile.experience }} / {{ profile.experienceMax }} XP</span
                 >
               </div>
               <div class="exp-bar">
-                <div
-                  class="exp-fill"
-                  :style="{ width: getExperiencePercentage() + '%' }"
-                ></div>
+                <div class="exp-fill" :style="{ width: getExperiencePercentage() + '%' }"></div>
               </div>
               <div class="exp-next">
-                {{ profile.experienceMax - profile.experience }} XP avant le
-                niveau {{ profile.niveau + 1 }}
+                {{ profile.experienceMax - profile.experience }} XP avant le niveau
+                {{ profile.niveau + 1 }}
               </div>
             </div>
           </div>
@@ -302,18 +289,8 @@ export default {
                 <h3 class="badge-name">{{ badge.nom }}</h3>
                 <p class="badge-description">{{ badge.description }}</p>
               </div>
-              <Lock
-                v-if="!badge.unlocked"
-                :size="24"
-                :stroke-width="2"
-                class="badge-lock"
-              />
-              <CheckCircle
-                v-else
-                :size="24"
-                :stroke-width="2"
-                class="badge-check"
-              />
+              <Lock v-if="!badge.unlocked" :size="24" :stroke-width="2" class="badge-lock" />
+              <CheckCircle v-else :size="24" :stroke-width="2" class="badge-check" />
             </div>
           </div>
         </section>
@@ -354,11 +331,7 @@ export default {
 
 /* Profile Header Card */
 .profile-header-card {
-  background: linear-gradient(
-    135deg,
-    rgba(26, 22, 18, 0.95),
-    rgba(15, 13, 10, 0.95)
-  );
+  background: linear-gradient(135deg, rgba(26, 22, 18, 0.95), rgba(15, 13, 10, 0.95));
   border: 2px solid rgba(161, 152, 130, 0.3);
 
   overflow: hidden;
@@ -561,11 +534,7 @@ export default {
 
 /* Stats Section */
 .stats-section {
-  background: linear-gradient(
-    135deg,
-    rgba(26, 22, 18, 0.95),
-    rgba(15, 13, 10, 0.95)
-  );
+  background: linear-gradient(135deg, rgba(26, 22, 18, 0.95), rgba(15, 13, 10, 0.95));
   border: 2px solid rgba(161, 152, 130, 0.2);
 
   padding: 2rem;
@@ -624,11 +593,7 @@ export default {
 
 /* Badges Section */
 .badges-section {
-  background: linear-gradient(
-    135deg,
-    rgba(26, 22, 18, 0.95),
-    rgba(15, 13, 10, 0.95)
-  );
+  background: linear-gradient(135deg, rgba(26, 22, 18, 0.95), rgba(15, 13, 10, 0.95));
   border: 2px solid rgba(161, 152, 130, 0.2);
 
   padding: 2rem;
@@ -716,11 +681,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(
-    135deg,
-    rgba(0, 114, 87, 0.1),
-    rgba(50, 93, 68, 0.05)
-  );
+  background: linear-gradient(135deg, rgba(0, 114, 87, 0.1), rgba(50, 93, 68, 0.05));
 }
 
 .progress-value {
@@ -737,11 +698,7 @@ export default {
 
 /* Achievements Section */
 .achievements-section {
-  background: linear-gradient(
-    135deg,
-    rgba(26, 22, 18, 0.95),
-    rgba(15, 13, 10, 0.95)
-  );
+  background: linear-gradient(135deg, rgba(26, 22, 18, 0.95), rgba(15, 13, 10, 0.95));
   border: 2px solid rgba(161, 152, 130, 0.2);
 
   padding: 2rem;

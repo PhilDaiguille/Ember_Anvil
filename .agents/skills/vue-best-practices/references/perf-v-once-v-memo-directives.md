@@ -117,11 +117,7 @@ const selectedId = ref(null);
     :key="item.id"
     v-memo="[item.id === selectedId, item.id === editingId]"
   >
-    <ItemCard
-      :item="item"
-      :selected="item.id === selectedId"
-      :editing="item.id === editingId"
-    />
+    <ItemCard :item="item" :selected="item.id === selectedId" :editing="item.id === editingId" />
   </div>
 </template>
 

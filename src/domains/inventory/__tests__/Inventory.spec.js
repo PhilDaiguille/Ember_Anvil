@@ -111,9 +111,7 @@ describe("InventoryComponent", () => {
       await wrapper.vm.$nextTick();
 
       const filtered = wrapper.vm.materialsFiltered;
-      expect(filtered.some((m) => m.nom.toLowerCase().includes("fer"))).toBe(
-        true,
-      );
+      expect(filtered.some((m) => m.nom.toLowerCase().includes("fer"))).toBe(true);
     });
 
     it("devrait filtrer par nom et type", async () => {
@@ -124,8 +122,7 @@ describe("InventoryComponent", () => {
       if (filtered.length > 0) {
         filtered.forEach((m) => {
           expect(
-            m.nom.toLowerCase().includes("metal") ||
-              m.type.toLowerCase().includes("metal"),
+            m.nom.toLowerCase().includes("metal") || m.type.toLowerCase().includes("metal"),
           ).toBe(true);
         });
       }
@@ -204,10 +201,7 @@ describe("InventoryComponent", () => {
 
       const retirerMaterialSpy = vi.spyOn(inventoryStore, "retirerMaterial");
       const ajouterEcusSpy = vi.spyOn(playerStore, "ajouterEcus");
-      const ajouterNotifSpy = vi.spyOn(
-        notificationsStore,
-        "ajouterNotification",
-      );
+      const ajouterNotifSpy = vi.spyOn(notificationsStore, "ajouterNotification");
 
       wrapper.vm.vendreMaterial(mockMaterial);
 
@@ -227,10 +221,7 @@ describe("InventoryComponent", () => {
         prixVente: 500,
       };
 
-      const ajouterNotifSpy = vi.spyOn(
-        notificationsStore,
-        "ajouterNotification",
-      );
+      const ajouterNotifSpy = vi.spyOn(notificationsStore, "ajouterNotification");
 
       wrapper.vm.vendreMaterial(mockMaterial);
 
@@ -253,10 +244,7 @@ describe("InventoryComponent", () => {
 
       const supprimerObjetSpy = vi.spyOn(inventoryStore, "supprimerObjet");
       const ajouterEcusSpy = vi.spyOn(playerStore, "ajouterEcus");
-      const ajouterNotifSpy = vi.spyOn(
-        notificationsStore,
-        "ajouterNotification",
-      );
+      const ajouterNotifSpy = vi.spyOn(notificationsStore, "ajouterNotification");
 
       wrapper.vm.vendreObjet(mockItem);
 

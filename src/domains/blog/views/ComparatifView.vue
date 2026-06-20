@@ -38,74 +38,54 @@
           >
             Meilleurs jeux de forge en ligne 2026 : comparatif complet
           </h1>
-          <p
-            class="text-xl text-gray-300 leading-relaxed max-w-2xl"
-            itemprop="description"
-          >
-            Ember Anvil, Minecraft, Valheim, Little Alchemy 2, Stardew Valley —
-            quel jeu de forge choisir selon votre style de jeu et vos attentes ?
+          <p class="text-xl text-gray-300 leading-relaxed max-w-2xl" itemprop="description">
+            Ember Anvil, Minecraft, Valheim, Little Alchemy 2, Stardew Valley — quel jeu de forge
+            choisir selon votre style de jeu et vos attentes ?
           </p>
         </header>
 
         <!-- Introduction -->
         <section class="mb-12">
-          <div
-            class="prose-content space-y-4 text-gray-300 leading-relaxed text-lg"
-          >
+          <div class="prose-content space-y-4 text-gray-300 leading-relaxed text-lg">
             <p>
               Les jeux de
               <strong class="text-white">forge et d'artisanat</strong>
-              connaissent un engouement croissant. Entre simulateurs purs, RPG
-              ouverts et puzzles alchimiques, l'offre est vaste. Ce comparatif
-              vous aide à choisir le titre le mieux adapté à vos préférences.
+              connaissent un engouement croissant. Entre simulateurs purs, RPG ouverts et puzzles
+              alchimiques, l'offre est vaste. Ce comparatif vous aide à choisir le titre le mieux
+              adapté à vos préférences.
             </p>
             <p>
-              Nous avons évalué chaque jeu selon cinq critères : profondeur du
-              crafting, accessibilité, progression, richesse du contenu et
-              liberté du joueur.
+              Nous avons évalué chaque jeu selon cinq critères : profondeur du crafting,
+              accessibilité, progression, richesse du contenu et liberté du joueur.
             </p>
           </div>
         </section>
 
         <!-- Tableau comparatif -->
         <section class="mb-16">
-          <h2
-            class="text-3xl font-bold text-amber-100 mb-8 border-l-4 border-amber-700 pl-4"
-          >
+          <h2 class="text-3xl font-bold text-amber-100 mb-8 border-l-4 border-amber-700 pl-4">
             Tableau Comparatif
           </h2>
           <div class="overflow-x-auto rounded-xl border border-white/10">
             <table class="comparison-table w-full text-sm">
               <thead>
                 <tr class="bg-black/60 border-b border-white/10">
-                  <th
-                    class="text-left p-4 text-gray-400 font-semibold uppercase tracking-wider"
-                  >
+                  <th class="text-left p-4 text-gray-400 font-semibold uppercase tracking-wider">
                     Jeu
                   </th>
-                  <th
-                    class="text-center p-4 text-gray-400 font-semibold uppercase tracking-wider"
-                  >
+                  <th class="text-center p-4 text-gray-400 font-semibold uppercase tracking-wider">
                     Crafting
                   </th>
-                  <th
-                    class="text-center p-4 text-gray-400 font-semibold uppercase tracking-wider"
-                  >
+                  <th class="text-center p-4 text-gray-400 font-semibold uppercase tracking-wider">
                     Accessibilité
                   </th>
-                  <th
-                    class="text-center p-4 text-gray-400 font-semibold uppercase tracking-wider"
-                  >
+                  <th class="text-center p-4 text-gray-400 font-semibold uppercase tracking-wider">
                     Progression
                   </th>
-                  <th
-                    class="text-center p-4 text-gray-400 font-semibold uppercase tracking-wider"
-                  >
+                  <th class="text-center p-4 text-gray-400 font-semibold uppercase tracking-wider">
                     Contenu
                   </th>
-                  <th
-                    class="text-center p-4 text-gray-400 font-semibold uppercase tracking-wider"
-                  >
+                  <th class="text-center p-4 text-gray-400 font-semibold uppercase tracking-wider">
                     Gratuit
                   </th>
                 </tr>
@@ -142,11 +122,7 @@
                         v-for="i in 5"
                         :key="i"
                         class="text-lg"
-                        :class="
-                          i <= game.scores.crafting
-                            ? 'text-amber-400'
-                            : 'text-gray-700'
-                        "
+                        :class="i <= game.scores.crafting ? 'text-amber-400' : 'text-gray-700'"
                         >★</span
                       >
                     </div>
@@ -157,11 +133,7 @@
                         v-for="i in 5"
                         :key="i"
                         class="text-lg"
-                        :class="
-                          i <= game.scores.accessibility
-                            ? 'text-amber-400'
-                            : 'text-gray-700'
-                        "
+                        :class="i <= game.scores.accessibility ? 'text-amber-400' : 'text-gray-700'"
                         >★</span
                       >
                     </div>
@@ -172,11 +144,7 @@
                         v-for="i in 5"
                         :key="i"
                         class="text-lg"
-                        :class="
-                          i <= game.scores.progression
-                            ? 'text-amber-400'
-                            : 'text-gray-700'
-                        "
+                        :class="i <= game.scores.progression ? 'text-amber-400' : 'text-gray-700'"
                         >★</span
                       >
                     </div>
@@ -187,11 +155,7 @@
                         v-for="i in 5"
                         :key="i"
                         class="text-lg"
-                        :class="
-                          i <= game.scores.content
-                            ? 'text-amber-400'
-                            : 'text-gray-700'
-                        "
+                        :class="i <= game.scores.content ? 'text-amber-400' : 'text-gray-700'"
                         >★</span
                       >
                     </div>
@@ -212,9 +176,7 @@
 
         <!-- Fiches détaillées -->
         <section class="space-y-12 mb-16">
-          <h2
-            class="text-3xl font-bold text-amber-100 mb-8 border-l-4 border-amber-700 pl-4"
-          >
+          <h2 class="text-3xl font-bold text-amber-100 mb-8 border-l-4 border-amber-700 pl-4">
             Analyse Détaillée
           </h2>
 
@@ -222,16 +184,12 @@
             v-for="game in games"
             :key="game.name + '-detail'"
             class="game-card bg-black/30 rounded-xl border p-8"
-            :class="
-              game.highlighted ? 'border-amber-500/40' : 'border-white/10'
-            "
+            :class="game.highlighted ? 'border-amber-500/40' : 'border-white/10'"
           >
             <div class="flex items-start gap-4 mb-6">
               <span class="text-4xl">{{ game.emoji }}</span>
               <div class="flex-1">
-                <h3
-                  class="text-2xl font-bold text-white mb-1 flex items-center gap-3 flex-wrap"
-                >
+                <h3 class="text-2xl font-bold text-white mb-1 flex items-center gap-3 flex-wrap">
                   {{ game.name }}
                   <span
                     v-if="game.highlighted"
@@ -240,9 +198,7 @@
                     Notre recommandation
                   </span>
                 </h3>
-                <p class="text-gray-400 text-sm">
-                  {{ game.genre }} · {{ game.platform }}
-                </p>
+                <p class="text-gray-400 text-sm">{{ game.genre }} · {{ game.platform }}</p>
               </div>
             </div>
 
@@ -300,9 +256,7 @@
 
         <!-- Quel jeu pour quel profil ? -->
         <section class="mb-16">
-          <h2
-            class="text-3xl font-bold text-amber-100 mb-8 border-l-4 border-amber-700 pl-4"
-          >
+          <h2 class="text-3xl font-bold text-amber-100 mb-8 border-l-4 border-amber-700 pl-4">
             Quel Jeu pour Quel Profil ?
           </h2>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -318,29 +272,24 @@
               <p class="text-sm text-gray-400 mb-3">
                 {{ profile.description }}
               </p>
-              <p class="text-sm font-semibold text-amber-300">
-                → {{ profile.recommendation }}
-              </p>
+              <p class="text-sm font-semibold text-amber-300">→ {{ profile.recommendation }}</p>
             </div>
           </div>
         </section>
 
         <!-- Conclusion -->
-        <section
-          class="mb-12 bg-amber-900/10 border border-amber-700/30 rounded-xl p-8"
-        >
+        <section class="mb-12 bg-amber-900/10 border border-amber-700/30 rounded-xl p-8">
           <h2 class="text-2xl font-bold text-white mb-4">Notre Conclusion</h2>
           <p class="text-gray-300 leading-relaxed mb-4">
             Pour les amateurs de forge virtuelle pure et accessible,
             <strong class="text-amber-300">Ember Anvil</strong>
-            s'impose comme le choix évident en 2026. Sa profondeur de crafting,
-            son système de progression structuré et son accès gratuit en font
-            une référence du genre.
+            s'impose comme le choix évident en 2026. Sa profondeur de crafting, son système de
+            progression structuré et son accès gratuit en font une référence du genre.
           </p>
           <p class="text-gray-300 leading-relaxed">
-            Si vous cherchez un open-world complet, Minecraft ou Valheim
-            répondront mieux à vos attentes. Pour une expérience détendue et
-            poétique, Little Alchemy 2 reste un classique indémodable.
+            Si vous cherchez un open-world complet, Minecraft ou Valheim répondront mieux à vos
+            attentes. Pour une expérience détendue et poétique, Little Alchemy 2 reste un classique
+            indémodable.
           </p>
           <div class="mt-6">
             <router-link
@@ -357,9 +306,7 @@
         <footer class="mt-16 pt-10 border-t border-white/10">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <p class="text-xs uppercase tracking-widest text-gray-500 mb-2">
-                Article précédent
-              </p>
+              <p class="text-xs uppercase tracking-widest text-gray-500 mb-2">Article précédent</p>
               <router-link
                 to="/guides/glossaire-forge"
                 class="block bg-black/30 rounded-xl p-5 border border-white/10 hover:border-amber-500/40 transition-all duration-200 group"
@@ -369,15 +316,11 @@
                 >
                   ← Glossaire de la forge
                 </div>
-                <div class="text-sm text-gray-500">
-                  Tous les termes expliqués
-                </div>
+                <div class="text-sm text-gray-500">Tous les termes expliqués</div>
               </router-link>
             </div>
             <div class="text-right">
-              <p class="text-xs uppercase tracking-widest text-gray-500 mb-2">
-                Retour à l'accueil
-              </p>
+              <p class="text-xs uppercase tracking-widest text-gray-500 mb-2">Retour à l'accueil</p>
               <router-link
                 to="/"
                 class="block bg-black/30 rounded-xl p-5 border border-white/10 hover:border-amber-500/40 transition-all duration-200 group"
@@ -401,7 +344,7 @@
 <script>
 import PageHeader from "@/shared/layout/PageHeader.vue";
 import PageFooter from "@/shared/layout/PageFooter.vue";
-import { ThumbsUp, ThumbsDown, Hammer } from "lucide-vue-next";
+import { ThumbsUp, ThumbsDown, Hammer } from "@lucide/vue";
 
 export default {
   name: "ComparatifView",
@@ -616,24 +559,20 @@ export default {
           type: "Amateur de forge pure",
           description:
             "Vous voulez des centaines de recettes, un système de raretés et une progression dédiée à l'artisanat.",
-          recommendation:
-            "Ember Anvil — le simulateur de forge le plus complet et gratuit.",
+          recommendation: "Ember Anvil — le simulateur de forge le plus complet et gratuit.",
         },
         {
           icon: "⚔️",
           type: "Joueur RPG / Survie",
-          description:
-            "Vous aimez explorer, combattre et forger dans un univers ouvert immersif.",
-          recommendation:
-            "Valheim pour une aventure nordique, Minecraft pour la liberté totale.",
+          description: "Vous aimez explorer, combattre et forger dans un univers ouvert immersif.",
+          recommendation: "Valheim pour une aventure nordique, Minecraft pour la liberté totale.",
         },
         {
           icon: "🧩",
           type: "Joueur casual",
           description:
             "Sessions courtes, pas de prise de tête, juste le plaisir de combiner des éléments.",
-          recommendation:
-            "Little Alchemy 2 — simple, gratuit, parfait pour 10 minutes de pause.",
+          recommendation: "Little Alchemy 2 — simple, gratuit, parfait pour 10 minutes de pause.",
         },
         {
           icon: "🌻",

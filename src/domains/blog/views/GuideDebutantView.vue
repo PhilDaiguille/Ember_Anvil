@@ -38,12 +38,9 @@
           >
             Comment débuter dans la forge virtuelle : guide complet
           </h1>
-          <p
-            class="text-xl text-gray-300 leading-relaxed max-w-2xl"
-            itemprop="description"
-          >
-            Premiers pas, mécaniques essentielles, conseils d'expert — tout ce
-            qu'il faut savoir pour bien démarrer votre aventure à Ember Anvil.
+          <p class="text-xl text-gray-300 leading-relaxed max-w-2xl" itemprop="description">
+            Premiers pas, mécaniques essentielles, conseils d'expert — tout ce qu'il faut savoir
+            pour bien démarrer votre aventure à Ember Anvil.
           </p>
         </header>
 
@@ -52,9 +49,7 @@
           class="toc-block bg-black/40 border border-white/10 rounded-xl p-6 mb-12"
           aria-label="Table des matières"
         >
-          <h2
-            class="text-sm uppercase tracking-widest text-gray-500 font-semibold mb-4"
-          >
+          <h2 class="text-sm uppercase tracking-widest text-gray-500 font-semibold mb-4">
             Table des matières
           </h2>
           <ol class="space-y-2">
@@ -74,61 +69,47 @@
         <div class="article-body space-y-16">
           <!-- Introduction -->
           <section id="introduction">
-            <h2 class="section-heading text-3xl font-bold text-amber-100 mb-6">
-              Introduction
-            </h2>
-            <div
-              class="prose-content space-y-4 text-gray-300 leading-relaxed text-lg"
-            >
+            <h2 class="section-heading text-3xl font-bold text-amber-100 mb-6">Introduction</h2>
+            <div class="prose-content space-y-4 text-gray-300 leading-relaxed text-lg">
               <p>
-                <strong class="text-white">Ember Anvil</strong> est une forge
-                virtuelle où vous incarnez un forgeron qui construit sa
-                réputation à partir de rien. Le jeu mêle gestion de ressources,
-                artisanat progressif et découverte de recettes dans une
+                <strong class="text-white">Ember Anvil</strong> est une forge virtuelle où vous
+                incarnez un forgeron qui construit sa réputation à partir de rien. Le jeu mêle
+                gestion de ressources, artisanat progressif et découverte de recettes dans une
                 atmosphère sombre et immersive.
               </p>
               <p>
-                Que vous n'ayez jamais joué à un jeu de crafting ou que vous
-                veniez d'autres titres du genre, ce guide vous accompagnera pas
-                à pas pour prendre en main toutes les mécaniques fondamentales
-                d'Ember Anvil.
+                Que vous n'ayez jamais joué à un jeu de crafting ou que vous veniez d'autres titres
+                du genre, ce guide vous accompagnera pas à pas pour prendre en main toutes les
+                mécaniques fondamentales d'Ember Anvil.
               </p>
             </div>
           </section>
 
           <!-- Premiers pas -->
           <section id="premiers-pas">
-            <h2 class="section-heading text-3xl font-bold text-amber-100 mb-6">
-              Premiers Pas
-            </h2>
-            <div
-              class="prose-content space-y-4 text-gray-300 leading-relaxed text-lg"
-            >
+            <h2 class="section-heading text-3xl font-bold text-amber-100 mb-6">Premiers Pas</h2>
+            <div class="prose-content space-y-4 text-gray-300 leading-relaxed text-lg">
               <p>
-                À votre arrivée dans Ember Anvil, vous disposez d'un atelier de
-                base équipé des outils essentiels : une enclume, un soufflet et
-                un marteau. Ces trois composants forment le cœur de votre forge.
+                À votre arrivée dans Ember Anvil, vous disposez d'un atelier de base équipé des
+                outils essentiels : une enclume, un soufflet et un marteau. Ces trois composants
+                forment le cœur de votre forge.
               </p>
               <p>
                 La première chose à faire est de visiter le
-                <strong class="text-amber-300">Marché</strong>. Vous y trouverez
-                les matériaux de base — fer, cuivre et charbon — disponibles à
-                petits prix. Achetez-en en quantité raisonnable pour ne pas
-                vider vos écus dès le départ.
+                <strong class="text-amber-300">Marché</strong>. Vous y trouverez les matériaux de
+                base — fer, cuivre et charbon — disponibles à petits prix. Achetez-en en quantité
+                raisonnable pour ne pas vider vos écus dès le départ.
               </p>
               <div
                 class="tip-block bg-amber-900/20 border-l-4 border-amber-500 rounded-r-xl p-5 my-6"
               >
-                <p
-                  class="text-amber-100 font-semibold mb-1 flex items-center gap-2"
-                >
+                <p class="text-amber-100 font-semibold mb-1 flex items-center gap-2">
                   <Lightbulb :size="16" :stroke-width="2" />
                   Conseil débutant
                 </p>
                 <p class="text-amber-200/80 text-base">
-                  Commencez par acheter 10 unités de Fer et 5 de Charbon. C'est
-                  suffisant pour forger vos premières créations et gagner vos
-                  premiers points d'expérience.
+                  Commencez par acheter 10 unités de Fer et 5 de Charbon. C'est suffisant pour
+                  forger vos premières créations et gagner vos premiers points d'expérience.
                 </p>
               </div>
             </div>
@@ -139,15 +120,13 @@
             <h2 class="section-heading text-3xl font-bold text-amber-100 mb-6">
               Comprendre les Matériaux
             </h2>
-            <div
-              class="prose-content space-y-4 text-gray-300 leading-relaxed text-lg"
-            >
+            <div class="prose-content space-y-4 text-gray-300 leading-relaxed text-lg">
               <p>
-                Chaque matériau dans Ember Anvil possède plusieurs attributs :
-                une <strong class="text-white">rareté</strong>, une
+                Chaque matériau dans Ember Anvil possède plusieurs attributs : une
+                <strong class="text-white">rareté</strong>, une
                 <strong class="text-white">catégorie</strong> et une
-                <strong class="text-white">valeur</strong>. La rareté détermine
-                la puissance des objets que vous pouvez créer avec ce matériau.
+                <strong class="text-white">valeur</strong>. La rareté détermine la puissance des
+                objets que vous pouvez créer avec ce matériau.
               </p>
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 my-6">
                 <div
@@ -157,17 +136,14 @@
                 >
                   <div class="font-bold text-white mb-1">{{ mat.name }}</div>
                   <div class="text-sm text-gray-400">{{ mat.description }}</div>
-                  <div class="text-xs text-gray-500 mt-2">
-                    Exemples : {{ mat.examples }}
-                  </div>
+                  <div class="text-xs text-gray-500 mt-2">Exemples : {{ mat.examples }}</div>
                 </div>
               </div>
               <p>
                 Les matériaux
                 <strong class="text-purple-300">Épiques</strong> et
-                <strong class="text-yellow-300">Légendaires</strong> ne
-                s'achètent pas — ils se débloquent en progressant et en
-                accomplissant des quêtes spéciales.
+                <strong class="text-yellow-300">Légendaires</strong> ne s'achètent pas — ils se
+                débloquent en progressant et en accomplissant des quêtes spéciales.
               </p>
             </div>
           </section>
@@ -177,23 +153,16 @@
             <h2 class="section-heading text-3xl font-bold text-amber-100 mb-6">
               Votre Première Forge
             </h2>
-            <div
-              class="prose-content space-y-4 text-gray-300 leading-relaxed text-lg"
-            >
+            <div class="prose-content space-y-4 text-gray-300 leading-relaxed text-lg">
               <p>
                 Rendez-vous dans l'onglet
-                <strong class="text-amber-300">Forge</strong>. Vous verrez
-                toutes les recettes disponibles selon vos matériaux actuels. Les
-                recettes verrouillées s'affichent en grisé — elles nécessitent
-                soit plus d'expérience, soit des matériaux que vous n'avez pas
-                encore.
+                <strong class="text-amber-300">Forge</strong>. Vous verrez toutes les recettes
+                disponibles selon vos matériaux actuels. Les recettes verrouillées s'affichent en
+                grisé — elles nécessitent soit plus d'expérience, soit des matériaux que vous n'avez
+                pas encore.
               </p>
               <ol class="space-y-4 mt-4">
-                <li
-                  v-for="(step, i) in forgeSteps"
-                  :key="i"
-                  class="flex items-start gap-4"
-                >
+                <li v-for="(step, i) in forgeSteps" :key="i" class="flex items-start gap-4">
                   <span
                     class="step-num flex-shrink-0 w-8 h-8 rounded-full bg-amber-600/30 border border-amber-500/40 flex items-center justify-center text-amber-300 font-bold text-sm"
                   >
@@ -214,19 +183,12 @@
 
           <!-- Progression -->
           <section id="progression">
-            <h2 class="section-heading text-3xl font-bold text-amber-100 mb-6">
-              La Progression
-            </h2>
-            <div
-              class="prose-content space-y-4 text-gray-300 leading-relaxed text-lg"
-            >
+            <h2 class="section-heading text-3xl font-bold text-amber-100 mb-6">La Progression</h2>
+            <div class="prose-content space-y-4 text-gray-300 leading-relaxed text-lg">
               <p>
-                Ember Anvil propose un système de progression sur plusieurs
-                axes. Chaque forge rapporte de l'<strong class="text-white"
-                  >expérience (XP)</strong
-                >
-                proportionnelle à la complexité de la recette et à la rareté des
-                matériaux utilisés.
+                Ember Anvil propose un système de progression sur plusieurs axes. Chaque forge
+                rapporte de l'<strong class="text-white">expérience (XP)</strong>
+                proportionnelle à la complexité de la recette et à la rareté des matériaux utilisés.
               </p>
               <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-6">
                 <div
@@ -255,12 +217,10 @@
             <h2 class="section-heading text-3xl font-bold text-amber-100 mb-6">
               Conseils d'Expert
             </h2>
-            <div
-              class="prose-content space-y-4 text-gray-300 leading-relaxed text-lg"
-            >
+            <div class="prose-content space-y-4 text-gray-300 leading-relaxed text-lg">
               <p>
-                Ces conseils vous permettront de progresser deux fois plus vite
-                que la moyenne des joueurs.
+                Ces conseils vous permettront de progresser deux fois plus vite que la moyenne des
+                joueurs.
               </p>
               <ul class="space-y-4 mt-4">
                 <li
@@ -291,12 +251,10 @@
             <h2 class="section-heading text-3xl font-bold text-amber-100 mb-6">
               Erreurs Fréquentes à Éviter
             </h2>
-            <div
-              class="prose-content space-y-4 text-gray-300 leading-relaxed text-lg"
-            >
+            <div class="prose-content space-y-4 text-gray-300 leading-relaxed text-lg">
               <p>
-                Même les forgerons expérimentés font des erreurs au début. Voici
-                les plus courantes et comment les éviter.
+                Même les forgerons expérimentés font des erreurs au début. Voici les plus courantes
+                et comment les éviter.
               </p>
               <ul class="space-y-4 mt-4">
                 <li
@@ -304,11 +262,7 @@
                   :key="err.title"
                   class="flex items-start gap-4 bg-red-900/10 rounded-xl p-5 border border-red-900/30"
                 >
-                  <XCircle
-                    :size="20"
-                    :stroke-width="2"
-                    class="text-red-400 flex-shrink-0 mt-0.5"
-                  />
+                  <XCircle :size="20" :stroke-width="2" class="text-red-400 flex-shrink-0 mt-0.5" />
                   <div>
                     <div class="font-semibold text-white mb-1">
                       {{ err.title }}
@@ -327,9 +281,7 @@
         <footer class="mt-16 pt-10 border-t border-white/10">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <p class="text-xs uppercase tracking-widest text-gray-500 mb-2">
-                Article suivant
-              </p>
+              <p class="text-xs uppercase tracking-widest text-gray-500 mb-2">Article suivant</p>
               <router-link
                 to="/guides/glossaire-forge"
                 class="next-article-link block bg-black/30 rounded-xl p-5 border border-white/10 hover:border-amber-500/40 transition-all duration-200 group"
@@ -339,15 +291,11 @@
                 >
                   Glossaire de la forge →
                 </div>
-                <div class="text-sm text-gray-500">
-                  Maîtrisez le vocabulaire complet
-                </div>
+                <div class="text-sm text-gray-500">Maîtrisez le vocabulaire complet</div>
               </router-link>
             </div>
             <div class="text-right">
-              <p class="text-xs uppercase tracking-widest text-gray-500 mb-2">
-                Retour à l'accueil
-              </p>
+              <p class="text-xs uppercase tracking-widest text-gray-500 mb-2">Retour à l'accueil</p>
               <router-link
                 to="/"
                 class="next-article-link block bg-black/30 rounded-xl p-5 border border-white/10 hover:border-amber-500/40 transition-all duration-200 group"
@@ -371,14 +319,7 @@
 <script>
 import PageHeader from "@/shared/layout/PageHeader.vue";
 import PageFooter from "@/shared/layout/PageFooter.vue";
-import {
-  Lightbulb,
-  CheckCircle,
-  XCircle,
-  Star,
-  Hammer,
-  TrendingUp,
-} from "lucide-vue-next";
+import { Lightbulb, CheckCircle, XCircle, Star, Hammer, TrendingUp } from "@lucide/vue";
 
 export default {
   name: "GuideDebutantView",
@@ -455,20 +396,17 @@ export default {
       materialTypes: [
         {
           name: "Métaux Communs",
-          description:
-            "Abondants et peu coûteux. Parfaits pour les premières forges.",
+          description: "Abondants et peu coûteux. Parfaits pour les premières forges.",
           examples: "Fer, Cuivre, Aluminium",
         },
         {
           name: "Métaux Précieux",
-          description:
-            "Plus rares, utilisés pour les objets de qualité supérieure.",
+          description: "Plus rares, utilisés pour les objets de qualité supérieure.",
           examples: "Or, Argent, Platine",
         },
         {
           name: "Alliages",
-          description:
-            "Résultent de la fusion de deux métaux. Propriétés améliorées.",
+          description: "Résultent de la fusion de deux métaux. Propriétés améliorées.",
           examples: "Bronze, Acier, Électrum",
         },
         {

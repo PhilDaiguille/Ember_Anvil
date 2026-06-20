@@ -31,8 +31,8 @@
             Changelog
           </h1>
           <p class="text-xl text-gray-300 leading-relaxed max-w-2xl">
-            Toutes les nouveautés, améliorations et corrections d'Ember Anvil —
-            mis à jour à chaque version.
+            Toutes les nouveautés, améliorations et corrections d'Ember Anvil — mis à jour à chaque
+            version.
           </p>
         </header>
 
@@ -42,27 +42,19 @@
           <article class="version-card">
             <div class="version-header flex items-start gap-4 mb-6">
               <div class="version-badge">
-                <span
-                  class="text-lg font-bold text-amber-300 font-['Caesar_Dressing']"
+                <span class="text-lg font-bold text-amber-300 font-['Caesar_Dressing']"
                   >v1.3.0</span
                 >
-                <span class="text-xs text-gray-500 block mt-0.5"
-                  >Mars 2026</span
-                >
+                <span class="text-xs text-gray-500 block mt-0.5">Mars 2026</span>
               </div>
               <div class="version-tag latest-badge">
-                <span
-                  class="bg-amber-500 text-black text-xs font-bold px-2 py-0.5 rounded"
+                <span class="bg-amber-500 text-black text-xs font-bold px-2 py-0.5 rounded"
                   >DERNIÈRE VERSION</span
                 >
               </div>
             </div>
-            <div
-              class="version-content bg-black/30 rounded-xl border border-white/10 p-8"
-            >
-              <h2 class="text-2xl font-bold text-white mb-6">
-                Quêtes Quotidiennes & Interface
-              </h2>
+            <div class="version-content bg-black/30 rounded-xl border border-white/10 p-8">
+              <h2 class="text-2xl font-bold text-white mb-6">Quêtes Quotidiennes & Interface</h2>
               <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <h3
@@ -108,21 +100,12 @@
           <article class="version-card">
             <div class="version-header flex items-start gap-4 mb-6">
               <div class="version-badge">
-                <span
-                  class="text-lg font-bold text-gray-300 font-['Caesar_Dressing']"
-                  >v1.2.0</span
-                >
-                <span class="text-xs text-gray-500 block mt-0.5"
-                  >Février 2026</span
-                >
+                <span class="text-lg font-bold text-gray-300 font-['Caesar_Dressing']">v1.2.0</span>
+                <span class="text-xs text-gray-500 block mt-0.5">Février 2026</span>
               </div>
             </div>
-            <div
-              class="version-content bg-black/30 rounded-xl border border-white/10 p-8"
-            >
-              <h2 class="text-2xl font-bold text-white mb-6">
-                Recettes Légendaires & Synergies
-              </h2>
+            <div class="version-content bg-black/30 rounded-xl border border-white/10 p-8">
+              <h2 class="text-2xl font-bold text-white mb-6">Recettes Légendaires & Synergies</h2>
               <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <h3
@@ -168,21 +151,12 @@
           <article class="version-card">
             <div class="version-header flex items-start gap-4 mb-6">
               <div class="version-badge">
-                <span
-                  class="text-lg font-bold text-gray-300 font-['Caesar_Dressing']"
-                  >v1.1.0</span
-                >
-                <span class="text-xs text-gray-500 block mt-0.5"
-                  >Janvier 2026</span
-                >
+                <span class="text-lg font-bold text-gray-300 font-['Caesar_Dressing']">v1.1.0</span>
+                <span class="text-xs text-gray-500 block mt-0.5">Janvier 2026</span>
               </div>
             </div>
-            <div
-              class="version-content bg-black/30 rounded-xl border border-white/10 p-8"
-            >
-              <h2 class="text-2xl font-bold text-white mb-6">
-                Codex Complet & Filtres
-              </h2>
+            <div class="version-content bg-black/30 rounded-xl border border-white/10 p-8">
+              <h2 class="text-2xl font-bold text-white mb-6">Codex Complet & Filtres</h2>
               <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <h3
@@ -228,31 +202,20 @@
           <article class="version-card">
             <div class="version-header flex items-start gap-4 mb-6">
               <div class="version-badge">
-                <span
-                  class="text-lg font-bold text-gray-300 font-['Caesar_Dressing']"
-                  >v1.0.0</span
-                >
-                <span class="text-xs text-gray-500 block mt-0.5"
-                  >Décembre 2025</span
-                >
+                <span class="text-lg font-bold text-gray-300 font-['Caesar_Dressing']">v1.0.0</span>
+                <span class="text-xs text-gray-500 block mt-0.5">Décembre 2025</span>
               </div>
               <div>
-                <span
-                  class="bg-emerald-600/80 text-white text-xs font-bold px-2 py-0.5 rounded"
+                <span class="bg-emerald-600/80 text-white text-xs font-bold px-2 py-0.5 rounded"
                   >LANCEMENT OFFICIEL</span
                 >
               </div>
             </div>
-            <div
-              class="version-content bg-black/30 rounded-xl border border-white/10 p-8"
-            >
-              <h2 class="text-2xl font-bold text-white mb-4">
-                Lancement Officiel d'Ember Anvil
-              </h2>
+            <div class="version-content bg-black/30 rounded-xl border border-white/10 p-8">
+              <h2 class="text-2xl font-bold text-white mb-4">Lancement Officiel d'Ember Anvil</h2>
               <p class="text-gray-300 leading-relaxed mb-6">
-                Bienvenue dans Ember Anvil ! La forge virtuelle ouvre
-                officiellement ses portes avec toutes les fonctionnalités
-                fondamentales.
+                Bienvenue dans Ember Anvil ! La forge virtuelle ouvre officiellement ses portes avec
+                toutes les fonctionnalités fondamentales.
               </p>
               <ul class="space-y-2">
                 <li
@@ -269,13 +232,9 @@
         </div>
 
         <!-- CTA bas de page -->
-        <div
-          class="mt-16 text-center bg-black/30 rounded-xl border border-white/10 p-10"
-        >
+        <div class="mt-16 text-center bg-black/30 rounded-xl border border-white/10 p-10">
           <h2 class="text-2xl font-bold text-white mb-3">Prêt à jouer ?</h2>
-          <p class="text-gray-400 mb-6">
-            Découvrez toutes les nouveautés en jeu dès maintenant.
-          </p>
+          <p class="text-gray-400 mb-6">Découvrez toutes les nouveautés en jeu dès maintenant.</p>
           <router-link
             to="/forge"
             class="inline-flex items-center gap-2 bg-amber-600 hover:bg-amber-500 text-white font-bold py-3 px-8 rounded-lg transition-colors duration-200"
@@ -293,7 +252,7 @@
 <script>
 import PageHeader from "@/shared/layout/PageHeader.vue";
 import PageFooter from "@/shared/layout/PageFooter.vue";
-import { Plus, Pencil, Bug, Hammer } from "lucide-vue-next";
+import { Plus, Pencil, Bug, Hammer } from "@lucide/vue";
 
 export default {
   name: "ChangelogView",

@@ -5,13 +5,7 @@ import { defineConfig } from "eslint/config";
 
 export default defineConfig([
   {
-    ignores: [
-      ".agents/**",
-      "node_modules/**",
-      "dist/**",
-      "scripts/**",
-      "vite.config.js",
-    ],
+    ignores: [".agents/**", "node_modules/**", "dist/**", "scripts/**", "vite.config.js"],
   },
   {
     files: ["**/*.{js,mjs,cjs,vue}"],

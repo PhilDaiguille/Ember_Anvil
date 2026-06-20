@@ -99,10 +99,7 @@ function invalidateCache(view) {
 
 <template>
   <KeepAlive>
-    <component
-      :is="currentView"
-      :key="`${currentView}-${viewKeys[currentView]}`"
-    />
+    <component :is="currentView" :key="`${currentView}-${viewKeys[currentView]}`" />
   </KeepAlive>
 </template>
 ```

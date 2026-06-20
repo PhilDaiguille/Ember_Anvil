@@ -12,22 +12,17 @@
         >
           Bienvenue à Ember Anvil
         </h1>
-        <p
-          class="hero-subtitle text-xl md:text-2xl mb-4 text-amber-100 font-light"
-        >
+        <p class="hero-subtitle text-xl md:text-2xl mb-4 text-amber-100 font-light">
           La forge virtuelle de vos rêves
         </p>
         <p
           class="hero-description text-base md:text-lg mb-8 text-gray-200 max-w-2xl mx-auto leading-relaxed"
         >
-          Plongez dans l'art ancestral de la forge. Créez, affinez et
-          perfectionnez vos créations dans un univers où le feu, le métal et
-          l'artisanat se rencontrent.
+          Plongez dans l'art ancestral de la forge. Créez, affinez et perfectionnez vos créations
+          dans un univers où le feu, le métal et l'artisanat se rencontrent.
         </p>
 
-        <div
-          class="cta-buttons flex flex-wrap gap-4 justify-center items-center"
-        >
+        <div class="cta-buttons flex flex-wrap gap-4 justify-center items-center">
           <router-link
             to="/forge"
             class="cta-primary bg-linear-to-r from-amber-600 to-orange-700 hover:from-amber-500 hover:to-orange-600 text-white font-bold py-4 px-8 rounded-lg shadow-lg transform transition-all duration-300 hover:scale-105 hover:shadow-xl flex items-center gap-2 justify-center"
@@ -54,51 +49,33 @@
         <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
           <div class="stat-item">
             <div class="text-4xl font-bold text-amber-400 mb-1">100+</div>
-            <div class="text-sm uppercase tracking-widest text-gray-400">
-              Matériaux
-            </div>
+            <div class="text-sm uppercase tracking-widest text-gray-400">Matériaux</div>
           </div>
           <div class="stat-item">
             <div class="text-4xl font-bold text-orange-400 mb-1">500+</div>
-            <div class="text-sm uppercase tracking-widest text-gray-400">
-              Recettes
-            </div>
+            <div class="text-sm uppercase tracking-widest text-gray-400">Recettes</div>
           </div>
           <div class="stat-item">
             <div class="text-4xl font-bold text-red-400 mb-1">5</div>
-            <div class="text-sm uppercase tracking-widest text-gray-400">
-              Catégories
-            </div>
+            <div class="text-sm uppercase tracking-widest text-gray-400">Catégories</div>
           </div>
           <div class="stat-item">
             <div class="text-4xl font-bold text-yellow-300 mb-1">∞</div>
-            <div class="text-sm uppercase tracking-widest text-gray-400">
-              Possibilités
-            </div>
+            <div class="text-sm uppercase tracking-widest text-gray-400">Possibilités</div>
           </div>
         </div>
       </div>
     </section>
 
     <!-- Comment jouer - 3 étapes -->
-    <section
-      class="howtoplay-section py-16 px-4"
-      aria-labelledby="howtoplay-heading"
-    >
+    <section class="howtoplay-section py-16 px-4" aria-labelledby="howtoplay-heading">
       <div class="max-w-5xl mx-auto text-center">
-        <h2
-          id="howtoplay-heading"
-          class="text-3xl md:text-4xl font-bold mb-3 text-amber-100"
-        >
+        <h2 id="howtoplay-heading" class="text-3xl md:text-4xl font-bold mb-3 text-amber-100">
           Comment Jouer ?
         </h2>
-        <p class="text-gray-400 mb-12 text-lg">
-          Trois étapes pour maîtriser l'art de la forge
-        </p>
+        <p class="text-gray-400 mb-12 text-lg">Trois étapes pour maîtriser l'art de la forge</p>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div
-            class="step-card bg-black/40 rounded-xl p-8 border border-white/10 relative"
-          >
+          <div class="step-card bg-black/40 rounded-xl p-8 border border-white/10 relative">
             <div
               class="step-number text-6xl font-bold text-amber-600/30 absolute top-4 right-6 font-['Caesar_Dressing']"
             >
@@ -109,36 +86,26 @@
             </div>
             <h3 class="text-xl font-bold text-amber-100 mb-3">Achetez</h3>
             <p class="text-gray-300 leading-relaxed">
-              Rendez-vous au Marché pour acquérir des matériaux bruts : métaux,
-              pierres précieuses, alliages rares. Constituez votre stock de
-              ressources.
+              Rendez-vous au Marché pour acquérir des matériaux bruts : métaux, pierres précieuses,
+              alliages rares. Constituez votre stock de ressources.
             </p>
           </div>
-          <div
-            class="step-card bg-black/40 rounded-xl p-8 border border-white/10 relative"
-          >
+          <div class="step-card bg-black/40 rounded-xl p-8 border border-white/10 relative">
             <div
               class="step-number text-6xl font-bold text-orange-600/30 absolute top-4 right-6 font-['Caesar_Dressing']"
             >
               2
             </div>
             <div class="flex justify-center mb-4">
-              <BookOpen
-                :size="48"
-                :stroke-width="1.5"
-                class="text-orange-400"
-              />
+              <BookOpen :size="48" :stroke-width="1.5" class="text-orange-400" />
             </div>
             <h3 class="text-xl font-bold text-amber-100 mb-3">Choisissez</h3>
             <p class="text-gray-300 leading-relaxed">
-              Consultez le Codex pour trouver la recette idéale. Plus de 500
-              recettes classées par difficulté, catégorie et rareté vous
-              attendent.
+              Consultez le Codex pour trouver la recette idéale. Plus de 500 recettes classées par
+              difficulté, catégorie et rareté vous attendent.
             </p>
           </div>
-          <div
-            class="step-card bg-black/40 rounded-xl p-8 border border-white/10 relative"
-          >
+          <div class="step-card bg-black/40 rounded-xl p-8 border border-white/10 relative">
             <div
               class="step-number text-6xl font-bold text-red-600/30 absolute top-4 right-6 font-['Caesar_Dressing']"
             >
@@ -149,8 +116,8 @@
             </div>
             <h3 class="text-xl font-bold text-amber-100 mb-3">Forgez</h3>
             <p class="text-gray-300 leading-relaxed">
-              Lancez la forge ! Chaque création améliore vos compétences,
-              débloque de nouvelles recettes et fait progresser votre atelier.
+              Lancez la forge ! Chaque création améliore vos compétences, débloque de nouvelles
+              recettes et fait progresser votre atelier.
             </p>
           </div>
         </div>
@@ -158,10 +125,7 @@
     </section>
 
     <!-- Features Section (6 cartes) -->
-    <section
-      class="features-section py-16 px-4"
-      aria-labelledby="features-heading"
-    >
+    <section class="features-section py-16 px-4" aria-labelledby="features-heading">
       <div class="max-w-6xl mx-auto">
         <h2
           id="features-heading"
@@ -176,22 +140,15 @@
           <article
             class="feature-card bg-linear-to-br from-orange-900/60 to-red-900/60 backdrop-blur-md rounded-xl p-8 shadow-xl border border-white/10 transform transition-all duration-300 hover:scale-105 hover:shadow-2xl"
           >
-            <div
-              class="feature-icon text-6xl mb-4 text-center flex justify-center"
-            >
+            <div class="feature-icon text-6xl mb-4 text-center flex justify-center">
               <Hammer :size="64" :stroke-width="2" class="text-amber-400" />
             </div>
-            <h3
-              class="feature-title text-2xl font-bold mb-4 text-amber-100 text-center"
-            >
+            <h3 class="feature-title text-2xl font-bold mb-4 text-amber-100 text-center">
               Crafting
             </h3>
-            <p
-              class="feature-description text-gray-200 text-center leading-relaxed mb-4"
-            >
-              Forgez des objets uniques en combinant différents matériaux.
-              Maîtrisez l'art de la création et développez vos compétences
-              d'artisan.
+            <p class="feature-description text-gray-200 text-center leading-relaxed mb-4">
+              Forgez des objets uniques en combinant différents matériaux. Maîtrisez l'art de la
+              création et développez vos compétences d'artisan.
             </p>
             <div class="text-center">
               <router-link
@@ -207,21 +164,15 @@
           <article
             class="feature-card bg-linear-to-br from-emerald-900/60 to-teal-900/60 backdrop-blur-md rounded-xl p-8 shadow-xl border border-white/10 transform transition-all duration-300 hover:scale-105 hover:shadow-2xl"
           >
-            <div
-              class="feature-icon text-6xl mb-4 text-center flex justify-center"
-            >
+            <div class="feature-icon text-6xl mb-4 text-center flex justify-center">
               <Store :size="64" :stroke-width="2" class="text-emerald-400" />
             </div>
-            <h3
-              class="feature-title text-2xl font-bold mb-4 text-emerald-100 text-center"
-            >
+            <h3 class="feature-title text-2xl font-bold mb-4 text-emerald-100 text-center">
               Boutique
             </h3>
-            <p
-              class="feature-description text-gray-200 text-center leading-relaxed mb-4"
-            >
-              Découvrez notre collection de matériaux rares et d'outils de
-              qualité. Équipez-vous pour devenir le meilleur forgeron.
+            <p class="feature-description text-gray-200 text-center leading-relaxed mb-4">
+              Découvrez notre collection de matériaux rares et d'outils de qualité. Équipez-vous
+              pour devenir le meilleur forgeron.
             </p>
             <div class="text-center">
               <router-link
@@ -237,21 +188,13 @@
           <article
             class="feature-card bg-linear-to-br from-blue-900/60 to-indigo-900/60 backdrop-blur-md rounded-xl p-8 shadow-xl border border-white/10 transform transition-all duration-300 hover:scale-105 hover:shadow-2xl"
           >
-            <div
-              class="feature-icon text-6xl mb-4 text-center flex justify-center"
-            >
+            <div class="feature-icon text-6xl mb-4 text-center flex justify-center">
               <BookOpen :size="64" :stroke-width="2" class="text-blue-400" />
             </div>
-            <h3
-              class="feature-title text-2xl font-bold mb-4 text-blue-100 text-center"
-            >
-              Codex
-            </h3>
-            <p
-              class="feature-description text-gray-200 text-center leading-relaxed mb-4"
-            >
-              Consultez notre encyclopédie complète des matériaux, techniques et
-              recettes. Le savoir est la clé de la maîtrise.
+            <h3 class="feature-title text-2xl font-bold mb-4 text-blue-100 text-center">Codex</h3>
+            <p class="feature-description text-gray-200 text-center leading-relaxed mb-4">
+              Consultez notre encyclopédie complète des matériaux, techniques et recettes. Le savoir
+              est la clé de la maîtrise.
             </p>
             <div class="text-center">
               <router-link
@@ -267,21 +210,15 @@
           <article
             class="feature-card bg-linear-to-br from-purple-900/60 to-violet-900/60 backdrop-blur-md rounded-xl p-8 shadow-xl border border-white/10 transform transition-all duration-300 hover:scale-105 hover:shadow-2xl"
           >
-            <div
-              class="feature-icon text-6xl mb-4 text-center flex justify-center"
-            >
+            <div class="feature-icon text-6xl mb-4 text-center flex justify-center">
               <Wrench :size="64" :stroke-width="2" class="text-purple-400" />
             </div>
-            <h3
-              class="feature-title text-2xl font-bold mb-4 text-purple-100 text-center"
-            >
+            <h3 class="feature-title text-2xl font-bold mb-4 text-purple-100 text-center">
               Atelier
             </h3>
-            <p
-              class="feature-description text-gray-200 text-center leading-relaxed mb-4"
-            >
-              Personnalisez votre espace de travail. Améliorez vos outils et
-              installations pour forger plus vite et mieux.
+            <p class="feature-description text-gray-200 text-center leading-relaxed mb-4">
+              Personnalisez votre espace de travail. Améliorez vos outils et installations pour
+              forger plus vite et mieux.
             </p>
             <div class="text-center">
               <router-link
@@ -297,21 +234,15 @@
           <article
             class="feature-card bg-linear-to-br from-rose-900/60 to-pink-900/60 backdrop-blur-md rounded-xl p-8 shadow-xl border border-white/10 transform transition-all duration-300 hover:scale-105 hover:shadow-2xl"
           >
-            <div
-              class="feature-icon text-6xl mb-4 text-center flex justify-center"
-            >
+            <div class="feature-icon text-6xl mb-4 text-center flex justify-center">
               <TrendingUp :size="64" :stroke-width="2" class="text-rose-400" />
             </div>
-            <h3
-              class="feature-title text-2xl font-bold mb-4 text-rose-100 text-center"
-            >
+            <h3 class="feature-title text-2xl font-bold mb-4 text-rose-100 text-center">
               Progression
             </h3>
-            <p
-              class="feature-description text-gray-200 text-center leading-relaxed mb-4"
-            >
-              Suivez votre évolution : niveaux de forgeron, badges de maîtrise,
-              statistiques et historique de vos meilleures créations.
+            <p class="feature-description text-gray-200 text-center leading-relaxed mb-4">
+              Suivez votre évolution : niveaux de forgeron, badges de maîtrise, statistiques et
+              historique de vos meilleures créations.
             </p>
             <div class="text-center">
               <router-link
@@ -327,25 +258,15 @@
           <article
             class="feature-card bg-linear-to-br from-yellow-900/60 to-amber-900/60 backdrop-blur-md rounded-xl p-8 shadow-xl border border-white/10 transform transition-all duration-300 hover:scale-105 hover:shadow-2xl"
           >
-            <div
-              class="feature-icon text-6xl mb-4 text-center flex justify-center"
-            >
-              <ScrollText
-                :size="64"
-                :stroke-width="2"
-                class="text-yellow-400"
-              />
+            <div class="feature-icon text-6xl mb-4 text-center flex justify-center">
+              <ScrollText :size="64" :stroke-width="2" class="text-yellow-400" />
             </div>
-            <h3
-              class="feature-title text-2xl font-bold mb-4 text-yellow-100 text-center"
-            >
+            <h3 class="feature-title text-2xl font-bold mb-4 text-yellow-100 text-center">
               Quêtes
             </h3>
-            <p
-              class="feature-description text-gray-200 text-center leading-relaxed mb-4"
-            >
-              Relevez des défis quotidiens et des missions spéciales. Chaque
-              quête complétée rapporte des récompenses exclusives.
+            <p class="feature-description text-gray-200 text-center leading-relaxed mb-4">
+              Relevez des défis quotidiens et des missions spéciales. Chaque quête complétée
+              rapporte des récompenses exclusives.
             </p>
             <div class="text-center">
               <router-link
@@ -367,22 +288,18 @@
       aria-labelledby="about-heading"
     >
       <div class="max-w-4xl mx-auto text-center">
-        <h2
-          id="about-heading"
-          class="text-4xl md:text-5xl font-bold mb-8 text-amber-100 py-6"
-        >
+        <h2 id="about-heading" class="text-4xl md:text-5xl font-bold mb-8 text-amber-100 py-6">
           Pourquoi Ember Anvil ?
         </h2>
         <div class="space-y-6 text-gray-200 text-lg leading-relaxed">
           <p>
-            <strong class="text-amber-300">Ember Anvil</strong> est plus qu'une
-            simple forge virtuelle. C'est un univers où la passion de
-            l'artisanat rencontre la technologie moderne.
+            <strong class="text-amber-300">Ember Anvil</strong> est plus qu'une simple forge
+            virtuelle. C'est un univers où la passion de l'artisanat rencontre la technologie
+            moderne.
           </p>
           <p>
-            Que vous soyez un forgeron débutant ou un maître artisan, vous
-            trouverez ici tous les outils et connaissances nécessaires pour
-            créer des objets extraordinaires.
+            Que vous soyez un forgeron débutant ou un maître artisan, vous trouverez ici tous les
+            outils et connaissances nécessaires pour créer des objets extraordinaires.
           </p>
         </div>
       </div>
@@ -391,10 +308,7 @@
     <!-- Système de raretés -->
     <section class="rarity-section py-16 px-4" aria-labelledby="rarity-heading">
       <div class="max-w-5xl mx-auto text-center">
-        <h2
-          id="rarity-heading"
-          class="text-3xl md:text-4xl font-bold mb-3 text-amber-100"
-        >
+        <h2 id="rarity-heading" class="text-3xl md:text-4xl font-bold mb-3 text-amber-100">
           Système de Raretés
         </h2>
         <p class="text-gray-400 mb-12 text-lg">
@@ -427,16 +341,10 @@
     </section>
 
     <!-- Articles / Guides Preview -->
-    <section
-      class="articles-section py-16 px-4"
-      aria-labelledby="articles-heading"
-    >
+    <section class="articles-section py-16 px-4" aria-labelledby="articles-heading">
       <div class="max-w-5xl mx-auto">
         <div class="text-center mb-12">
-          <h2
-            id="articles-heading"
-            class="text-3xl md:text-4xl font-bold mb-3 text-amber-100"
-          >
+          <h2 id="articles-heading" class="text-3xl md:text-4xl font-bold mb-3 text-amber-100">
             Guides & Ressources
           </h2>
           <p class="text-gray-400 text-lg">
@@ -490,20 +398,12 @@
     </section>
 
     <!-- FAQ Section -->
-    <section
-      class="faq-section py-16 px-4 max-w-4xl mx-auto"
-      aria-labelledby="faq-heading"
-    >
+    <section class="faq-section py-16 px-4 max-w-4xl mx-auto" aria-labelledby="faq-heading">
       <div class="text-center mb-12">
-        <h2
-          id="faq-heading"
-          class="text-4xl md:text-5xl font-bold mb-4 text-amber-100"
-        >
+        <h2 id="faq-heading" class="text-4xl md:text-5xl font-bold mb-4 text-amber-100">
           Questions Fréquentes
         </h2>
-        <p class="text-lg text-gray-300">
-          Tout ce que vous devez savoir sur Ember Anvil
-        </p>
+        <p class="text-lg text-gray-300">Tout ce que vous devez savoir sur Ember Anvil</p>
       </div>
 
       <div class="faq-container space-y-4">
@@ -546,12 +446,10 @@
       <div
         class="max-w-3xl mx-auto bg-linear-to-r from-orange-600/40 to-red-600/40 backdrop-blur-md rounded-2xl p-12 border border-white/20 shadow-2xl"
       >
-        <h2 class="text-3xl md:text-4xl font-bold mb-6 text-white">
-          Prêt à Allumer Votre Forge ?
-        </h2>
+        <h2 class="text-3xl md:text-4xl font-bold mb-6 text-white">Prêt à Allumer Votre Forge ?</h2>
         <p class="text-lg mb-8 text-gray-100">
-          Rejoignez notre communauté de forgerons passionnés et commencez votre
-          aventure artisanale dès aujourd'hui.
+          Rejoignez notre communauté de forgerons passionnés et commencez votre aventure artisanale
+          dès aujourd'hui.
         </p>
         <router-link
           to="/forge"
@@ -578,7 +476,7 @@ import {
   TrendingUp,
   ScrollText,
   Circle as CircleIcon,
-} from "lucide-vue-next";
+} from "@lucide/vue";
 
 export default {
   name: "PageMain",
@@ -607,8 +505,7 @@ export default {
         {
           key: "peu-commun",
           label: "Peu Commun",
-          description:
-            "Ressources de qualité, nécessitent un peu d'expérience.",
+          description: "Ressources de qualité, nécessitent un peu d'expérience.",
           cardClass: "bg-green-900/40 border-green-600/40",
           textClass: "text-green-400",
         },
@@ -622,8 +519,7 @@ export default {
         {
           key: "epique",
           label: "Épique",
-          description:
-            "Ressources exceptionnelles, forgerons experts seulement.",
+          description: "Ressources exceptionnelles, forgerons experts seulement.",
           cardClass: "bg-purple-900/40 border-purple-600/40",
           textClass: "text-purple-400",
         },
@@ -788,8 +684,7 @@ export default {
       });
     },
     updateMetaTags() {
-      document.title =
-        "Ember Anvil - Forge Virtuelle & Artisanat | Crafting, Wiki & Boutique";
+      document.title = "Ember Anvil - Forge Virtuelle & Artisanat | Crafting, Wiki & Boutique";
       this.updateMetaTag(
         "name",
         "description",
@@ -800,21 +695,13 @@ export default {
         "keywords",
         "ember anvil, forge virtuelle, crafting, artisanat, métallurgie, création objets, jeu forge, wiki matériaux, boutique forge, recettes crafting",
       );
-      this.updateMetaTag(
-        "property",
-        "og:title",
-        "Ember Anvil - Forge Virtuelle & Artisanat",
-      );
+      this.updateMetaTag("property", "og:title", "Ember Anvil - Forge Virtuelle & Artisanat");
       this.updateMetaTag(
         "property",
         "og:description",
         "Plongez dans l'art ancestral de la forge. Créez, affinez et perfectionnez vos créations dans un univers artisanal unique.",
       );
-      this.updateMetaTag(
-        "property",
-        "twitter:title",
-        "Ember Anvil - Forge Virtuelle & Artisanat",
-      );
+      this.updateMetaTag("property", "twitter:title", "Ember Anvil - Forge Virtuelle & Artisanat");
       this.updateMetaTag(
         "property",
         "twitter:description",
@@ -875,11 +762,7 @@ export default {
 
 /* Stats Band */
 .stats-band {
-  background: linear-gradient(
-    to right,
-    rgba(133, 50, 51, 0.15),
-    rgba(0, 114, 87, 0.15)
-  );
+  background: linear-gradient(to right, rgba(133, 50, 51, 0.15), rgba(0, 114, 87, 0.15));
   border-top: 1px solid rgba(255, 255, 255, 0.06);
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
@@ -993,12 +876,7 @@ export default {
   left: -50%;
   width: 200%;
   height: 200%;
-  background: linear-gradient(
-    45deg,
-    transparent,
-    rgba(255, 255, 255, 0.1),
-    transparent
-  );
+  background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
   transform: rotate(45deg);
   animation: shine 3s infinite;
 }

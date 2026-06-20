@@ -57,13 +57,7 @@ describe("Quests Data", () => {
     });
 
     it("every quest should have valid type", () => {
-      const validTypes = [
-        "upgrade",
-        "activate",
-        "productivity",
-        "max_level",
-        "synergy",
-      ];
+      const validTypes = ["upgrade", "activate", "productivity", "max_level", "synergy"];
       QUESTS_ARRAY.forEach((quest) => {
         expect(validTypes).toContain(quest.type);
       });
@@ -91,9 +85,7 @@ describe("Quests Data", () => {
     it("recompense should have at least one reward type", () => {
       QUESTS_ARRAY.forEach((quest) => {
         const hasReward =
-          quest.recompense.ecus ||
-          quest.recompense.or ||
-          quest.recompense.experience;
+          quest.recompense.ecus || quest.recompense.or || quest.recompense.experience;
         expect(hasReward).toBeTruthy();
       });
     });
@@ -201,11 +193,9 @@ describe("Quests Data", () => {
       const nonRenewable = QUESTS_ARRAY.filter((q) => !q.renouvelable);
 
       const avgRenewableEcus =
-        renewable.reduce((sum, q) => sum + (q.recompense.ecus || 0), 0) /
-        renewable.length;
+        renewable.reduce((sum, q) => sum + (q.recompense.ecus || 0), 0) / renewable.length;
       const avgNonRenewableEcus =
-        nonRenewable.reduce((sum, q) => sum + (q.recompense.ecus || 0), 0) /
-        nonRenewable.length;
+        nonRenewable.reduce((sum, q) => sum + (q.recompense.ecus || 0), 0) / nonRenewable.length;
 
       expect(avgNonRenewableEcus).toBeGreaterThan(avgRenewableEcus);
     });

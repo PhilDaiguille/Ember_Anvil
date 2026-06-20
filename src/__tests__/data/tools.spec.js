@@ -84,9 +84,7 @@ describe("Tools Data", () => {
 
     it("bonusFacilite should be string or null", () => {
       TOOLS_ARRAY.forEach((tool) => {
-        expect(
-          typeof tool.bonusFacilite === "string" || tool.bonusFacilite === null,
-        ).toBe(true);
+        expect(typeof tool.bonusFacilite === "string" || tool.bonusFacilite === null).toBe(true);
       });
     });
   });
@@ -159,9 +157,7 @@ describe("Tools Data", () => {
     });
 
     it("at least 3 tools should have synergies", () => {
-      const toolsWithSynergy = TOOLS_ARRAY.filter(
-        (t) => t.bonusFacilite !== null,
-      );
+      const toolsWithSynergy = TOOLS_ARRAY.filter((t) => t.bonusFacilite !== null);
       expect(toolsWithSynergy.length).toBeGreaterThanOrEqual(3);
     });
   });
@@ -218,8 +214,7 @@ describe("Tools Data", () => {
 
     it("all tools should reach reasonable max power at level 10", () => {
       TOOLS_ARRAY.forEach((tool) => {
-        const maxPower =
-          tool.pouvoirInitial + (tool.niveauMax - 1) * tool.pouvoirParNiveau;
+        const maxPower = tool.pouvoirInitial + (tool.niveauMax - 1) * tool.pouvoirParNiveau;
         expect(maxPower).toBeGreaterThanOrEqual(80); // Min is soufflet at 80
         expect(maxPower).toBeLessThanOrEqual(95); // Max is forge at 95
       });

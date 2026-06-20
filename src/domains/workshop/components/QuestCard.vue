@@ -1,5 +1,5 @@
 <script>
-import { CheckCircle, Coins, Award, TrendingUp } from "lucide-vue-next";
+import { CheckCircle, Coins, Award, TrendingUp } from "@lucide/vue";
 
 export default {
   name: "QuestCard",
@@ -17,19 +17,12 @@ export default {
   <article class="quest-card" :class="{ completed: quest.terminee }">
     <div class="quest-header">
       <h3 class="quest-name">{{ quest.nom }}</h3>
-      <CheckCircle
-        v-if="quest.terminee"
-        :size="24"
-        :stroke-width="2"
-        class="check-icon"
-      />
+      <CheckCircle v-if="quest.terminee" :size="24" :stroke-width="2" class="check-icon" />
     </div>
 
     <div class="quest-progress">
       <div class="progress-info">
-        <span class="progress-text"
-          >{{ quest.progression }}/{{ quest.objectif }}</span
-        >
+        <span class="progress-text">{{ quest.progression }}/{{ quest.objectif }}</span>
         <span class="progress-percent"
           >{{ Math.round((quest.progression / quest.objectif) * 100) }}%</span
         >
@@ -66,11 +59,7 @@ export default {
 
 <style scoped>
 .quest-card {
-  background: linear-gradient(
-    135deg,
-    rgba(26, 22, 18, 0.95),
-    rgba(15, 13, 10, 0.95)
-  );
+  background: linear-gradient(135deg, rgba(26, 22, 18, 0.95), rgba(15, 13, 10, 0.95));
   border: 2px solid rgba(161, 152, 130, 0.2);
   border-radius: 1rem;
   padding: 1.5rem;
@@ -84,11 +73,7 @@ export default {
 
 .quest-card.completed {
   border-color: rgba(0, 114, 87, 0.5);
-  background: linear-gradient(
-    135deg,
-    rgba(0, 114, 87, 0.1),
-    rgba(15, 13, 10, 0.95)
-  );
+  background: linear-gradient(135deg, rgba(0, 114, 87, 0.1), rgba(15, 13, 10, 0.95));
 }
 
 .quest-header {

@@ -1,13 +1,7 @@
 <script>
 import { mapState, mapActions } from "pinia";
 import { useNotificationsStore } from "@/stores/notifications";
-import {
-  X,
-  CheckCircle,
-  AlertCircle,
-  Info,
-  AlertTriangle,
-} from "lucide-vue-next";
+import { X, CheckCircle, AlertCircle, Info, AlertTriangle } from "@lucide/vue";
 
 export default {
   name: "ToastNotification",
@@ -34,12 +28,7 @@ export default {
 </script>
 
 <template>
-  <div
-    class="toast-container"
-    role="status"
-    aria-live="polite"
-    aria-relevant="additions removals"
-  >
+  <div class="toast-container" role="status" aria-live="polite" aria-relevant="additions removals">
     <transition-group name="toast">
       <div
         v-for="notif in notifications"

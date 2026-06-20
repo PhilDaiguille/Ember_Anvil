@@ -824,13 +824,7 @@ const CONSOMMABLES = [
 // EXPORTS & HELPERS
 // ========================================
 
-export const RECIPES = [
-  ...ARMES,
-  ...ARMURES,
-  ...OUTILS,
-  ...BIJOUX,
-  ...CONSOMMABLES,
-];
+export const RECIPES = [...ARMES, ...ARMURES, ...OUTILS, ...BIJOUX, ...CONSOMMABLES];
 
 export const RECIPES_PAR_CATEGORIE = {
   arme: ARMES,

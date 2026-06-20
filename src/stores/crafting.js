@@ -108,9 +108,7 @@ export const useCraftingStore = defineStore("crafting", {
 
       // Vérifier les matériaux
       for (const ingredient of recipe.ingredients) {
-        if (
-          !inventoryStore.hasEnough(ingredient.materialId, ingredient.quantite)
-        ) {
+        if (!inventoryStore.hasEnough(ingredient.materialId, ingredient.quantite)) {
           const notifStore = useNotificationsStore();
           notifStore.ajouterNotification({
             type: "error",
@@ -122,10 +120,7 @@ export const useCraftingStore = defineStore("crafting", {
 
       // Retirer les matériaux
       for (const ingredient of recipe.ingredients) {
-        inventoryStore.retirerMaterial(
-          ingredient.materialId,
-          ingredient.quantite,
-        );
+        inventoryStore.retirerMaterial(ingredient.materialId, ingredient.quantite);
       }
 
       // Démarrer le forge
@@ -187,10 +182,7 @@ export const useCraftingStore = defineStore("crafting", {
       // Calculer la qualité (base + bonus aléatoire + bonus niveau)
       const bonusNiveau = Math.floor(playerStore.niveau / 5); // +1 qualité tous les 5 niveaux
       const bonusAleatoire = Math.random() > 0.7 ? 1 : 0; // 30% de chance de +1
-      const qualite = Math.min(
-        5,
-        recipe.qualiteBase + bonusNiveau + bonusAleatoire,
-      );
+      const qualite = Math.min(5, recipe.qualiteBase + bonusNiveau + bonusAleatoire);
 
       // Créer l'objet forgé
       const objetForge = {
@@ -220,13 +212,9 @@ export const useCraftingStore = defineStore("crafting", {
 
       // Mettre à jour les stats
       this.stats.totalObjetsForges++;
-      this.stats.meilleureQualite = Math.max(
-        this.stats.meilleureQualite,
-        qualite,
-      );
+      this.stats.meilleureQualite = Math.max(this.stats.meilleureQualite, qualite);
       this.stats.tempsForgeTotal += recipe.tempsForge;
-      this.stats.recettesFavorites[recipe.id] =
-        (this.stats.recettesFavorites[recipe.id] || 0) + 1;
+      this.stats.recettesFavorites[recipe.id] = (this.stats.recettesFavorites[recipe.id] || 0) + 1;
 
       // Ajouter à l'historique
       this.historique.push({

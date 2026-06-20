@@ -1,5 +1,5 @@
 <script>
-import { Building2 } from "lucide-vue-next";
+import { Building2 } from "@lucide/vue";
 
 export default {
   name: "FacilityCard",
@@ -26,18 +26,11 @@ export default {
   <article class="facility-card" :class="{ inactive: !facility.actif }">
     <div class="facility-header">
       <div class="facility-icon-wrapper">
-        <component
-          :is="facility.icone"
-          :size="40"
-          :stroke-width="2"
-          class="facility-icon"
-        />
+        <component :is="facility.icone" :size="40" :stroke-width="2" class="facility-icon" />
       </div>
       <div class="facility-status">
         <span class="status-dot" :class="{ active: facility.actif }"></span>
-        <span class="status-text">{{
-          facility.actif ? "Actif" : "Inactif"
-        }}</span>
+        <span class="status-text">{{ facility.actif ? "Actif" : "Inactif" }}</span>
       </div>
     </div>
 
@@ -46,9 +39,7 @@ export default {
       <p class="facility-description">{{ facility.description }}</p>
 
       <div class="facility-level">
-        <span class="level-label"
-          >Niveau {{ facility.niveau }}/{{ facility.niveauMax }}</span
-        >
+        <span class="level-label">Niveau {{ facility.niveau }}/{{ facility.niveauMax }}</span>
         <div class="level-stars">
           <span
             v-for="i in facility.niveauMax"
@@ -88,9 +79,7 @@ export default {
           @click="$emit('upgrade', facility)"
         >
           <span v-if="facility.niveau >= facility.niveauMax">MAX</span>
-          <span v-else
-            >Améliorer ({{ Math.floor(facility.coutUpgrade / 10) }} or)</span
-          >
+          <span v-else>Améliorer ({{ Math.floor(facility.coutUpgrade / 10) }} or)</span>
         </button>
       </div>
     </div>
@@ -99,11 +88,7 @@ export default {
 
 <style scoped>
 .facility-card {
-  background: linear-gradient(
-    135deg,
-    rgba(26, 22, 18, 0.95),
-    rgba(15, 13, 10, 0.95)
-  );
+  background: linear-gradient(135deg, rgba(26, 22, 18, 0.95), rgba(15, 13, 10, 0.95));
   border: 2px solid rgba(161, 152, 130, 0.2);
   border-radius: 1rem;
   padding: 2rem;
@@ -277,11 +262,7 @@ export default {
 }
 
 .deactivate-btn {
-  background: linear-gradient(
-    135deg,
-    rgba(133, 50, 51, 0.8),
-    rgba(148, 37, 37, 0.8)
-  );
+  background: linear-gradient(135deg, rgba(133, 50, 51, 0.8), rgba(148, 37, 37, 0.8));
   color: white;
   border: 1px solid rgba(133, 50, 51, 0.4);
 }

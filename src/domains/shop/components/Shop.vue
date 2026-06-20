@@ -9,7 +9,7 @@ import {
   Gem,
   Search as SearchIcon,
   Shield,
-} from "lucide-vue-next";
+} from "@lucide/vue";
 import { usePlayerStore } from "@/stores/player";
 import { useInventoryStore } from "@/stores/inventory";
 import { useNotificationsStore } from "@/stores/notifications";
@@ -39,20 +39,12 @@ export default {
   computed: {
     ...mapState(usePlayerStore, ["ecus"]),
     filteredMaterials() {
-      return filterMaterials(
-        MATERIALS_ARRAY,
-        this.selectedFilter,
-        this.searchQuery,
-      );
+      return filterMaterials(MATERIALS_ARRAY, this.selectedFilter, this.searchQuery);
     },
   },
   methods: {
     ...mapActions(usePlayerStore, ["retirerEcus", "ajouterEcus"]),
-    ...mapActions(useInventoryStore, [
-      "ajouterMaterial",
-      "retirerMaterial",
-      "hasEnough",
-    ]),
+    ...mapActions(useInventoryStore, ["ajouterMaterial", "retirerMaterial", "hasEnough"]),
     ...mapActions(useNotificationsStore, ["ajouterNotification"]),
     setFilter(filter) {
       this.selectedFilter = filter;
@@ -148,15 +140,12 @@ export default {
       <!-- Description Section -->
       <div class="marketplace-description">
         <div class="description-content">
-          <h2 class="description-title">
-            Un Bazar d'Excellence au Cœur de la Forge
-          </h2>
+          <h2 class="description-title">Un Bazar d'Excellence au Cœur de la Forge</h2>
           <p class="description-text">
-            Franchissez le seuil de notre comptoir et découvrez une sélection
-            raffinée de matériaux forgés par les meilleurs artisans du royaume.
-            Chaque métal est certifié, chaque transaction garantie. Du cuivre
-            ancestral aux alliages rares, nous proposons les ressources dont les
-            légendes sont faites.
+            Franchissez le seuil de notre comptoir et découvrez une sélection raffinée de matériaux
+            forgés par les meilleurs artisans du royaume. Chaque métal est certifié, chaque
+            transaction garantie. Du cuivre ancestral aux alliages rares, nous proposons les
+            ressources dont les légendes sont faites.
           </p>
         </div>
       </div>
@@ -214,9 +203,7 @@ export default {
           <Shield class="banner-icon" :size="48" :stroke-width="2" />
           <div class="banner-text">
             <h3>Garantie du Maître Forgeron</h3>
-            <p>
-              Tous nos matériaux sont testés et certifiés • Échange sous 7 jours
-            </p>
+            <p>Tous nos matériaux sont testés et certifiés • Échange sous 7 jours</p>
           </div>
         </div>
       </div>
@@ -226,13 +213,7 @@ export default {
 <style scoped>
 .marketplace {
   min-height: 95dvh;
-  background: linear-gradient(
-    to bottom,
-    #0a0e0d 0%,
-    #121a16 30%,
-    #0d1310 70%,
-    #0a0e0d 100%
-  );
+  background: linear-gradient(to bottom, #0a0e0d 0%, #121a16 30%, #0d1310 70%, #0a0e0d 100%);
   position: relative;
   overflow: hidden;
 }
@@ -244,11 +225,7 @@ export default {
   left: 0;
   right: 0;
   height: 500px;
-  background: radial-gradient(
-    ellipse at top,
-    rgba(0, 114, 87, 0.1) 0%,
-    transparent 70%
-  );
+  background: radial-gradient(ellipse at top, rgba(0, 114, 87, 0.1) 0%, transparent 70%);
   pointer-events: none;
 }
 
@@ -280,11 +257,7 @@ export default {
   align-items: center;
   gap: 0.5rem;
   padding: 0.5rem 1.25rem;
-  background: linear-gradient(
-    135deg,
-    rgba(161, 152, 130, 0.15),
-    rgba(50, 93, 68, 0.15)
-  );
+  background: linear-gradient(135deg, rgba(161, 152, 130, 0.15), rgba(50, 93, 68, 0.15));
   border: 1px solid rgba(161, 152, 130, 0.3);
   font-size: 0.85rem;
   text-transform: uppercase;
@@ -355,11 +328,7 @@ export default {
   align-items: center;
   gap: 1.5rem;
   padding: 1.5rem 2rem;
-  background: linear-gradient(
-    135deg,
-    rgba(212, 175, 55, 0.1),
-    rgba(161, 152, 130, 0.1)
-  );
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(161, 152, 130, 0.1));
   border: 2px solid rgba(212, 175, 55, 0.3);
   box-shadow:
     0 8px 32px rgba(212, 175, 55, 0.15),
@@ -409,11 +378,7 @@ export default {
 .marketplace-description {
   margin-bottom: 3rem;
   padding: 2.5rem;
-  background: linear-gradient(
-    135deg,
-    rgba(50, 93, 68, 0.15),
-    rgba(25, 25, 25, 0.3)
-  );
+  background: linear-gradient(135deg, rgba(50, 93, 68, 0.15), rgba(25, 25, 25, 0.3));
   border-left: 4px solid var(--sea-green);
   backdrop-filter: blur(10px);
 }
@@ -534,11 +499,7 @@ export default {
 .marketplace-footer-banner {
   margin-top: 4rem;
   padding: 2rem;
-  background: linear-gradient(
-    135deg,
-    rgba(212, 175, 55, 0.1),
-    rgba(161, 152, 130, 0.05)
-  );
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(161, 152, 130, 0.05));
   border: 2px solid rgba(212, 175, 55, 0.2);
   box-shadow: 0 4px 20px rgba(212, 175, 55, 0.1);
 }

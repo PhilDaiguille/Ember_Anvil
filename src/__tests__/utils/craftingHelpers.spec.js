@@ -23,8 +23,7 @@ describe("craftingHelpers", () => {
 
   describe("peutCrafter", () => {
     const makeInventory = (quantities = {}) => ({
-      hasEnough: (materialId, quantite) =>
-        (quantities[materialId] || 0) >= quantite,
+      hasEnough: (materialId, quantite) => (quantities[materialId] || 0) >= quantite,
     });
 
     const recipe = {

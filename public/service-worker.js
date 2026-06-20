@@ -33,9 +33,7 @@ function isStaticAsset(url) {
 
 // Installer : pré-cacher les assets statiques
 self.addEventListener("install", (event) => {
-  event.waitUntil(
-    caches.open(STATIC_CACHE).then((cache) => cache.addAll(STATIC_ASSETS)),
-  );
+  event.waitUntil(caches.open(STATIC_CACHE).then((cache) => cache.addAll(STATIC_ASSETS)));
   self.skipWaiting();
 });
 
@@ -84,9 +82,7 @@ self.addEventListener("fetch", (event) => {
           fetch(request).then((response) => {
             if (response.status === 200) {
               const clone = response.clone();
-              caches
-                .open(STATIC_CACHE)
-                .then((cache) => cache.put(request, clone));
+              caches.open(STATIC_CACHE).then((cache) => cache.put(request, clone));
             }
             return response;
           }),
@@ -108,11 +104,7 @@ self.addEventListener("fetch", (event) => {
         }
         return response;
       })
-      .catch(() =>
-        caches
-          .match(request)
-          .then((cached) => cached || caches.match("/index.html")),
-      ),
+      .catch(() => caches.match(request).then((cached) => cached || caches.match("/index.html"))),
   );
 });
 
@@ -123,9 +115,7 @@ self.addEventListener("message", (event) => {
   }
   if (event.data?.type === "CLEAR_CACHE") {
     event.waitUntil(
-      caches
-        .keys()
-        .then((keys) => Promise.all(keys.map((key) => caches.delete(key)))),
+      caches.keys().then((keys) => Promise.all(keys.map((key) => caches.delete(key)))),
     );
   }
 });

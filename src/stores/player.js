@@ -34,8 +34,7 @@ export const usePlayerStore = defineStore("player", {
 
   getters: {
     // Progression niveau en %
-    progressionNiveau: (state) =>
-      (state.experience / state.experienceMax) * 100,
+    progressionNiveau: (state) => (state.experience / state.experienceMax) * 100,
 
     // Peut acheter quelque chose ?
     peutAcheter: (state) => (cout) => state.ecus >= cout,
@@ -154,9 +153,7 @@ export const usePlayerStore = defineStore("player", {
         5000,
       );
 
-      console.log(
-        `🎉 NIVEAU ${this.niveau} ! +${recompenseEcus} écus, +${recompenseOr} or`,
-      );
+      console.log(`🎉 NIVEAU ${this.niveau} ! +${recompenseEcus} écus, +${recompenseOr} or`);
     },
 
     // ========== STATISTIQUES ==========
