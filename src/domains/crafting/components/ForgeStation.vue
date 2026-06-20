@@ -488,50 +488,54 @@ export default {
   position: relative;
   width: 100%;
   max-width: 400px;
-  height: 350px;
+  height: 320px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
+  /* Purement décoratif : ne doit jamais intercepter les clics (bouton Frapper) */
+  pointer-events: none;
 }
 
 .hammer-active {
   position: absolute;
-  width: 180px;
+  top: 30px;
+  left: 50%;
+  margin-left: -10px;
+  width: 150px;
   height: auto;
   z-index: 3;
   filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.5));
+  transform-origin: 25% 85%;
   animation: hammerStrike 1.2s ease-in-out infinite;
-  transform-origin: bottom right;
 }
 
 @keyframes hammerStrike {
   0%,
   100% {
-    transform: rotate(-110deg) translate(-100px, -40px);
-  }
-  40% {
-    transform: rotate(-10deg) translate(80px, 60px);
+    transform: rotate(-55deg);
   }
   45% {
-    transform: rotate(-5deg) translate(85px, 65px);
+    transform: rotate(8deg);
   }
   55% {
-    transform: rotate(-10deg) translate(80px, 60px);
+    transform: rotate(2deg);
   }
 }
 
 .anvil-active {
-  width: 260px;
+  width: 240px;
   height: auto;
+  margin-top: 60px;
   z-index: 2;
   filter: drop-shadow(0 15px 40px rgba(0, 0, 0, 0.7));
 }
 
 .impact-zone {
   position: absolute;
-  top: 40%;
-  left: 58%;
+  top: 48%;
+  left: 50%;
   width: 60px;
   height: 60px;
   background: radial-gradient(circle, rgba(255, 100, 30, 0.4), transparent);
@@ -546,12 +550,12 @@ export default {
   56%,
   100% {
     opacity: 0;
-    transform: scale(0.5);
+    transform: translateX(-50%) scale(0.5);
   }
   40%,
   55% {
     opacity: 1;
-    transform: scale(1.5);
+    transform: translateX(-50%) scale(1.5);
   }
 }
 
