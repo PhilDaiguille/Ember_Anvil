@@ -19,14 +19,14 @@ jobs:
     steps:
       - name: Dependabot metadata
         id: metadata
-        uses: dependabot/fetch-metadata@v2
+        uses: dependabot/fetch-metadata@v3
         with:
           github-token: "${{ secrets.GITHUB_TOKEN }}"
 
       # --- Mises à jour mineures / patch : on valide puis on auto-merge ---
       - name: Checkout code
         if: steps.metadata.outputs.update-type != 'version-update:semver-major'
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Setup Node.js
         if: steps.metadata.outputs.update-type != 'version-update:semver-major'
