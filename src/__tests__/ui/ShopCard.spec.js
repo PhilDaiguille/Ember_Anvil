@@ -191,7 +191,21 @@ describe("ShopCard.vue", () => {
       await buyBtn.trigger("click");
 
       expect(wrapper.emitted()).toHaveProperty("acheter");
-      expect(wrapper.emitted("acheter")[0]).toEqual([mockMaterial]);
+      expect(wrapper.emitted("acheter")[0]).toEqual([mockMaterial, 1]);
+    });
+
+    it("should emit 'acheter' with the selected quantity", async () => {
+      const wrapper = mount(ShopCard, {
+        props: { material: mockMaterial },
+        global: { plugins: [pinia] },
+      });
+
+      // Sélectionne ×10 puis achète
+      const qtyButtons = wrapper.findAll(".qty-btn");
+      await qtyButtons[1].trigger("click");
+      await wrapper.findAll(".action-btn")[0].trigger("click");
+
+      expect(wrapper.emitted("acheter")[0]).toEqual([mockMaterial, 10]);
     });
 
     it("should emit 'vendre' event with material when sell button clicked", async () => {
@@ -207,7 +221,7 @@ describe("ShopCard.vue", () => {
       await sellBtn.trigger("click");
 
       expect(wrapper.emitted()).toHaveProperty("vendre");
-      expect(wrapper.emitted("vendre")[0]).toEqual([mockMaterial]);
+      expect(wrapper.emitted("vendre")[0]).toEqual([mockMaterial, 1]);
     });
   });
 
