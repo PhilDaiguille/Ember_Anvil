@@ -25,15 +25,11 @@ describe("PageMain.vue", () => {
     });
 
     it("should render hero section with title", () => {
-      expect(wrapper.find(".hero-title").text()).toBe(
-        "Bienvenue à Ember Anvil",
-      );
+      expect(wrapper.find(".hero-title").text()).toBe("Bienvenue à Ember Anvil");
     });
 
     it("should render hero subtitle", () => {
-      expect(wrapper.find(".hero-subtitle").text()).toBe(
-        "La forge virtuelle de vos rêves",
-      );
+      expect(wrapper.find(".hero-subtitle").text()).toBe("La forge virtuelle de vos rêves");
     });
 
     it("should render 6 feature cards", () => {
@@ -95,9 +91,7 @@ describe("PageMain.vue", () => {
 
     it("should have aria-labelledby on features section", () => {
       const featuresSection = wrapper.find(".features-section");
-      expect(featuresSection.attributes("aria-labelledby")).toBe(
-        "features-heading",
-      );
+      expect(featuresSection.attributes("aria-labelledby")).toBe("features-heading");
     });
 
     it("should have aria-labelledby on about section", () => {

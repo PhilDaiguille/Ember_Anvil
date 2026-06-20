@@ -3,17 +3,10 @@
     <div class="entry-header">
       <div class="entry-number">
         <span class="number-prefix">N°</span>
-        <span class="number-value">{{
-          String(index + 1).padStart(2, "0")
-        }}</span>
+        <span class="number-value">{{ String(index + 1).padStart(2, "0") }}</span>
       </div>
       <div class="entry-category">
-        <component
-          :is="getCategoryIcon()"
-          :size="16"
-          :stroke-width="2"
-          class="category-icon"
-        />
+        <component :is="getCategoryIcon()" :size="16" :stroke-width="2" class="category-icon" />
         <span class="category-text">{{ getCategoryLabel() }}</span>
       </div>
     </div>
@@ -28,12 +21,7 @@
 
           <div class="image-wrapper">
             <div class="image-glow"></div>
-            <img
-              v-if="item.image"
-              :src="item.image"
-              :alt="item.nom"
-              class="entry-image"
-            />
+            <img v-if="item.image" :src="item.image" :alt="item.nom" class="entry-image" />
             <component
               v-else
               :is="getDefaultIcon()"
@@ -45,11 +33,7 @@
         </div>
 
         <div class="visual-label">
-          {{
-            itemType === "materials"
-              ? "Spécimen Authentifié"
-              : "Recette Certifiée"
-          }}
+          {{ itemType === "materials" ? "Spécimen Authentifié" : "Recette Certifiée" }}
         </div>
       </div>
 
@@ -140,17 +124,9 @@
                 :key="ingredient.materialId"
                 class="ingredient-item"
               >
-                <FlaskConical
-                  :size="20"
-                  :stroke-width="2"
-                  class="ingredient-icon"
-                />
-                <span class="ingredient-name">{{
-                  getMaterialName(ingredient.materialId)
-                }}</span>
-                <span class="ingredient-quantity"
-                  >× {{ ingredient.quantite }}</span
-                >
+                <FlaskConical :size="20" :stroke-width="2" class="ingredient-icon" />
+                <span class="ingredient-name">{{ getMaterialName(ingredient.materialId) }}</span>
+                <span class="ingredient-quantity">× {{ ingredient.quantite }}</span>
               </div>
             </div>
           </div>
@@ -216,7 +192,7 @@ import {
   Wrench,
   Gem,
   Sparkles,
-} from "lucide-vue-next";
+} from "@lucide/vue";
 import { MATERIALS } from "@/data/materials";
 import { getRarityLabel } from "@/shared/utils/rarity";
 
@@ -334,11 +310,7 @@ export default {
 
 <style scoped>
 .codex-entry {
-  background: linear-gradient(
-    135deg,
-    rgba(26, 22, 18, 0.95),
-    rgba(15, 13, 10, 0.95)
-  );
+  background: linear-gradient(135deg, rgba(26, 22, 18, 0.95), rgba(15, 13, 10, 0.95));
   border: 2px solid rgba(161, 152, 130, 0.3);
   padding: 2rem;
   box-shadow:
@@ -456,11 +428,7 @@ export default {
 .visual-frame {
   position: relative;
   padding: 1.5rem;
-  background: linear-gradient(
-    135deg,
-    rgba(161, 152, 130, 0.08),
-    rgba(50, 93, 68, 0.05)
-  );
+  background: linear-gradient(135deg, rgba(161, 152, 130, 0.08), rgba(50, 93, 68, 0.05));
   border: 2px solid rgba(161, 152, 130, 0.3);
 }
 
@@ -511,11 +479,7 @@ export default {
   position: absolute;
   width: 150px;
   height: 150px;
-  background: radial-gradient(
-    circle,
-    rgba(161, 152, 130, 0.2),
-    transparent 70%
-  );
+  background: radial-gradient(circle, rgba(161, 152, 130, 0.2), transparent 70%);
   filter: blur(30px);
   animation: imageGlowPulse 4s ease-in-out infinite;
 }
@@ -588,12 +552,7 @@ export default {
   content: "";
   flex: 1;
   height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(161, 152, 130, 0.4),
-    transparent
-  );
+  background: linear-gradient(90deg, transparent, rgba(161, 152, 130, 0.4), transparent);
 }
 
 .underline-ornament {
@@ -683,21 +642,13 @@ export default {
   align-items: center;
   gap: 1rem;
   padding: 1rem;
-  background: linear-gradient(
-    135deg,
-    rgba(50, 93, 68, 0.15),
-    rgba(25, 25, 25, 0.3)
-  );
+  background: linear-gradient(135deg, rgba(50, 93, 68, 0.15), rgba(25, 25, 25, 0.3));
   border: 1px solid rgba(161, 152, 130, 0.2);
   transition: all 0.3s ease;
 }
 
 .property-card:hover {
-  background: linear-gradient(
-    135deg,
-    rgba(50, 93, 68, 0.25),
-    rgba(25, 25, 25, 0.4)
-  );
+  background: linear-gradient(135deg, rgba(50, 93, 68, 0.25), rgba(25, 25, 25, 0.4));
   border-color: var(--viridian);
   transform: translateY(-2px);
 }

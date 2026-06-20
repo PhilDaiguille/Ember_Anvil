@@ -3,7 +3,7 @@ import { mapState, mapActions, mapGetters } from "pinia";
 import { usePlayerStore } from "@/stores/player";
 import { useWorkshopStore } from "@/stores/workshop";
 import { useGameStore } from "@/stores/game";
-import { Hammer, Building2, Target } from "lucide-vue-next";
+import { Hammer, Building2, Target } from "@lucide/vue";
 import WorkshopHeader from "./WorkshopHeader.vue";
 import ToolCard from "./ToolCard.vue";
 import FacilityCard from "./FacilityCard.vue";
@@ -73,11 +73,7 @@ export default {
     workshopStore.initialize();
   },
   methods: {
-    ...mapActions(useWorkshopStore, [
-      "upgradeTool",
-      "toggleFacility",
-      "upgradeFacility",
-    ]),
+    ...mapActions(useWorkshopStore, ["upgradeTool", "toggleFacility", "upgradeFacility"]),
 
     getProgressPercentage(progression, objectif) {
       if (!objectif || objectif === 0) return 0;
@@ -113,11 +109,7 @@ export default {
 </script>
 
 <template>
-  <main
-    class="workshop-page"
-    id="main-content"
-    aria-label="Atelier du forgeron"
-  >
+  <main class="workshop-page" id="main-content" aria-label="Atelier du forgeron">
     <div class="workshop-container">
       <WorkshopHeader
         :resources="playerResources"
@@ -133,9 +125,7 @@ export default {
             <Hammer :size="32" :stroke-width="2" class="section-icon" />
             Outils de Forge
           </h2>
-          <p class="section-subtitle">
-            Améliorez vos équipements pour augmenter leur efficacité
-          </p>
+          <p class="section-subtitle">Améliorez vos équipements pour augmenter leur efficacité</p>
         </div>
 
         <div class="tools-grid">
@@ -159,9 +149,7 @@ export default {
             <Building2 :size="32" :stroke-width="2" class="section-icon" />
             Installations d'Atelier
           </h2>
-          <p class="section-subtitle">
-            Débloquez et gérez vos stations spécialisées
-          </p>
+          <p class="section-subtitle">Débloquez et gérez vos stations spécialisées</p>
         </div>
 
         <div class="facilities-grid">
@@ -183,17 +171,11 @@ export default {
             <Target :size="32" :stroke-width="2" class="section-icon" />
             Objectifs Quotidiens
           </h2>
-          <p class="section-subtitle">
-            Complétez des objectifs pour gagner des récompenses
-          </p>
+          <p class="section-subtitle">Complétez des objectifs pour gagner des récompenses</p>
         </div>
 
         <div class="quests-grid">
-          <QuestCard
-            v-for="quest in activeQuests"
-            :key="quest.id"
-            :quest="quest"
-          />
+          <QuestCard v-for="quest in activeQuests" :key="quest.id" :quest="quest" />
         </div>
       </section>
 
@@ -217,11 +199,7 @@ export default {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(
-      circle at 20% 30%,
-      rgba(133, 50, 51, 0.08),
-      transparent 50%
-    ),
+    radial-gradient(circle at 20% 30%, rgba(133, 50, 51, 0.08), transparent 50%),
     radial-gradient(circle at 80% 70%, rgba(0, 114, 87, 0.08), transparent 50%);
   pointer-events: none;
 }

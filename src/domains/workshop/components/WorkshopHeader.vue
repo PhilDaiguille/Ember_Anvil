@@ -1,12 +1,5 @@
 <script>
-import {
-  Coins,
-  Award,
-  TrendingUp,
-  Building2,
-  Sparkles,
-  Wrench,
-} from "lucide-vue-next";
+import { Coins, Award, TrendingUp, Building2, Sparkles, Wrench } from "@lucide/vue";
 
 export default {
   name: "WorkshopHeader",
@@ -48,8 +41,8 @@ export default {
         <span class="title-decoration">&#9552;&#9552;&#9552;&#9557;</span>
       </h1>
       <p class="page-description">
-        Améliorez vos outils et débloquez de nouvelles installations pour
-        devenir le plus grand forgeron du royaume
+        Améliorez vos outils et débloquez de nouvelles installations pour devenir le plus grand
+        forgeron du royaume
       </p>
     </div>
 
@@ -58,9 +51,7 @@ export default {
         <Coins :size="28" :stroke-width="2" class="resource-icon ecus-icon" />
         <div class="resource-info">
           <span class="resource-label">Écus</span>
-          <span class="resource-value">{{
-            resources.ecus.toLocaleString()
-          }}</span>
+          <span class="resource-value">{{ resources.ecus.toLocaleString() }}</span>
         </div>
       </div>
       <div class="resource-card">
@@ -71,11 +62,7 @@ export default {
         </div>
       </div>
       <div class="resource-card">
-        <TrendingUp
-          :size="28"
-          :stroke-width="2"
-          class="resource-icon exp-icon"
-        />
+        <TrendingUp :size="28" :stroke-width="2" class="resource-icon exp-icon" />
         <div class="resource-info">
           <span class="resource-label">Expérience</span>
           <span class="resource-value">{{ resources.experience }}</span>
@@ -99,9 +86,7 @@ export default {
         </div>
         <div class="stat-content">
           <span class="stat-label">Bonus Actifs</span>
-          <span class="stat-value"
-            >{{ bonusActifs }}/{{ facilitiesCount }}</span
-          >
+          <span class="stat-value">{{ bonusActifs }}/{{ facilitiesCount }}</span>
         </div>
       </div>
       <div class="stat-item" :class="{ 'synergy-active': hasActiveSynergy }">
@@ -110,9 +95,7 @@ export default {
         </div>
         <div class="stat-content">
           <span class="stat-label">Synergie</span>
-          <span class="stat-value">{{
-            hasActiveSynergy ? "Active" : "Inactive"
-          }}</span>
+          <span class="stat-value">{{ hasActiveSynergy ? "Active" : "Inactive" }}</span>
         </div>
       </div>
     </div>
@@ -127,11 +110,7 @@ export default {
 
 .header-hero {
   padding: 3rem 2rem;
-  background: linear-gradient(
-    135deg,
-    rgba(26, 22, 18, 0.8),
-    rgba(15, 13, 10, 0.8)
-  );
+  background: linear-gradient(135deg, rgba(26, 22, 18, 0.8), rgba(15, 13, 10, 0.8));
   border: 2px solid rgba(161, 152, 130, 0.3);
   border-radius: 1rem;
   position: relative;
@@ -146,13 +125,7 @@ export default {
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    var(--auburn),
-    var(--viridian),
-    transparent
-  );
+  background: linear-gradient(90deg, transparent, var(--auburn), var(--viridian), transparent);
 }
 
 .page-title {
@@ -203,11 +176,7 @@ export default {
   align-items: center;
   gap: 1rem;
   padding: 1.5rem;
-  background: linear-gradient(
-    135deg,
-    rgba(26, 22, 18, 0.9),
-    rgba(15, 13, 10, 0.9)
-  );
+  background: linear-gradient(135deg, rgba(26, 22, 18, 0.9), rgba(15, 13, 10, 0.9));
   border: 2px solid rgba(161, 152, 130, 0.2);
   border-radius: 0.75rem;
   transition: all 0.3s ease;
@@ -261,11 +230,7 @@ export default {
   align-items: center;
   gap: 1rem;
   padding: 1.5rem;
-  background: linear-gradient(
-    135deg,
-    rgba(26, 22, 18, 0.9),
-    rgba(15, 13, 10, 0.9)
-  );
+  background: linear-gradient(135deg, rgba(26, 22, 18, 0.9), rgba(15, 13, 10, 0.9));
   border: 2px solid rgba(161, 152, 130, 0.2);
   border-radius: 0.75rem;
   transition: all 0.3s ease;
@@ -277,11 +242,7 @@ export default {
 
 .stat-item.synergy-active {
   border-color: rgba(212, 175, 55, 0.5);
-  background: linear-gradient(
-    135deg,
-    rgba(212, 175, 55, 0.1),
-    rgba(26, 22, 18, 0.9)
-  );
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(26, 22, 18, 0.9));
 }
 
 .stat-icon-wrapper {

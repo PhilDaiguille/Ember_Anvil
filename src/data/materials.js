@@ -12,8 +12,7 @@ export const MATERIALS = {
     prixAchat: 6,
     prixVente: 4,
     image: "./assets/materials/aluminium.png",
-    description:
-      "Métal léger et résistant à la corrosion, idéal pour les débutants en forge.",
+    description: "Métal léger et résistant à la corrosion, idéal pour les débutants en forge.",
     proprietes: {
       resistance: 60,
       conductivite: 70,
@@ -30,8 +29,7 @@ export const MATERIALS = {
     prixAchat: 8,
     prixVente: 5,
     image: "./assets/materials/cuivre.png",
-    description:
-      "Métal rougeâtre excellent conducteur, utilisé depuis l'Antiquité.",
+    description: "Métal rougeâtre excellent conducteur, utilisé depuis l'Antiquité.",
     proprietes: {
       resistance: 50,
       conductivite: 95,
@@ -48,8 +46,7 @@ export const MATERIALS = {
     prixAchat: 10,
     prixVente: 7,
     image: "./assets/materials/fer.png",
-    description:
-      "Le fer, matériau de base de tout forgeron respectable. Robuste et polyvalent.",
+    description: "Le fer, matériau de base de tout forgeron respectable. Robuste et polyvalent.",
     proprietes: {
       resistance: 75,
       conductivite: 60,
@@ -66,8 +63,7 @@ export const MATERIALS = {
     prixAchat: 7,
     prixVente: 5,
     image: "./assets/materials/etain.png",
-    description:
-      "Métal argenté malléable, souvent utilisé en alliage avec le cuivre.",
+    description: "Métal argenté malléable, souvent utilisé en alliage avec le cuivre.",
     proprietes: {
       resistance: 40,
       conductivite: 50,
@@ -84,8 +80,7 @@ export const MATERIALS = {
     prixAchat: 25,
     prixVente: 18,
     image: "./assets/materials/bronze.png",
-    description:
-      "Alliage noble de cuivre et d'étain, résistant et prisé des artisans.",
+    description: "Alliage noble de cuivre et d'étain, résistant et prisé des artisans.",
     proprietes: {
       resistance: 80,
       conductivite: 75,
@@ -102,8 +97,7 @@ export const MATERIALS = {
     prixAchat: 35,
     prixVente: 25,
     image: "./assets/materials/acier.png",
-    description:
-      "Alliage de fer et de carbone, base des armes et armures de qualité.",
+    description: "Alliage de fer et de carbone, base des armes et armures de qualité.",
     proprietes: {
       resistance: 90,
       conductivite: 55,
@@ -138,8 +132,7 @@ export const MATERIALS = {
     prixAchat: 800,
     prixVente: 600,
     image: "./assets/materials/adamantium.png",
-    description:
-      "Le métal le plus dur connu, pratiquement indestructible. Forgé par les dieux.",
+    description: "Le métal le plus dur connu, pratiquement indestructible. Forgé par les dieux.",
     proprietes: {
       resistance: 100,
       conductivite: 70,
@@ -175,8 +168,7 @@ export const MATERIALS = {
     prixAchat: 4,
     prixVente: 2,
     image: "./assets/materials/erable.png",
-    description:
-      "Bois clair et élégant, prisé pour sa beauté et sa résistance.",
+    description: "Bois clair et élégant, prisé pour sa beauté et sa résistance.",
     proprietes: {
       resistance: 45,
       conductivite: 55,
@@ -210,8 +202,7 @@ export const MATERIALS = {
     prixAchat: 30,
     prixVente: 20,
     image: "./assets/materials/ebene.png",
-    description:
-      "Bois noir profond, dense et précieux, symbole de luxe et de raffinement.",
+    description: "Bois noir profond, dense et précieux, symbole de luxe et de raffinement.",
     proprietes: {
       resistance: 70,
       conductivite: 40,
@@ -228,8 +219,7 @@ export const MATERIALS = {
     prixAchat: 32,
     prixVente: 22,
     image: "./assets/materials/acajou.png",
-    description:
-      "Bois rouge noble et résistant, symbole de qualité et de durabilité.",
+    description: "Bois rouge noble et résistant, symbole de qualité et de durabilité.",
     proprietes: {
       resistance: 75,
       conductivite: 45,
@@ -248,8 +238,7 @@ export const MATERIALS = {
     prixAchat: 5,
     prixVente: 3,
     image: "./assets/materials/granit.png",
-    description:
-      "Pierre robuste et abondante, utilisée pour les fondations et les enclumes.",
+    description: "Pierre robuste et abondante, utilisée pour les fondations et les enclumes.",
     proprietes: {
       resistance: 85,
       conductivite: 30,
@@ -266,8 +255,7 @@ export const MATERIALS = {
     prixAchat: 28,
     prixVente: 20,
     image: "./assets/materials/marbre.png",
-    description:
-      "Pierre blanche noble et élégante, symbole de prestige et de beauté.",
+    description: "Pierre blanche noble et élégante, symbole de prestige et de beauté.",
     proprietes: {
       resistance: 70,
       conductivite: 35,
@@ -284,8 +272,7 @@ export const MATERIALS = {
     prixAchat: 30,
     prixVente: 21,
     image: "./assets/materials/basalte.png",
-    description:
-      "Pierre volcanique noire et dense, formée par le refroidissement de la lave.",
+    description: "Pierre volcanique noire et dense, formée par le refroidissement de la lave.",
     proprietes: {
       resistance: 75,
       conductivite: 40,
@@ -302,8 +289,7 @@ export const MATERIALS = {
     prixAchat: 100,
     prixVente: 70,
     image: "./assets/materials/obsidienne.png",
-    description:
-      "Verre volcanique noir comme la nuit, tranchant comme un rasoir.",
+    description: "Verre volcanique noir comme la nuit, tranchant comme un rasoir.",
     proprietes: {
       resistance: 75,
       conductivite: 45,
@@ -340,8 +326,7 @@ export const MATERIALS = {
     prixAchat: 12,
     prixVente: 8,
     image: "./assets/materials/quartz.png",
-    description:
-      "Gemme cristalline transparente, abondante et facile à travailler.",
+    description: "Gemme cristalline transparente, abondante et facile à travailler.",
     proprietes: {
       resistance: 50,
       conductivite: 75,
@@ -358,8 +343,7 @@ export const MATERIALS = {
     prixAchat: 45,
     prixVente: 32,
     image: "./assets/materials/amethyste.png",
-    description:
-      "Gemme violette mystique, favorisant la concentration et la clarté d'esprit.",
+    description: "Gemme violette mystique, favorisant la concentration et la clarté d'esprit.",
     proprietes: {
       resistance: 65,
       conductivite: 80,
@@ -412,8 +396,7 @@ export const MATERIALS = {
     prixAchat: 260,
     prixVente: 185,
     image: "./assets/materials/saphir.png",
-    description:
-      "Gemme bleue profonde comme l'océan, associée à la sagesse et à l'eau.",
+    description: "Gemme bleue profonde comme l'océan, associée à la sagesse et à l'eau.",
     proprietes: {
       resistance: 85,
       conductivite: 88,
@@ -430,8 +413,7 @@ export const MATERIALS = {
     prixAchat: 270,
     prixVente: 190,
     image: "./assets/materials/emeraude.png",
-    description:
-      "Gemme verte éclatante, liée à la nature et aux forces vitales.",
+    description: "Gemme verte éclatante, liée à la nature et aux forces vitales.",
     proprietes: {
       resistance: 80,
       conductivite: 87,
@@ -468,8 +450,7 @@ export const MATERIALS = {
     prixAchat: 8,
     prixVente: 5,
     image: "./assets/materials/cuir.png",
-    description:
-      "Matériau organique résistant, idéal pour les armures légères et les manches.",
+    description: "Matériau organique résistant, idéal pour les armures légères et les manches.",
     proprietes: {
       resistance: 55,
       conductivite: 30,
@@ -522,8 +503,7 @@ export const MATERIALS = {
     prixAchat: 420,
     prixVente: 300,
     image: "./assets/materials/orichalque.png",
-    description:
-      "Métal mythique aux reflets cuivrés dorés, utilisé par les civilisations perdues.",
+    description: "Métal mythique aux reflets cuivrés dorés, utilisé par les civilisations perdues.",
     proprietes: {
       resistance: 92,
       conductivite: 93,
@@ -540,8 +520,7 @@ export const MATERIALS = {
     prixAchat: 1500,
     prixVente: 1100,
     image: "./assets/materials/eternium.png",
-    description:
-      "Matière primordiale existant hors du temps, forgée au commencement de l'univers.",
+    description: "Matière primordiale existant hors du temps, forgée au commencement de l'univers.",
     proprietes: {
       resistance: 98,
       conductivite: 97,
@@ -604,8 +583,7 @@ export function searchMaterials(query) {
   const lowerQuery = query.toLowerCase();
   return Object.values(MATERIALS).filter(
     (m) =>
-      m.nom.toLowerCase().includes(lowerQuery) ||
-      m.description.toLowerCase().includes(lowerQuery),
+      m.nom.toLowerCase().includes(lowerQuery) || m.description.toLowerCase().includes(lowerQuery),
   );
 }
 

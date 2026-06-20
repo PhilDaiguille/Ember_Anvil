@@ -8,7 +8,7 @@ variable names/comments are in French.
 - **Framework**: Vue 3 (Options API — **never** Composition API or `<script setup>`)
 - **Build**: Vite 8.x | **Styling**: Tailwind CSS 4.x | **Router**: Vue Router 5.x
 - **State**: Pinia 3.x with `pinia-plugin-persistedstate` (configured globally in `src/stores/index.js`)
-- **Icons**: `lucide-vue-next` — import per-icon: `import { Hammer } from "lucide-vue-next"`
+- **Icons**: `lucide-vue-next` — import per-icon: `import { Hammer } from "@lucide/vue"`
 - **Language**: JavaScript ES modules — no TypeScript, no `.ts` files
 - **Deployment**: Vercel (`vercel.json` at root)
 

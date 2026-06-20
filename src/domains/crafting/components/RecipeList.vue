@@ -1,5 +1,5 @@
 <script>
-import { Star, Lock, Sparkles, Clock } from "lucide-vue-next";
+import { Star, Lock, Sparkles, Clock } from "@lucide/vue";
 import { getRarityClass, getRarityLabel } from "@/shared/utils/rarity";
 
 export default {
@@ -76,11 +76,7 @@ export default {
 
 <style scoped>
 .recipes-panel {
-  background: linear-gradient(
-    135deg,
-    rgba(25, 25, 25, 0.95),
-    rgba(30, 25, 20, 0.95)
-  );
+  background: linear-gradient(135deg, rgba(25, 25, 25, 0.95), rgba(30, 25, 20, 0.95));
   border: 2px solid rgba(161, 152, 130, 0.2);
   padding: 1.5rem;
   height: fit-content;
@@ -142,11 +138,7 @@ export default {
 }
 
 .recipe-card.selected {
-  background: linear-gradient(
-    135deg,
-    rgba(0, 114, 87, 0.2),
-    rgba(50, 93, 68, 0.2)
-  );
+  background: linear-gradient(135deg, rgba(0, 114, 87, 0.2), rgba(50, 93, 68, 0.2));
   border-color: var(--viridian);
   box-shadow: 0 4px 16px rgba(0, 114, 87, 0.3);
 }

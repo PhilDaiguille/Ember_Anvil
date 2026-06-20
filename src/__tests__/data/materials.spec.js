@@ -166,13 +166,7 @@ describe("Materials Data", () => {
   });
 
   describe("Specific Pierres", () => {
-    const expectedPierres = [
-      "granit",
-      "marbre",
-      "basalte",
-      "obsidienne",
-      "jade",
-    ];
+    const expectedPierres = ["granit", "marbre", "basalte", "obsidienne", "jade"];
 
     it("should contain all 5 expected pierres", () => {
       expectedPierres.forEach((pierreId) => {
@@ -212,13 +206,7 @@ describe("Materials Data", () => {
   });
 
   describe("Specific Spéciaux", () => {
-    const expectedSpeciaux = [
-      "cuir",
-      "soie",
-      "mithril",
-      "orichalque",
-      "eternium",
-    ];
+    const expectedSpeciaux = ["cuir", "soie", "mithril", "orichalque", "eternium"];
 
     it("should contain all 5 expected spéciaux", () => {
       expectedSpeciaux.forEach((specialId) => {
@@ -285,10 +273,8 @@ describe("Materials Data", () => {
 
         if (currentTier.length > 0 && nextTier.length > 0) {
           const avgCurrentPrice =
-            currentTier.reduce((sum, m) => sum + m.prixAchat, 0) /
-            currentTier.length;
-          const avgNextPrice =
-            nextTier.reduce((sum, m) => sum + m.prixAchat, 0) / nextTier.length;
+            currentTier.reduce((sum, m) => sum + m.prixAchat, 0) / currentTier.length;
+          const avgNextPrice = nextTier.reduce((sum, m) => sum + m.prixAchat, 0) / nextTier.length;
 
           expect(avgNextPrice).toBeGreaterThan(avgCurrentPrice);
         }

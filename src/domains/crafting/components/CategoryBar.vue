@@ -1,5 +1,5 @@
 <script>
-import { Swords, Shield, Wrench, Gem, FlaskConical } from "lucide-vue-next";
+import { Swords, Shield, Wrench, Gem, FlaskConical } from "@lucide/vue";
 
 export default {
   name: "CategoryBar",

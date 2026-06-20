@@ -71,15 +71,7 @@
 <script>
 import { useInventoryStore } from "@/stores/inventory";
 import { getRarityLabel } from "@/shared/utils/rarity";
-import {
-  Star,
-  Crown,
-  Coins,
-  DollarSign,
-  ShoppingCart,
-  TrendingUp,
-  Package,
-} from "lucide-vue-next";
+import { Star, Crown, Coins, DollarSign, ShoppingCart, TrendingUp, Package } from "@lucide/vue";
 
 export default {
   name: "ShopCard",
@@ -123,11 +115,7 @@ export default {
 <style scoped>
 .material-card {
   position: relative;
-  background: linear-gradient(
-    135deg,
-    rgba(25, 25, 25, 0.95),
-    rgba(13, 10, 8, 0.95)
-  );
+  background: linear-gradient(135deg, rgba(25, 25, 25, 0.95), rgba(13, 10, 8, 0.95));
   border: 2px solid rgba(161, 152, 130, 0.2);
   overflow: hidden;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -179,11 +167,7 @@ export default {
   left: 0;
   right: 0;
   height: 200px;
-  background: radial-gradient(
-    ellipse at top,
-    rgba(212, 175, 55, 0.08),
-    transparent
-  );
+  background: radial-gradient(ellipse at top, rgba(212, 175, 55, 0.08), transparent);
   opacity: 0;
   transition: opacity 0.4s ease;
   pointer-events: none;
@@ -207,11 +191,7 @@ export default {
   align-items: center;
   gap: 0.4rem;
   padding: 0.35rem 0.75rem;
-  background: linear-gradient(
-    135deg,
-    rgba(212, 175, 55, 0.2),
-    rgba(161, 152, 130, 0.15)
-  );
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.2), rgba(161, 152, 130, 0.15));
   border: 1px solid rgba(212, 175, 55, 0.3);
   font-size: 0.75rem;
   text-transform: uppercase;
@@ -251,22 +231,14 @@ export default {
   align-items: center;
   justify-content: center;
   min-height: 200px;
-  background: linear-gradient(
-    to bottom,
-    rgba(25, 25, 25, 0.3),
-    rgba(50, 93, 68, 0.1)
-  );
+  background: linear-gradient(to bottom, rgba(25, 25, 25, 0.3), rgba(50, 93, 68, 0.1));
 }
 
 .image-glow {
   position: absolute;
   width: 150px;
   height: 150px;
-  background: radial-gradient(
-    circle,
-    rgba(212, 175, 55, 0.15),
-    transparent 70%
-  );
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.15), transparent 70%);
   filter: blur(30px);
   animation: glowPulse 3s ease-in-out infinite;
 }
@@ -322,11 +294,7 @@ export default {
 .image-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to bottom,
-    transparent 0%,
-    rgba(25, 25, 25, 0.5) 100%
-  );
+  background: linear-gradient(to bottom, transparent 0%, rgba(25, 25, 25, 0.5) 100%);
   pointer-events: none;
 }
 
@@ -411,12 +379,7 @@ export default {
 
 .price-divider {
   width: 2px;
-  background: linear-gradient(
-    to bottom,
-    transparent,
-    rgba(161, 152, 130, 0.3),
-    transparent
-  );
+  background: linear-gradient(to bottom, transparent, rgba(161, 152, 130, 0.3), transparent);
 }
 
 /* Card Actions */
@@ -465,12 +428,7 @@ export default {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.3),
-    transparent
-  );
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
   transition: left 0.5s ease;
 }
 
@@ -479,11 +437,7 @@ export default {
 }
 
 .sell-btn {
-  background: linear-gradient(
-    135deg,
-    rgba(133, 50, 51, 0.8),
-    rgba(148, 37, 37, 0.8)
-  );
+  background: linear-gradient(135deg, rgba(133, 50, 51, 0.8), rgba(148, 37, 37, 0.8));
   color: white;
   box-shadow:
     0 4px 16px rgba(133, 50, 51, 0.25),
@@ -500,11 +454,7 @@ export default {
 .sell-btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
-  background: linear-gradient(
-    135deg,
-    rgba(100, 100, 100, 0.5),
-    rgba(80, 80, 80, 0.5)
-  );
+  background: linear-gradient(135deg, rgba(100, 100, 100, 0.5), rgba(80, 80, 80, 0.5));
   border-color: rgba(100, 100, 100, 0.3);
 }
 

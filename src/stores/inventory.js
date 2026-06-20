@@ -19,10 +19,7 @@ export const useInventoryStore = defineStore("inventory", {
   getters: {
     // Capacité utilisée
     capaciteUtilisee: (state) => {
-      const materialsCount = Object.values(state.materials).reduce(
-        (sum, qty) => sum + qty,
-        0,
-      );
+      const materialsCount = Object.values(state.materials).reduce((sum, qty) => sum + qty, 0);
       const itemsCount = state.craftedItems.length;
       return materialsCount + itemsCount;
     },
@@ -40,19 +37,13 @@ export const useInventoryStore = defineStore("inventory", {
     // Valeur totale de l'inventaire
     valeurTotale: (state) => {
       // Valeur des matériaux (prix de vente)
-      const valeursMateriaux = Object.entries(state.materials).reduce(
-        (sum, [id, qty]) => {
-          const material = MATERIALS[id];
-          return sum + (material?.prixVente || 0) * qty;
-        },
-        0,
-      );
+      const valeursMateriaux = Object.entries(state.materials).reduce((sum, [id, qty]) => {
+        const material = MATERIALS[id];
+        return sum + (material?.prixVente || 0) * qty;
+      }, 0);
 
       // Valeur des objets forgés
-      const valeursObjets = state.craftedItems.reduce(
-        (sum, item) => sum + (item.valeur || 0),
-        0,
-      );
+      const valeursObjets = state.craftedItems.reduce((sum, item) => sum + (item.valeur || 0), 0);
 
       return valeursMateriaux + valeursObjets;
     },

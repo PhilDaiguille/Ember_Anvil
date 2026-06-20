@@ -4,13 +4,11 @@ import HomeView from "@/shared/layout/HomeView.vue";
 const CraftingView = () => import("@/domains/crafting/views/CraftingView.vue");
 const ShopView = () => import("@/domains/shop/views/ShopView.vue");
 const WikiView = () => import("@/domains/wiki/views/WikiView.vue");
-const InventoryView = () =>
-  import("@/domains/inventory/views/InventoryView.vue");
+const InventoryView = () => import("@/domains/inventory/views/InventoryView.vue");
 const WorkshopView = () => import("@/domains/workshop/views/WorkshopView.vue");
 const ProfileView = () => import("@/domains/player/views/ProfileView.vue");
 const ChangelogView = () => import("@/domains/blog/views/ChangelogView.vue");
-const GuideDebutantView = () =>
-  import("@/domains/blog/views/GuideDebutantView.vue");
+const GuideDebutantView = () => import("@/domains/blog/views/GuideDebutantView.vue");
 const GlossaireView = () => import("@/domains/blog/views/GlossaireView.vue");
 const ComparatifView = () => import("@/domains/blog/views/ComparatifView.vue");
 
@@ -31,8 +29,7 @@ export const routes = [
     component: CraftingView,
     meta: {
       title: "Forge - Créer vos objets | Ember Anvil",
-      description:
-        "Forgez des objets uniques en combinant différents matériaux",
+      description: "Forgez des objets uniques en combinant différents matériaux",
     },
   },
   {
@@ -95,8 +92,7 @@ export const routes = [
     name: "guide-debutant",
     component: GuideDebutantView,
     meta: {
-      title:
-        "Comment débuter dans la forge virtuelle : guide complet | Ember Anvil",
+      title: "Comment débuter dans la forge virtuelle : guide complet | Ember Anvil",
       description:
         "Guide complet pour débutants : premiers pas dans Ember Anvil, comprendre les matériaux, forger vos premiers objets et progresser rapidement.",
     },
@@ -116,8 +112,7 @@ export const routes = [
     name: "comparatif",
     component: ComparatifView,
     meta: {
-      title:
-        "Meilleurs jeux de forge en ligne 2026 : comparatif complet | Ember Anvil",
+      title: "Meilleurs jeux de forge en ligne 2026 : comparatif complet | Ember Anvil",
       description:
         "Comparatif des meilleurs jeux de forge : Ember Anvil, Minecraft, Valheim, Little Alchemy 2, Stardew Valley. Quel jeu choisir en 2026 ?",
     },

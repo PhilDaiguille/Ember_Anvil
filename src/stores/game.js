@@ -64,9 +64,7 @@ export const useGameStore = defineStore("game", {
     // Completion percentage
     achievementsProgress: (state) => {
       const total = ACHIEVEMENTS.length;
-      const unlocked = Object.values(state.achievements).filter(
-        (a) => a.unlocked,
-      ).length;
+      const unlocked = Object.values(state.achievements).filter((a) => a.unlocked).length;
       return total > 0 ? Math.round((unlocked / total) * 100) : 0;
     },
 
@@ -122,9 +120,7 @@ export const useGameStore = defineStore("game", {
         gains_ventes: this.stats.gainsVentes,
         ecus_max: this.stats.maxEcus,
         tool_upgrades: this.stats.toolUpgrades,
-        tool_maxed:
-          workshopStore.allTools?.filter((t) => t.niveau >= t.niveauMax)
-            .length || 0,
+        tool_maxed: workshopStore.allTools?.filter((t) => t.niveau >= t.niveauMax).length || 0,
         unique_tools_upgraded: this.stats.uniqueToolsUpgraded.length,
         facilities_activated: this.stats.facilitiesActivated,
         synergies_active: workshopStore.activeSynergiesCount || 0,

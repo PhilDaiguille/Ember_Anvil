@@ -1,5 +1,5 @@
 <script>
-import { Hammer, ArrowUp, Sparkles } from "lucide-vue-next";
+import { Hammer, ArrowUp, Sparkles } from "@lucide/vue";
 
 export default {
   name: "ToolCard",
@@ -50,12 +50,7 @@ export default {
     </div>
 
     <div class="tool-icon-wrapper">
-      <component
-        :is="tool.icone"
-        :size="64"
-        :stroke-width="2"
-        class="tool-icon"
-      />
+      <component :is="tool.icone" :size="64" :stroke-width="2" class="tool-icon" />
       <div class="tool-level-badge">Niv. {{ tool.niveau }}</div>
     </div>
 
@@ -102,11 +97,7 @@ export default {
 
 <style scoped>
 .tool-card {
-  background: linear-gradient(
-    135deg,
-    rgba(26, 22, 18, 0.95),
-    rgba(15, 13, 10, 0.95)
-  );
+  background: linear-gradient(135deg, rgba(26, 22, 18, 0.95), rgba(15, 13, 10, 0.95));
   border: 2px solid rgba(161, 152, 130, 0.2);
   border-radius: 1rem;
   padding: 2rem;
@@ -161,11 +152,7 @@ export default {
   align-items: center;
   gap: 0.25rem;
   padding: 0.5rem 0.75rem;
-  background: linear-gradient(
-    135deg,
-    rgba(212, 175, 55, 0.9),
-    rgba(255, 215, 0, 0.9)
-  );
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.9), rgba(255, 215, 0, 0.9));
   border-radius: 2rem;
   font-size: 0.75rem;
   font-weight: 700;

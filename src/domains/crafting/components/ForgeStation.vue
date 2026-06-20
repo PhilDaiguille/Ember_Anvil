@@ -1,5 +1,5 @@
 <script>
-import { Hammer, CheckCircle, Flame, Clock } from "lucide-vue-next";
+import { Hammer, CheckCircle, Flame, Clock } from "@lucide/vue";
 import { usePlayerStore } from "@/stores/player";
 import { useInventoryStore } from "@/stores/inventory";
 import { getMaterialNom, peutCrafter } from "@/shared/utils/craftingHelpers";
@@ -37,11 +37,7 @@ export default {
   computed: {
     canForgeResult() {
       if (!this.recetteSelectionnee) return { possible: false, raison: "" };
-      return peutCrafter(
-        this.recetteSelectionnee,
-        usePlayerStore().niveau,
-        useInventoryStore(),
-      );
+      return peutCrafter(this.recetteSelectionnee, usePlayerStore().niveau, useInventoryStore());
     },
   },
   methods: {
@@ -81,14 +77,11 @@ export default {
               :class="[
                 'ingredient-item',
                 {
-                  insufficient:
-                    getQuantitePossedee(ing.materialId) < ing.quantite,
+                  insufficient: getQuantitePossedee(ing.materialId) < ing.quantite,
                 },
               ]"
             >
-              <span class="ingredient-name">{{
-                getMaterialNom(ing.materialId)
-              }}</span>
+              <span class="ingredient-name">{{ getMaterialNom(ing.materialId) }}</span>
               <span class="ingredient-quantity">
                 {{ getQuantitePossedee(ing.materialId) }} /
                 {{ ing.quantite }}
@@ -103,11 +96,7 @@ export default {
           </div>
         </div>
 
-        <button
-          class="forge-button"
-          :disabled="!canForgeResult.possible"
-          @click="$emit('forge')"
-        >
+        <button class="forge-button" :disabled="!canForgeResult.possible" @click="$emit('forge')">
           <span class="button-text">
             {{ canForgeResult.possible ? "Forger" : canForgeResult.raison }}
           </span>
@@ -149,26 +138,16 @@ export default {
       <div class="progress-container">
         <div class="progress-header">
           <span class="progress-label">Progression</span>
-          <span class="progress-percent"
-            >{{ Math.floor(progressionForge) }}%</span
-          >
+          <span class="progress-percent">{{ Math.floor(progressionForge) }}%</span>
         </div>
         <div class="progress-bar">
           <div class="progress-track"></div>
-          <div
-            class="progress-fill"
-            :style="{ width: progressionForge + '%' }"
-          ></div>
-          <div
-            class="progress-glow"
-            :style="{ width: progressionForge + '%' }"
-          ></div>
+          <div class="progress-fill" :style="{ width: progressionForge + '%' }"></div>
+          <div class="progress-glow" :style="{ width: progressionForge + '%' }"></div>
         </div>
         <div class="temperature-indicator">
           <Flame class="temp-icon" :size="22" :stroke-width="2" />
-          <span class="temp-text"
-            >{{ Math.floor(800 + progressionForge * 4) }}°C</span
-          >
+          <span class="temp-text">{{ Math.floor(800 + progressionForge * 4) }}°C</span>
           <Clock class="time-icon" :size="18" :stroke-width="2" />
           <span class="time-text">{{ tempsRestant }}s</span>
         </div>
@@ -183,11 +162,7 @@ export default {
 
 <style scoped>
 .forge-station {
-  background: linear-gradient(
-    135deg,
-    rgba(25, 25, 25, 0.8),
-    rgba(13, 10, 8, 0.9)
-  );
+  background: linear-gradient(135deg, rgba(25, 25, 25, 0.8), rgba(13, 10, 8, 0.9));
   border: 2px solid rgba(161, 152, 130, 0.2);
   padding: 3rem 2rem;
   box-shadow:
@@ -379,12 +354,7 @@ export default {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.3),
-    transparent
-  );
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
   transition: left 0.5s ease;
 }
 
@@ -605,11 +575,7 @@ export default {
   top: -4px;
   left: 0;
   height: calc(100% + 8px);
-  background: radial-gradient(
-    ellipse at center,
-    rgba(255, 237, 78, 0.4),
-    transparent
-  );
+  background: radial-gradient(ellipse at center, rgba(255, 237, 78, 0.4), transparent);
   transition: width 0.1s linear;
   filter: blur(10px);
   pointer-events: none;

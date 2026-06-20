@@ -43,18 +43,14 @@ describe("Workshop Store", () => {
 
     it("should initialize facilities with default values", () => {
       expect(workshopStore.facilities).toBeDefined();
-      expect(Object.keys(workshopStore.facilities).length).toBe(
-        FACILITIES_ARRAY.length,
-      );
+      expect(Object.keys(workshopStore.facilities).length).toBe(FACILITIES_ARRAY.length);
 
       FACILITIES_ARRAY.forEach((facilityData) => {
         const facility = workshopStore.facilities[facilityData.id];
         expect(facility).toBeDefined();
         expect(facility.niveau).toBe(facilityData.niveauInitial);
         expect(facility.actif).toBe(facilityData.actifParDefaut);
-        expect(facility.bonusProductivite).toBe(
-          facilityData.bonusProductiviteBase,
-        );
+        expect(facility.bonusProductivite).toBe(facilityData.bonusProductiviteBase);
         expect(facility.coutUpgrade).toBe(facilityData.coutUpgradeBase);
       });
     });
@@ -318,9 +314,7 @@ describe("Workshop Store", () => {
     });
 
     it("upgradeTool() should update quest progress", () => {
-      const upgradeQuest = workshopStore.quests.find(
-        (q) => q.type === "upgrade",
-      );
+      const upgradeQuest = workshopStore.quests.find((q) => q.type === "upgrade");
       if (upgradeQuest) {
         const initialProgress = upgradeQuest.progression;
         workshopStore.upgradeTool("marteau");
@@ -380,9 +374,7 @@ describe("Workshop Store", () => {
     });
 
     it("toggleFacility() should update quest progress on activation", () => {
-      const activateQuest = workshopStore.quests.find(
-        (q) => q.type === "activate",
-      );
+      const activateQuest = workshopStore.quests.find((q) => q.type === "activate");
       if (activateQuest) {
         workshopStore.toggleFacility("trempage");
         expect(activateQuest.progression).toBeGreaterThan(0);
@@ -400,18 +392,14 @@ describe("Workshop Store", () => {
     it("upgradeFacility() should upgrade facility successfully", () => {
       const initialLevel = workshopStore.facilities.trempage.niveau;
       const initialBonus = workshopStore.facilities.trempage.bonusProductivite;
-      const cost = Math.floor(
-        workshopStore.facilities.trempage.coutUpgrade / 10,
-      );
+      const cost = Math.floor(workshopStore.facilities.trempage.coutUpgrade / 10);
       const initialOr = playerStore.or;
 
       const result = workshopStore.upgradeFacility("trempage");
 
       expect(result).toBe(true);
       expect(workshopStore.facilities.trempage.niveau).toBe(initialLevel + 1);
-      expect(
-        workshopStore.facilities.trempage.bonusProductivite,
-      ).toBeGreaterThan(initialBonus);
+      expect(workshopStore.facilities.trempage.bonusProductivite).toBeGreaterThan(initialBonus);
       expect(playerStore.or).toBe(initialOr - cost);
     });
 
@@ -450,9 +438,7 @@ describe("Workshop Store", () => {
 
   describe("Quest Progress", () => {
     it("updateQuestProgress() should update upgrade quests", () => {
-      const upgradeQuest = workshopStore.quests.find(
-        (q) => q.type === "upgrade",
-      );
+      const upgradeQuest = workshopStore.quests.find((q) => q.type === "upgrade");
       if (upgradeQuest) {
         const initial = upgradeQuest.progression;
         workshopStore.updateQuestProgress("upgrade", 1);
@@ -461,14 +447,10 @@ describe("Workshop Store", () => {
     });
 
     it("updateQuestProgress() should cap progression at objective", () => {
-      const upgradeQuest = workshopStore.quests.find(
-        (q) => q.type === "upgrade",
-      );
+      const upgradeQuest = workshopStore.quests.find((q) => q.type === "upgrade");
       if (upgradeQuest) {
         workshopStore.updateQuestProgress("upgrade", 9999);
-        expect(upgradeQuest.progression).toBeLessThanOrEqual(
-          upgradeQuest.objectif,
-        );
+        expect(upgradeQuest.progression).toBeLessThanOrEqual(upgradeQuest.objectif);
       }
     });
 
@@ -580,9 +562,7 @@ describe("Workshop Store", () => {
       workshopStore.reset();
 
       // Verify reset
-      expect(workshopStore.tools.marteau.niveau).toBe(
-        TOOLS.marteau.niveauInitial,
-      );
+      expect(workshopStore.tools.marteau.niveau).toBe(TOOLS.marteau.niveauInitial);
       expect(workshopStore.facilities.trempage.actif).toBe(false);
       expect(workshopStore.historique.length).toBe(0);
     });

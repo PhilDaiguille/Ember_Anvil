@@ -30,9 +30,7 @@
             >
               Référence
             </span>
-            <span class="text-gray-500 text-sm"
-              >{{ totalTerms }} termes définis</span
-            >
+            <span class="text-gray-500 text-sm">{{ totalTerms }} termes définis</span>
           </div>
           <h1
             class="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight"
@@ -40,13 +38,9 @@
           >
             Glossaire de la forge et de l'artisanat virtuel
           </h1>
-          <p
-            class="text-xl text-gray-300 leading-relaxed max-w-2xl"
-            itemprop="description"
-          >
-            Tous les termes essentiels pour maîtriser le vocabulaire d'Ember
-            Anvil — de l'alliage à la trempe, chaque concept expliqué
-            clairement.
+          <p class="text-xl text-gray-300 leading-relaxed max-w-2xl" itemprop="description">
+            Tous les termes essentiels pour maîtriser le vocabulaire d'Ember Anvil — de l'alliage à
+            la trempe, chaque concept expliqué clairement.
           </p>
         </header>
 
@@ -91,9 +85,7 @@
                 :key="term.name"
                 class="term-item bg-black/30 rounded-xl border border-white/10 p-6 hover:border-white/20 transition-all duration-200"
               >
-                <dt
-                  class="term-name text-xl font-bold text-white mb-2 flex items-center gap-3"
-                >
+                <dt class="term-name text-xl font-bold text-white mb-2 flex items-center gap-3">
                   {{ term.name }}
                   <span
                     v-if="term.category"
@@ -106,10 +98,7 @@
                 <dd class="term-definition text-gray-300 leading-relaxed">
                   {{ term.definition }}
                 </dd>
-                <div
-                  v-if="term.seeAlso && term.seeAlso.length"
-                  class="mt-3 text-sm text-gray-500"
-                >
+                <div v-if="term.seeAlso && term.seeAlso.length" class="mt-3 text-sm text-gray-500">
                   Voir aussi :
                   <span v-for="(ref, i) in term.seeAlso" :key="ref">
                     <span class="text-amber-400/70">{{ ref }}</span
@@ -125,9 +114,7 @@
         <footer class="mt-16 pt-10 border-t border-white/10">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <p class="text-xs uppercase tracking-widest text-gray-500 mb-2">
-                Article précédent
-              </p>
+              <p class="text-xs uppercase tracking-widest text-gray-500 mb-2">Article précédent</p>
               <router-link
                 to="/guides/debuter-dans-la-forge"
                 class="next-article-link block bg-black/30 rounded-xl p-5 border border-white/10 hover:border-amber-500/40 transition-all duration-200 group"
@@ -141,9 +128,7 @@
               </router-link>
             </div>
             <div class="text-right">
-              <p class="text-xs uppercase tracking-widest text-gray-500 mb-2">
-                Article suivant
-              </p>
+              <p class="text-xs uppercase tracking-widest text-gray-500 mb-2">Article suivant</p>
               <router-link
                 to="/guides/meilleurs-jeux-de-forge"
                 class="next-article-link block bg-black/30 rounded-xl p-5 border border-white/10 hover:border-amber-500/40 transition-all duration-200 group"
@@ -153,9 +138,7 @@
                 >
                   Comparatif jeux de forge →
                 </div>
-                <div class="text-sm text-gray-500">
-                  Quel jeu choisir en 2026 ?
-                </div>
+                <div class="text-sm text-gray-500">Quel jeu choisir en 2026 ?</div>
               </router-link>
             </div>
           </div>
@@ -427,9 +410,7 @@ export default {
         if (!groups[letter]) groups[letter] = { letter, terms: [] };
         groups[letter].terms.push(term);
       }
-      return Object.values(groups).sort((a, b) =>
-        a.letter.localeCompare(b.letter),
-      );
+      return Object.values(groups).sort((a, b) => a.letter.localeCompare(b.letter));
     },
     categoryClasses() {
       return {

@@ -75,9 +75,7 @@ describe("InventoryStore", () => {
 
       const result = store.ajouterObjet(item);
       expect(result).toBe(true);
-      expect(store.craftedItems).toContainEqual(
-        expect.objectContaining({ nom: "Épée de fer" }),
-      );
+      expect(store.craftedItems).toContainEqual(expect.objectContaining({ nom: "Épée de fer" }));
     });
 
     it("devrait ajouter un objet forgé avec ajouterObjetForge (alias)", () => {
@@ -104,14 +102,10 @@ describe("InventoryStore", () => {
       };
 
       store.ajouterObjet(item);
-      const addedItem = store.craftedItems.find(
-        (i) => i.nom === "Bouclier de bronze",
-      );
+      const addedItem = store.craftedItems.find((i) => i.nom === "Bouclier de bronze");
       const result = store.supprimerObjet(addedItem.id);
       expect(result).toBe(true);
-      expect(store.craftedItems.find((i) => i.id === addedItem.id)).toBe(
-        undefined,
-      );
+      expect(store.craftedItems.find((i) => i.id === addedItem.id)).toBe(undefined);
     });
   });
 

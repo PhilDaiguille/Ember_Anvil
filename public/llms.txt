@@ -176,7 +176,7 @@ src/
 Uses **Lucide Vue Next** for all icons:
 
 ```javascript
-import { Hammer, Coins, Sparkles } from "lucide-vue-next"
+import { Hammer, Coins, Sparkles } from "@lucide/vue"
 ```
 
 Common icons:

@@ -4,6 +4,7 @@ import vue from "@vitejs/plugin-vue";
 import tailwindcss from "@tailwindcss/vite";
 import vitePluginSitemap from "./scripts/vite-plugin-sitemap.js";
 import vueDevTools from "vite-plugin-vue-devtools";
+import { VitePWA } from "vite-plugin-pwa";
 
 const isDev = process.env.NODE_ENV !== "production";
 
@@ -17,6 +18,7 @@ export default defineConfig({
         },
       },
     }),
+    VitePWA({ registerType: "autoUpdate" }),
     isDev &&
       vueDevTools({
         launchEditor: "webstorm",

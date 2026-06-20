@@ -273,9 +273,7 @@ export const useWorkshopStore = defineStore("workshop", {
       // Upgrade tool
       tool.niveau++;
       tool.pouvoir = Math.min(100, tool.pouvoir + toolData.pouvoirParNiveau);
-      tool.coutUpgrade = Math.floor(
-        tool.coutUpgrade * toolData.multiplicateurCout,
-      );
+      tool.coutUpgrade = Math.floor(tool.coutUpgrade * toolData.multiplicateurCout);
 
       // Add to history
       this.ajouterHistorique({
@@ -388,9 +386,7 @@ export const useWorkshopStore = defineStore("workshop", {
       // Upgrade facility
       facility.niveau++;
       facility.bonusProductivite += facilityData.bonusParNiveau;
-      facility.coutUpgrade = Math.floor(
-        facility.coutUpgrade * facilityData.multiplicateurCout,
-      );
+      facility.coutUpgrade = Math.floor(facility.coutUpgrade * facilityData.multiplicateurCout);
 
       // Add to history
       this.ajouterHistorique({
@@ -421,10 +417,7 @@ export const useWorkshopStore = defineStore("workshop", {
 
         // For "upgrade" and "max_level" types, increment
         if (type === "upgrade" || type === "max_level") {
-          quest.progression = Math.min(
-            quest.progression + value,
-            quest.objectif,
-          );
+          quest.progression = Math.min(quest.progression + value, quest.objectif);
         }
         // For "activate" type, set absolute value
         else if (type === "activate") {

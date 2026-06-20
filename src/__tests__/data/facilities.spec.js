@@ -156,24 +156,16 @@ describe("Facilities Data", () => {
     });
 
     it("cheapest facility should be trempage", () => {
-      const minUpgradeCost = Math.min(
-        ...FACILITIES_ARRAY.map((f) => f.coutUpgradeBase),
-      );
-      const minActivationCost = Math.min(
-        ...FACILITIES_ARRAY.map((f) => f.coutActivation),
-      );
+      const minUpgradeCost = Math.min(...FACILITIES_ARRAY.map((f) => f.coutUpgradeBase));
+      const minActivationCost = Math.min(...FACILITIES_ARRAY.map((f) => f.coutActivation));
 
       expect(FACILITIES.trempage.coutUpgradeBase).toBe(minUpgradeCost);
       expect(FACILITIES.trempage.coutActivation).toBe(minActivationCost);
     });
 
     it("most expensive facility should be elementaire", () => {
-      const maxUpgradeCost = Math.max(
-        ...FACILITIES_ARRAY.map((f) => f.coutUpgradeBase),
-      );
-      const maxActivationCost = Math.max(
-        ...FACILITIES_ARRAY.map((f) => f.coutActivation),
-      );
+      const maxUpgradeCost = Math.max(...FACILITIES_ARRAY.map((f) => f.coutUpgradeBase));
+      const maxActivationCost = Math.max(...FACILITIES_ARRAY.map((f) => f.coutActivation));
 
       expect(FACILITIES.elementaire.coutUpgradeBase).toBe(maxUpgradeCost);
       expect(FACILITIES.elementaire.coutActivation).toBe(maxActivationCost);
@@ -184,9 +176,7 @@ describe("Facilities Data", () => {
         // According to code comment: coutUpgradeBase / 10 = cost in gold
         // But activation uses écus, not a direct 10x relationship
         // Just verify both are reasonable
-        expect(facility.coutUpgradeBase).toBeGreaterThan(
-          facility.coutActivation,
-        );
+        expect(facility.coutUpgradeBase).toBeGreaterThan(facility.coutActivation);
       });
     });
   });
@@ -210,17 +200,13 @@ describe("Facilities Data", () => {
     });
 
     it("trempage should have lowest productivity bonus (15)", () => {
-      const minBonus = Math.min(
-        ...FACILITIES_ARRAY.map((f) => f.bonusProductiviteBase),
-      );
+      const minBonus = Math.min(...FACILITIES_ARRAY.map((f) => f.bonusProductiviteBase));
       expect(minBonus).toBe(15);
       expect(FACILITIES.trempage.bonusProductiviteBase).toBe(minBonus);
     });
 
     it("elementaire should have highest productivity bonus (30)", () => {
-      const maxBonus = Math.max(
-        ...FACILITIES_ARRAY.map((f) => f.bonusProductiviteBase),
-      );
+      const maxBonus = Math.max(...FACILITIES_ARRAY.map((f) => f.bonusProductiviteBase));
       expect(maxBonus).toBe(30);
       expect(FACILITIES.elementaire.bonusProductiviteBase).toBe(maxBonus);
     });
@@ -228,8 +214,7 @@ describe("Facilities Data", () => {
     it("max productivity at level 5 should be reasonable", () => {
       FACILITIES_ARRAY.forEach((facility) => {
         const maxBonus =
-          facility.bonusProductiviteBase +
-          (facility.niveauMax - 1) * facility.bonusParNiveau;
+          facility.bonusProductiviteBase + (facility.niveauMax - 1) * facility.bonusParNiveau;
         expect(maxBonus).toBeGreaterThanOrEqual(35);
         expect(maxBonus).toBeLessThanOrEqual(100);
       });
@@ -287,9 +272,7 @@ describe("Facilities Data", () => {
         let currentCost = facility.coutUpgradeBase;
 
         for (let level = 2; level <= facility.niveauMax; level++) {
-          const nextCost = Math.floor(
-            currentCost * facility.multiplicateurCout,
-          );
+          const nextCost = Math.floor(currentCost * facility.multiplicateurCout);
           expect(nextCost).toBeGreaterThan(currentCost);
           currentCost = nextCost;
         }
@@ -315,9 +298,7 @@ describe("Facilities Data", () => {
 
   describe("Balance and Game Design", () => {
     it("higher cost facilities should have higher productivity", () => {
-      const sorted = [...FACILITIES_ARRAY].sort(
-        (a, b) => a.coutUpgradeBase - b.coutUpgradeBase,
-      );
+      const sorted = [...FACILITIES_ARRAY].sort((a, b) => a.coutUpgradeBase - b.coutUpgradeBase);
 
       for (let i = 0; i < sorted.length - 1; i++) {
         expect(sorted[i].bonusProductiviteBase).toBeLessThanOrEqual(
@@ -327,9 +308,7 @@ describe("Facilities Data", () => {
     });
 
     it("activation cost should scale with upgrade cost", () => {
-      const activationRatio = FACILITIES_ARRAY.map(
-        (f) => f.coutUpgradeBase / f.coutActivation,
-      );
+      const activationRatio = FACILITIES_ARRAY.map((f) => f.coutUpgradeBase / f.coutActivation);
 
       // All ratios should be within reasonable range (15-25)
       activationRatio.forEach((ratio) => {

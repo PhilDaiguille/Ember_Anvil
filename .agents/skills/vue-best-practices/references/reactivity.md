@@ -190,9 +190,7 @@ watchEffect(() => {
 import { ref, computed } from "vue";
 
 const items = ref([{ price: 10 }, { price: 20 }]);
-const total = computed(() =>
-  items.value.reduce((sum, item) => sum + item.price, 0),
-);
+const total = computed(() => items.value.reduce((sum, item) => sum + item.price, 0));
 ```
 
 ### Keep filtered/sorted derivations out of templates
@@ -236,9 +234,7 @@ const items = ref([
 ]);
 
 const visibleItems = computed(() =>
-  items.value
-    .filter((item) => item.active)
-    .sort((a, b) => a.name.localeCompare(b.name)),
+  items.value.filter((item) => item.active).sort((a, b) => a.name.localeCompare(b.name)),
 );
 </script>
 

@@ -59,9 +59,7 @@ const props = defineProps({
   user: { type: Object, required: true },
 });
 
-const displayName = computed(
-  () => `${props.user.firstName} ${props.user.lastName}`,
-);
+const displayName = computed(() => `${props.user.firstName} ${props.user.lastName}`);
 </script>
 
 <template>
@@ -220,9 +218,7 @@ onMounted(() => {
 
 ```vue
 <template>
-  <div :style="{ 'font-size': fontSize + 'px', 'background-color': bg }">
-    Content
-  </div>
+  <div :style="{ 'font-size': fontSize + 'px', 'background-color': bg }">Content</div>
 </template>
 ```
 

@@ -1,9 +1,5 @@
 <template>
-  <main
-    class="codex-page"
-    id="main-content"
-    aria-label="Codex des matériaux et recettes"
-  >
+  <main class="codex-page" id="main-content" aria-label="Codex des matériaux et recettes">
     <div class="codex-container">
       <!-- Sidebar Navigation -->
       <aside class="codex-sidebar">
@@ -52,16 +48,8 @@
           <!-- Category Filter -->
           <div class="filter-box">
             <Filter :size="16" :stroke-width="2" class="filter-icon" />
-            <select
-              class="filter-select"
-              :value="selectedCategory"
-              @change="handleCategoryChange"
-            >
-              <option
-                v-for="category in availableCategories"
-                :key="category"
-                :value="category"
-              >
+            <select class="filter-select" :value="selectedCategory" @change="handleCategoryChange">
+              <option v-for="category in availableCategories" :key="category" :value="category">
                 {{
                   category === "all"
                     ? "Toutes catégories"
@@ -85,9 +73,7 @@
                 :class="{ active: selectedItemIndex === index }"
                 @click="scrollToItem(index)"
               >
-                <span class="nav-number">{{
-                  String(index + 1).padStart(2, "0")
-                }}</span>
+                <span class="nav-number">{{ String(index + 1).padStart(2, "0") }}</span>
                 <span class="nav-text">{{ item.nom }}</span>
                 <span class="nav-arrow">→</span>
               </li>
@@ -108,14 +94,9 @@
             <div class="progress-indicator">
               <div class="progress-label">Documentation ({{ statsText }})</div>
               <div class="progress-bar-mini">
-                <div
-                  class="progress-fill-mini"
-                  :style="{ width: completionRate + '%' }"
-                ></div>
+                <div class="progress-fill-mini" :style="{ width: completionRate + '%' }"></div>
               </div>
-              <div class="progress-text">
-                {{ Math.floor(completionRate) }}% complété
-              </div>
+              <div class="progress-text">{{ Math.floor(completionRate) }}% complété</div>
             </div>
           </div>
         </nav>
@@ -179,8 +160,7 @@
             }}
           </p>
           <p class="footer-subtext">
-            Pour plus d'informations, consultez les maîtres forgerons de la
-            guilde
+            Pour plus d'informations, consultez les maîtres forgerons de la guilde
           </p>
         </footer>
       </div>
@@ -192,12 +172,7 @@
 import Card from "@/shared/ui/MainCard.vue";
 import { mapState, mapActions } from "pinia";
 import { useCodexStore } from "@/stores/codex";
-import {
-  BookOpen,
-  Hammer,
-  Search as SearchIcon,
-  Filter as FilterIcon,
-} from "lucide-vue-next";
+import { BookOpen, Hammer, Search as SearchIcon, Filter as FilterIcon } from "@lucide/vue";
 
 export default {
   name: "WikiCodex",
@@ -228,9 +203,7 @@ export default {
 
     // Switch between materials and recipes based on tab
     displayedItems() {
-      return this.selectedTab === "materials"
-        ? this.filteredMaterials
-        : this.filteredRecipes;
+      return this.selectedTab === "materials" ? this.filteredMaterials : this.filteredRecipes;
     },
 
     // Dynamic completion rate
@@ -251,16 +224,12 @@ export default {
 
     // Tab title
     tabTitle() {
-      return this.selectedTab === "materials"
-        ? "Codex des Matériaux"
-        : "Codex des Recettes";
+      return this.selectedTab === "materials" ? "Codex des Matériaux" : "Codex des Recettes";
     },
 
     // Tab subtitle
     tabSubtitle() {
-      return this.selectedTab === "materials"
-        ? "Index Alchimique"
-        : "Recueil des Créations";
+      return this.selectedTab === "materials" ? "Index Alchimique" : "Recueil des Créations";
     },
 
     // Content title
@@ -298,12 +267,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(useCodexStore, [
-      "setTab",
-      "setCategory",
-      "setSearchQuery",
-      "initialize",
-    ]),
+    ...mapActions(useCodexStore, ["setTab", "setCategory", "setSearchQuery", "initialize"]),
 
     scrollToItem(index) {
       this.selectedItemIndex = index;
@@ -370,11 +334,7 @@ export default {
 .codex-sidebar {
   width: 320px;
   min-width: 320px;
-  background: linear-gradient(
-    135deg,
-    rgba(26, 22, 18, 0.95),
-    rgba(15, 13, 10, 0.95)
-  );
+  background: linear-gradient(135deg, rgba(26, 22, 18, 0.95), rgba(15, 13, 10, 0.95));
   border-right: 3px solid rgba(161, 152, 130, 0.3);
   position: sticky;
   top: 0;
@@ -387,11 +347,7 @@ export default {
 .sidebar-header {
   padding: 2.5rem 2rem;
   border-bottom: 2px solid rgba(161, 152, 130, 0.2);
-  background: linear-gradient(
-    to bottom,
-    rgba(161, 152, 130, 0.08),
-    transparent
-  );
+  background: linear-gradient(to bottom, rgba(161, 152, 130, 0.08), transparent);
   text-align: center;
 }
 
@@ -575,11 +531,7 @@ export default {
 }
 
 .nav-item.active {
-  background: linear-gradient(
-    90deg,
-    rgba(133, 50, 51, 0.3),
-    rgba(133, 50, 51, 0.1)
-  );
+  background: linear-gradient(90deg, rgba(133, 50, 51, 0.3), rgba(133, 50, 51, 0.1));
   border-left-color: var(--auburn);
   color: white;
   box-shadow: 0 2px 8px rgba(133, 50, 51, 0.2);
@@ -717,11 +669,7 @@ export default {
 
 .content-header {
   padding: 3rem 2rem;
-  background: linear-gradient(
-    135deg,
-    rgba(161, 152, 130, 0.08),
-    rgba(50, 93, 68, 0.05)
-  );
+  background: linear-gradient(135deg, rgba(161, 152, 130, 0.08), rgba(50, 93, 68, 0.05));
   border: 2px solid rgba(161, 152, 130, 0.2);
   margin-bottom: 3rem;
   text-align: center;
@@ -736,12 +684,7 @@ export default {
   left: 2rem;
   right: 2rem;
   height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(161, 152, 130, 0.3),
-    transparent
-  );
+  background: linear-gradient(90deg, transparent, rgba(161, 152, 130, 0.3), transparent);
 }
 
 .content-header::before {

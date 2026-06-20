@@ -65,13 +65,7 @@ describe("Recipes Data", () => {
     });
 
     it("every recipe should have valid categorie", () => {
-      const validCategories = [
-        "arme",
-        "armure",
-        "outil",
-        "bijou",
-        "consommable",
-      ];
+      const validCategories = ["arme", "armure", "outil", "bijou", "consommable"];
       RECIPES.forEach((recipe) => {
         expect(validCategories).toContain(recipe.categorie);
       });
@@ -344,10 +338,8 @@ describe("Recipes Data", () => {
 
     it("higher rarity should correlate with higher level requirements", () => {
       const commonAvgLevel =
-        RECIPES.filter((r) => r.rarity === "common").reduce(
-          (sum, r) => sum + r.niveauRequis,
-          0,
-        ) / RECIPES.filter((r) => r.rarity === "common").length;
+        RECIPES.filter((r) => r.rarity === "common").reduce((sum, r) => sum + r.niveauRequis, 0) /
+        RECIPES.filter((r) => r.rarity === "common").length;
 
       const legendaryAvgLevel =
         RECIPES.filter((r) => r.rarity === "legendary").reduce(
@@ -367,11 +359,9 @@ describe("Recipes Data", () => {
       const highLevelRecipes = RECIPES.filter((r) => r.niveauRequis >= 10);
 
       const lowAvgValue =
-        lowLevelRecipes.reduce((sum, r) => sum + r.valeurVente, 0) /
-        lowLevelRecipes.length;
+        lowLevelRecipes.reduce((sum, r) => sum + r.valeurVente, 0) / lowLevelRecipes.length;
       const highAvgValue =
-        highLevelRecipes.reduce((sum, r) => sum + r.valeurVente, 0) /
-        highLevelRecipes.length;
+        highLevelRecipes.reduce((sum, r) => sum + r.valeurVente, 0) / highLevelRecipes.length;
 
       expect(highAvgValue).toBeGreaterThan(lowAvgValue);
     });

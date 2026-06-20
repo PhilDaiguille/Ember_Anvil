@@ -2,11 +2,7 @@
   <header class="forge-header" role="banner">
     <div class="header-container">
       <!-- Logo Section -->
-      <router-link
-        to="/"
-        class="logo-section"
-        aria-label="Ember Anvil - Accueil"
-      >
+      <router-link to="/" class="logo-section" aria-label="Ember Anvil - Accueil">
         <div class="logo-icon">
           <Flame :size="32" :stroke-width="2.5" />
         </div>
@@ -66,20 +62,13 @@
       <!-- User Section -->
       <div class="user-section">
         <!-- Écus -->
-        <div
-          class="currency-display ecus"
-          :aria-label="`${ecus.toLocaleString()} écus`"
-        >
+        <div class="currency-display ecus" :aria-label="`${ecus.toLocaleString()} écus`">
           <Coins class="currency-icon" :size="20" :stroke-width="2" />
           <span class="currency-value">{{ ecus.toLocaleString() }}</span>
         </div>
 
         <!-- Or (Gold) - Only if > 0 -->
-        <div
-          v-if="or > 0"
-          class="currency-display gold"
-          :aria-label="`${or.toLocaleString()} or`"
-        >
+        <div v-if="or > 0" class="currency-display gold" :aria-label="`${or.toLocaleString()} or`">
           <Gem class="currency-icon" :size="20" :stroke-width="2" />
           <span class="currency-value">{{ or.toLocaleString() }}</span>
         </div>
@@ -96,13 +85,8 @@
           <!-- XP Progress Bar (shown on hover) -->
           <transition name="xp-slide">
             <div v-if="showXpBar" class="xp-progress-container">
-              <div
-                class="xp-progress-bar"
-                :style="{ width: xpPourcentage + '%' }"
-              ></div>
-              <span class="xp-text"
-                >{{ experience }} / {{ experienceMax }} XP</span
-              >
+              <div class="xp-progress-bar" :style="{ width: xpPourcentage + '%' }"></div>
+              <span class="xp-text">{{ experience }} / {{ experienceMax }} XP</span>
             </div>
           </transition>
         </div>
@@ -142,7 +126,7 @@ import {
   Coins,
   Gem,
   Sword,
-} from "lucide-vue-next";
+} from "@lucide/vue";
 
 export default {
   name: "PageHeader",
@@ -165,13 +149,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(usePlayerStore, [
-      "ecus",
-      "or",
-      "niveau",
-      "experience",
-      "experienceMax",
-    ]),
+    ...mapState(usePlayerStore, ["ecus", "or", "niveau", "experience", "experienceMax"]),
     xpPourcentage() {
       return Math.min((this.experience / this.experienceMax) * 100, 100);
     },
@@ -192,11 +170,7 @@ export default {
   position: sticky;
   top: 0;
   z-index: 1000;
-  background: linear-gradient(
-    135deg,
-    rgba(26, 22, 18, 0.98),
-    rgba(15, 13, 10, 0.98)
-  );
+  background: linear-gradient(135deg, rgba(26, 22, 18, 0.98), rgba(15, 13, 10, 0.98));
   backdrop-filter: blur(12px);
   border-bottom: 2px solid rgba(161, 152, 130, 0.3);
   box-shadow:
@@ -314,11 +288,7 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    135deg,
-    rgba(133, 50, 51, 0.2),
-    rgba(50, 93, 68, 0.2)
-  );
+  background: linear-gradient(135deg, rgba(133, 50, 51, 0.2), rgba(50, 93, 68, 0.2));
   opacity: 0;
   transition: opacity 0.3s ease;
 }
@@ -380,20 +350,12 @@ export default {
 }
 
 .currency-display.ecus {
-  background: linear-gradient(
-    135deg,
-    rgba(212, 175, 55, 0.15),
-    rgba(161, 152, 130, 0.1)
-  );
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(161, 152, 130, 0.1));
   color: #d4af37;
 }
 
 .currency-display.gold {
-  background: linear-gradient(
-    135deg,
-    rgba(255, 128, 0, 0.15),
-    rgba(255, 165, 0, 0.1)
-  );
+  background: linear-gradient(135deg, rgba(255, 128, 0, 0.15), rgba(255, 165, 0, 0.1));
   border-color: rgba(255, 128, 0, 0.3);
   color: #ff8c00;
 }
@@ -478,12 +440,7 @@ export default {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.3),
-    transparent
-  );
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
   animation: xpShine 2s ease-in-out infinite;
 }
 
@@ -595,11 +552,7 @@ export default {
     right: -100%;
     width: 280px;
     height: 100vh;
-    background: linear-gradient(
-      135deg,
-      rgba(26, 22, 18, 0.98),
-      rgba(15, 13, 10, 0.98)
-    );
+    background: linear-gradient(135deg, rgba(26, 22, 18, 0.98), rgba(15, 13, 10, 0.98));
     backdrop-filter: blur(12px);
     padding: 6rem 2rem 2rem;
     transition: right 0.4s ease;

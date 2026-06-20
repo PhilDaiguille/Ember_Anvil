@@ -19,18 +19,14 @@ function runMigrations(fromVersion, toVersion) {
     console.log("Migration v0.0.0 → v1.0.0");
 
     // Exemple : Ajouter nouveau champ "or" s'il n'existe pas
-    const playerData = JSON.parse(
-      localStorage.getItem("emberanvil.player") || "{}",
-    );
+    const playerData = JSON.parse(localStorage.getItem("emberanvil.player") || "{}");
     if (playerData.or === undefined) {
       playerData.or = 0;
       localStorage.setItem("emberanvil.player", JSON.stringify(playerData));
     }
 
     // Exemple : Migrer ancien format de matériaux
-    const inventoryData = JSON.parse(
-      localStorage.getItem("emberanvil.inventory") || "{}",
-    );
+    const inventoryData = JSON.parse(localStorage.getItem("emberanvil.inventory") || "{}");
     if (inventoryData.materials && Array.isArray(inventoryData.materials)) {
       // Convertir array en object { materialId: quantite }
       const newMaterials = {};
@@ -38,10 +34,7 @@ function runMigrations(fromVersion, toVersion) {
         newMaterials[m.id] = m.quantite;
       });
       inventoryData.materials = newMaterials;
-      localStorage.setItem(
-        "emberanvil.inventory",
-        JSON.stringify(inventoryData),
-      );
+      localStorage.setItem("emberanvil.inventory", JSON.stringify(inventoryData));
     }
   }
 

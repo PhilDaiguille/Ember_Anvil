@@ -1,9 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
-import {
-  GAME_VERSION,
-  migrateLocalStorage,
-  resetGame,
-} from "@/stores/migrations";
+import { GAME_VERSION, migrateLocalStorage, resetGame } from "@/stores/migrations";
 
 // Mock console methods
 const consoleSpy = {
@@ -46,12 +42,8 @@ describe("Migrations", () => {
       migrateLocalStorage();
 
       expect(localStorage.getItem("emberanvil.version")).toBe(GAME_VERSION);
-      expect(consoleSpy.log).toHaveBeenCalledWith(
-        "🎮 Première installation d'EmberAnvil",
-      );
-      expect(consoleSpy.log).toHaveBeenCalledWith(
-        "✨ Nouveau joueur initialisé avec succès!",
-      );
+      expect(consoleSpy.log).toHaveBeenCalledWith("🎮 Première installation d'EmberAnvil");
+      expect(consoleSpy.log).toHaveBeenCalledWith("✨ Nouveau joueur initialisé avec succès!");
     });
 
     it("should set version to current GAME_VERSION", () => {
@@ -97,12 +89,8 @@ describe("Migrations", () => {
       expect(consoleSpy.warn).toHaveBeenCalledWith(
         expect.stringContaining("⚠️ Version sauvegardée"),
       );
-      expect(consoleSpy.log).toHaveBeenCalledWith(
-        expect.stringContaining("🔄 Migration"),
-      );
-      expect(consoleSpy.log).toHaveBeenCalledWith(
-        "✅ Migration terminée avec succès!",
-      );
+      expect(consoleSpy.log).toHaveBeenCalledWith(expect.stringContaining("🔄 Migration"));
+      expect(consoleSpy.log).toHaveBeenCalledWith("✅ Migration terminée avec succès!");
     });
 
     it("should add 'or' field to player data if missing", () => {
@@ -110,9 +98,7 @@ describe("Migrations", () => {
 
       migrateLocalStorage();
 
-      const playerData = JSON.parse(
-        localStorage.getItem("emberanvil.player") || "{}",
-      );
+      const playerData = JSON.parse(localStorage.getItem("emberanvil.player") || "{}");
       expect(playerData.or).toBe(0);
       expect(playerData.ecus).toBe(1000); // Preserve existing data
     });
@@ -122,9 +108,7 @@ describe("Migrations", () => {
 
       migrateLocalStorage();
 
-      const playerData = JSON.parse(
-        localStorage.getItem("emberanvil.player") || "{}",
-      );
+      const playerData = JSON.parse(localStorage.getItem("emberanvil.player") || "{}");
       expect(playerData.or).toBe(50); // Unchanged
     });
 
@@ -141,9 +125,7 @@ describe("Migrations", () => {
 
       migrateLocalStorage();
 
-      const inventoryData = JSON.parse(
-        localStorage.getItem("emberanvil.inventory") || "{}",
-      );
+      const inventoryData = JSON.parse(localStorage.getItem("emberanvil.inventory") || "{}");
       expect(inventoryData.materials).toEqual({
         fer: 10,
         cuivre: 5,
@@ -155,9 +137,7 @@ describe("Migrations", () => {
 
       migrateLocalStorage();
 
-      const inventoryData = JSON.parse(
-        localStorage.getItem("emberanvil.inventory") || "{}",
-      );
+      const inventoryData = JSON.parse(localStorage.getItem("emberanvil.inventory") || "{}");
       expect(inventoryData).toBeDefined();
     });
 
@@ -211,9 +191,7 @@ describe("Migrations", () => {
 
       resetGame();
 
-      expect(consoleSpy.log).toHaveBeenCalledWith(
-        "🗑️ Jeu réinitialisé avec succès!",
-      );
+      expect(consoleSpy.log).toHaveBeenCalledWith("🗑️ Jeu réinitialisé avec succès!");
     });
 
     it("should not reset if user cancels confirmation", () => {
@@ -234,9 +212,7 @@ describe("Migrations", () => {
 
       resetGame();
 
-      expect(window.confirm).toHaveBeenCalledWith(
-        expect.stringContaining("⚠️ ATTENTION"),
-      );
+      expect(window.confirm).toHaveBeenCalledWith(expect.stringContaining("⚠️ ATTENTION"));
     });
   });
 
@@ -249,9 +225,7 @@ describe("Migrations", () => {
 
       expect(() => migrateLocalStorage()).not.toThrow();
 
-      const playerData = JSON.parse(
-        localStorage.getItem("emberanvil.player") || "{}",
-      );
+      const playerData = JSON.parse(localStorage.getItem("emberanvil.player") || "{}");
       expect(playerData.or).toBe(0);
     });
 
@@ -275,9 +249,7 @@ describe("Migrations", () => {
 
       migrateLocalStorage();
 
-      const inventoryData = JSON.parse(
-        localStorage.getItem("emberanvil.inventory") || "{}",
-      );
+      const inventoryData = JSON.parse(localStorage.getItem("emberanvil.inventory") || "{}");
       expect(inventoryData.materials).toEqual({ fer: 10, cuivre: 5 });
     });
 

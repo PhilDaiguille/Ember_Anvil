@@ -1,5 +1,5 @@
 <script>
-import { Hammer, Sparkles } from "lucide-vue-next";
+import { Hammer, Sparkles } from "@lucide/vue";
 
 export default {
   name: "UpgradeOverlay",

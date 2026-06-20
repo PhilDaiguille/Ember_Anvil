@@ -1,5 +1,5 @@
 <script>
-import { Star } from "lucide-vue-next";
+import { Star } from "@lucide/vue";
 
 export default {
   name: "CraftingHistory",
@@ -17,11 +17,7 @@ export default {
   <div v-if="historiqueRecent.length > 0" class="history-section">
     <h2 class="history-title">Dernières créations</h2>
     <div class="history-grid">
-      <div
-        v-for="item in historiqueRecent"
-        :key="item.timestamp"
-        class="history-item"
-      >
+      <div v-for="item in historiqueRecent" :key="item.timestamp" class="history-item">
         <div class="history-name">{{ item.nom }}</div>
         <div class="history-quality">
           <Star
@@ -40,11 +36,7 @@ export default {
 
 <style scoped>
 .history-section {
-  background: linear-gradient(
-    135deg,
-    rgba(25, 25, 25, 0.8),
-    rgba(30, 25, 20, 0.8)
-  );
+  background: linear-gradient(135deg, rgba(25, 25, 25, 0.8), rgba(30, 25, 20, 0.8));
   border: 2px solid rgba(161, 152, 130, 0.2);
   padding: 2rem;
   margin-top: 3rem;

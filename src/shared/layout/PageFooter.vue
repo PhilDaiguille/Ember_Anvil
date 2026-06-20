@@ -4,14 +4,12 @@
       <div class="grid grid-cols-1 md:grid-cols-4 gap-10 mb-10">
         <!-- Brand -->
         <div class="footer-brand md:col-span-1">
-          <div
-            class="brand-name text-2xl font-bold text-amber-400 mb-3 font-['Caesar_Dressing']"
-          >
+          <div class="brand-name text-2xl font-bold text-amber-400 mb-3 font-['Caesar_Dressing']">
             Ember Anvil
           </div>
           <p class="text-gray-400 text-sm leading-relaxed">
-            La forge virtuelle de vos rêves. Créez, affinez et perfectionnez vos
-            créations dans un univers artisanal unique.
+            La forge virtuelle de vos rêves. Créez, affinez et perfectionnez vos créations dans un
+            univers artisanal unique.
           </p>
         </div>
 
@@ -27,27 +25,19 @@
               <router-link to="/forge" class="footer-link"> Forge </router-link>
             </li>
             <li>
-              <router-link to="/marche" class="footer-link">
-                Marché
-              </router-link>
+              <router-link to="/marche" class="footer-link"> Marché </router-link>
             </li>
             <li>
               <router-link to="/codex" class="footer-link"> Codex </router-link>
             </li>
             <li>
-              <router-link to="/inventaire" class="footer-link">
-                Inventaire
-              </router-link>
+              <router-link to="/inventaire" class="footer-link"> Inventaire </router-link>
             </li>
             <li>
-              <router-link to="/atelier" class="footer-link">
-                Atelier
-              </router-link>
+              <router-link to="/atelier" class="footer-link"> Atelier </router-link>
             </li>
             <li>
-              <router-link to="/profil" class="footer-link">
-                Profil
-              </router-link>
+              <router-link to="/profil" class="footer-link"> Profil </router-link>
             </li>
           </ul>
         </div>
@@ -61,10 +51,7 @@
           </h3>
           <ul class="space-y-2">
             <li>
-              <router-link
-                to="/guides/debuter-dans-la-forge"
-                class="footer-link"
-              >
+              <router-link to="/guides/debuter-dans-la-forge" class="footer-link">
                 Guide débutant
               </router-link>
             </li>
@@ -74,10 +61,7 @@
               </router-link>
             </li>
             <li>
-              <router-link
-                to="/guides/meilleurs-jeux-de-forge"
-                class="footer-link"
-              >
+              <router-link to="/guides/meilleurs-jeux-de-forge" class="footer-link">
                 Comparatif jeux
               </router-link>
             </li>
@@ -93,9 +77,7 @@
           </h3>
           <ul class="space-y-2">
             <li>
-              <router-link to="/changelog" class="footer-link">
-                Changelog
-              </router-link>
+              <router-link to="/changelog" class="footer-link"> Changelog </router-link>
             </li>
           </ul>
         </div>
@@ -105,14 +87,10 @@
         class="footer-bottom border-t border-white/10 pt-6 flex flex-col md:flex-row justify-between items-center gap-4"
       >
         <p class="text-gray-500 text-sm">
-          © {{ currentYear }} Philippe DELENTE — Ember Anvil. Tous droits
-          réservés.
+          © {{ currentYear }} Philippe DELENTE — Ember Anvil. Tous droits réservés.
         </p>
         <nav class="flex gap-6" aria-label="Liens légaux">
-          <router-link
-            to="/"
-            class="text-gray-500 hover:text-gray-300 text-sm transition-colors"
-          >
+          <router-link to="/" class="text-gray-500 hover:text-gray-300 text-sm transition-colors">
             Accueil
           </router-link>
           <router-link

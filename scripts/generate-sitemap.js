@@ -15,9 +15,7 @@ async function generateSitemap() {
     console.log("Génération du sitemap...");
 
     const stream = new SitemapStream({ hostname: SITE_URL });
-    const xml = await streamToPromise(
-      Readable.from(sitemapRoutes).pipe(stream),
-    );
+    const xml = await streamToPromise(Readable.from(sitemapRoutes).pipe(stream));
 
     mkdirSync("./dist", { recursive: true });
     writeFileSync(OUTPUT_PATH, xml.toString());

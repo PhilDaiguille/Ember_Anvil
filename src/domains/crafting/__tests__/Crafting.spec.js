@@ -98,9 +98,7 @@ describe("CraftingComponent", () => {
   describe("État idle (pas de forge en cours)", () => {
     it("devrait afficher le message de sélection si aucune recette n'est sélectionnée", () => {
       expect(wrapper.find(".no-recipe").exists()).toBe(true);
-      expect(wrapper.text()).toContain(
-        "Sélectionnez une recette pour commencer",
-      );
+      expect(wrapper.text()).toContain("Sélectionnez une recette pour commencer");
     });
 
     it("devrait afficher l'enclume en état idle", () => {

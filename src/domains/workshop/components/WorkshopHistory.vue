@@ -1,5 +1,5 @@
 <script>
-import { Hammer, Building2, Clock } from "lucide-vue-next";
+import { Hammer, Building2, Clock } from "@lucide/vue";
 
 export default {
   name: "WorkshopHistory",
@@ -24,11 +24,7 @@ export default {
     </div>
 
     <div class="history-list">
-      <div
-        v-for="(item, index) in historique"
-        :key="index"
-        class="history-item"
-      >
+      <div v-for="(item, index) in historique" :key="index" class="history-item">
         <div class="history-icon">
           <Hammer v-if="item.type === 'upgrade'" :size="20" :stroke-width="2" />
           <Building2 v-else :size="20" :stroke-width="2" />
@@ -87,11 +83,7 @@ export default {
   align-items: center;
   gap: 1rem;
   padding: 1rem 1.5rem;
-  background: linear-gradient(
-    135deg,
-    rgba(26, 22, 18, 0.9),
-    rgba(15, 13, 10, 0.9)
-  );
+  background: linear-gradient(135deg, rgba(26, 22, 18, 0.9), rgba(15, 13, 10, 0.9));
   border: 1px solid rgba(161, 152, 130, 0.15);
   border-radius: 0.75rem;
   transition: all 0.3s ease;

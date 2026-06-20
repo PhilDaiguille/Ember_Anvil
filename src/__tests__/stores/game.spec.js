@@ -40,9 +40,7 @@ describe("Game Store", () => {
     });
 
     it("achievementsVerrouilles devrait retourner tous les achievements", () => {
-      expect(gameStore.achievementsVerrouilles.length).toBe(
-        ACHIEVEMENTS.length,
-      );
+      expect(gameStore.achievementsVerrouilles.length).toBe(ACHIEVEMENTS.length);
     });
 
     it("achievementsProgress devrait retourner 0% initialement", () => {
