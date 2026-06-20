@@ -83,6 +83,13 @@ export const useInventoryStore = defineStore("inventory", {
   },
 
   actions: {
+    // Vide entièrement l'inventaire (utilisé par la Renaissance / prestige)
+    viderInventaire() {
+      this.materials = {};
+      this.craftedItems = [];
+      this.transactions = [];
+    },
+
     // ========== GESTION DES MATÉRIAUX ==========
 
     ajouterMaterial(materialId, quantite = 1) {

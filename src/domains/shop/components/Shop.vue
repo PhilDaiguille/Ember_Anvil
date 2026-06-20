@@ -17,6 +17,7 @@ import { useGameStore } from "@/stores/game";
 import { useCodexStore } from "@/stores/codex";
 import { MATERIALS_ARRAY } from "@/data/materials";
 import { filterMaterials } from "@/shared/utils/filterHelpers";
+import { getPrixAchat, getPrixVente, getTendance } from "@/shared/utils/market";
 
 export default {
   name: "ShopPage",
@@ -39,7 +40,14 @@ export default {
   computed: {
     ...mapState(usePlayerStore, ["ecus"]),
     filteredMaterials() {
-      return filterMaterials(MATERIALS_ARRAY, this.selectedFilter, this.searchQuery);
+      const liste = filterMaterials(MATERIALS_ARRAY, this.selectedFilter, this.searchQuery);
+      // Applique les prix dynamiques du jour + la tendance pour l'affichage
+      return liste.map((m) => ({
+        ...m,
+        prixAchat: getPrixAchat(m),
+        prixVente: getPrixVente(m),
+        tendance: getTendance(m.id),
+      }));
     },
   },
   methods: {

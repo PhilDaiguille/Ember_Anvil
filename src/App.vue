@@ -2,6 +2,8 @@
 import Toast from "@/shared/ui/Toast.vue";
 import { usePlayerStore } from "@/stores/player";
 import { useGameStore } from "@/stores/game";
+import { useCraftingStore } from "@/stores/crafting";
+import { useOrdersStore } from "@/stores/orders";
 
 export default {
   name: "App",
@@ -14,6 +16,10 @@ export default {
     playerStore.demarrerSession();
     const gameStore = useGameStore();
     gameStore.initialize();
+    // Reprend une forge en cours après refresh / fermeture d'onglet (progression hors-ligne)
+    useCraftingStore().reprendreForge();
+    // Génère / renouvelle les commandes clients
+    useOrdersStore().rafraichir();
   },
 
   beforeUnmount() {

@@ -3,10 +3,25 @@ import { Hammer, CheckCircle, Flame, Clock } from "@lucide/vue";
 import { usePlayerStore } from "@/stores/player";
 import { useInventoryStore } from "@/stores/inventory";
 import { getMaterialNom, peutCrafter } from "@/shared/utils/craftingHelpers";
+import anvilImg from "@/assets/forge/anvil.svg";
+import hammerImg from "@/assets/forge/hammer.svg";
 
 export default {
   name: "ForgeStation",
   components: { Hammer, CheckCircle, Flame, Clock },
+  data() {
+    return {
+      anvilImg,
+      hammerImg,
+      // Mini-jeu de timing
+      markerPos: 0,
+      sweetMin: 38, // zone "frappe parfaite" (% de la barre)
+      sweetMax: 62,
+      markerDir: 1,
+      rafId: null,
+      lastTs: 0,
+    };
+  },
   props: {
     estEnCoursDeForge: {
       type: Boolean,
@@ -32,18 +47,72 @@ export default {
       type: Array,
       default: () => [],
     },
+    coupsReussis: {
+      type: Number,
+      default: 0,
+    },
+    coupsTentes: {
+      type: Number,
+      default: 0,
+    },
   },
-  emits: ["forge", "cancel"],
+  emits: ["forge", "cancel", "strike"],
   computed: {
     canForgeResult() {
       if (!this.recetteSelectionnee) return { possible: false, raison: "" };
       return peutCrafter(this.recetteSelectionnee, usePlayerStore().niveau, useInventoryStore());
     },
+    coupsRestants() {
+      return Math.max(0, 3 - this.coupsTentes);
+    },
+  },
+  watch: {
+    estEnCoursDeForge(actif) {
+      if (actif) this._demarrerMarqueur();
+      else this._arreterMarqueur();
+    },
+  },
+  mounted() {
+    if (this.estEnCoursDeForge) this._demarrerMarqueur();
+  },
+  beforeUnmount() {
+    this._arreterMarqueur();
   },
   methods: {
     getMaterialNom,
     getQuantitePossedee(materialId) {
       return useInventoryStore().getQuantite(materialId);
+    },
+    _demarrerMarqueur() {
+      this.lastTs = performance.now();
+      const vitesse = 0.07; // % par ms (~1.4s d'un bord à l'autre)
+      const boucle = (ts) => {
+        const dt = ts - this.lastTs;
+        this.lastTs = ts;
+        this.markerPos += this.markerDir * vitesse * dt;
+        if (this.markerPos >= 100) {
+          this.markerPos = 100;
+          this.markerDir = -1;
+        } else if (this.markerPos <= 0) {
+          this.markerPos = 0;
+          this.markerDir = 1;
+        }
+        this.rafId = requestAnimationFrame(boucle);
+      };
+      this.rafId = requestAnimationFrame(boucle);
+    },
+    _arreterMarqueur() {
+      if (this.rafId !== null) {
+        cancelAnimationFrame(this.rafId);
+        this.rafId = null;
+      }
+      this.markerPos = 0;
+      this.markerDir = 1;
+    },
+    frapper() {
+      if (this.coupsRestants === 0) return;
+      const reussi = this.markerPos >= this.sweetMin && this.markerPos <= this.sweetMax;
+      this.$emit("strike", reussi);
     },
   },
 };
@@ -54,11 +123,7 @@ export default {
     <div v-if="!estEnCoursDeForge" class="station-idle">
       <div v-if="!recetteSelectionnee" class="no-recipe">
         <div class="anvil-display">
-          <img
-            src="https://cdn-icons-png.flaticon.com/512/453/453558.png"
-            alt="anvil"
-            class="anvil-idle"
-          />
+          <img :src="anvilImg" alt="Enclume" class="anvil-idle" />
           <div class="heat-waves"></div>
         </div>
         <p class="idle-text">Sélectionnez une recette pour commencer</p>
@@ -112,16 +177,8 @@ export default {
       </div>
 
       <div class="forging-animation">
-        <img
-          src="https://cdn-icons-png.flaticon.com/512/3615/3615934.png"
-          alt="hammer"
-          class="hammer-active"
-        />
-        <img
-          src="https://cdn-icons-png.flaticon.com/512/453/453558.png"
-          alt="anvil"
-          class="anvil-active"
-        />
+        <img :src="hammerImg" alt="Marteau" class="hammer-active" />
+        <img :src="anvilImg" alt="Enclume" class="anvil-active" />
         <div
           v-for="spark in sparks"
           :key="spark.id"
@@ -133,6 +190,23 @@ export default {
           }"
         ></div>
         <div class="impact-zone"></div>
+      </div>
+
+      <div class="timing-game">
+        <div class="timing-header">
+          <span class="timing-label">Frappes parfaites</span>
+          <span class="timing-score">{{ coupsReussis }}/3</span>
+        </div>
+        <div class="timing-track">
+          <div
+            class="timing-sweet"
+            :style="{ left: sweetMin + '%', width: sweetMax - sweetMin + '%' }"
+          ></div>
+          <div class="timing-marker" :style="{ left: markerPos + '%' }"></div>
+        </div>
+        <button class="timing-button" :disabled="coupsRestants === 0" @click="frapper">
+          {{ coupsRestants === 0 ? "Frappes épuisées" : `Frapper ! (${coupsRestants})` }}
+        </button>
       </div>
 
       <div class="progress-container">
@@ -505,6 +579,85 @@ export default {
       scale(0);
     opacity: 0;
   }
+}
+
+.timing-game {
+  width: 100%;
+  max-width: 500px;
+  margin-bottom: 0.5rem;
+}
+
+.timing-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.timing-label {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--dun);
+  font-weight: 600;
+}
+
+.timing-score {
+  font-size: 1.1rem;
+  font-weight: 900;
+  color: #ffed4e;
+}
+
+.timing-track {
+  position: relative;
+  width: 100%;
+  height: 20px;
+  background: rgba(25, 25, 25, 0.8);
+  border: 2px solid rgba(161, 152, 130, 0.3);
+  overflow: hidden;
+}
+
+.timing-sweet {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  background: linear-gradient(90deg, rgba(0, 114, 87, 0.4), rgba(50, 93, 68, 0.6));
+  border-left: 2px solid var(--sea-green);
+  border-right: 2px solid var(--sea-green);
+}
+
+.timing-marker {
+  position: absolute;
+  top: -2px;
+  width: 4px;
+  height: calc(100% + 4px);
+  background: #ffed4e;
+  box-shadow: 0 0 10px rgba(255, 237, 78, 0.9);
+  transform: translateX(-50%);
+}
+
+.timing-button {
+  margin-top: 0.75rem;
+  width: 100%;
+  padding: 0.85rem;
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: white;
+  background: linear-gradient(135deg, #ff6420, #942525);
+  border: none;
+  cursor: pointer;
+  transition: transform var(--t-fast) ease;
+}
+
+.timing-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.timing-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }
 
 .progress-container {

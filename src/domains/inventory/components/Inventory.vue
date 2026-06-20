@@ -344,6 +344,7 @@ export default {
             </div>
             <div class="crafted-body">
               <h3 class="crafted-name">{{ item.nom }}</h3>
+              <span v-if="item.affixe" class="crafted-affixe">✨ {{ item.affixe.nom }}</span>
               <div class="quality-stars">
                 <Star
                   v-for="i in renderQualityStars(item.qualite)"
@@ -641,6 +642,14 @@ export default {
 }
 
 /* Empty State */
+.crafted-affixe {
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #c084fc;
+  margin-bottom: 0.4rem;
+}
+
 .empty-state {
   display: flex;
   flex-direction: column;

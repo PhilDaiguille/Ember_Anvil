@@ -18,7 +18,15 @@
 
     <div class="card-content">
       <h3 class="material-name">{{ material.nom }}</h3>
-      <p class="material-type">{{ typeLabel }} • Tier {{ material.tier }}</p>
+      <p class="material-type">
+        {{ typeLabel }} • Tier {{ material.tier }}
+        <span v-if="material.tendance" :class="['tendance', `tendance-${material.tendance}`]">
+          <TrendingUp v-if="material.tendance === 'hausse'" :size="14" :stroke-width="2.5" />
+          <TrendingDown v-else-if="material.tendance === 'baisse'" :size="14" :stroke-width="2.5" />
+          <Minus v-else :size="14" :stroke-width="2.5" />
+          {{ tendanceLabel }}
+        </span>
+      </p>
 
       <div class="pricing-section">
         <div class="price-box buy-price">
@@ -71,7 +79,17 @@
 <script>
 import { useInventoryStore } from "@/stores/inventory";
 import { getRarityLabel } from "@/shared/utils/rarity";
-import { Star, Crown, Coins, DollarSign, ShoppingCart, TrendingUp, Package } from "@lucide/vue";
+import {
+  Star,
+  Crown,
+  Coins,
+  DollarSign,
+  ShoppingCart,
+  TrendingUp,
+  TrendingDown,
+  Minus,
+  Package,
+} from "@lucide/vue";
 
 export default {
   name: "ShopCard",
@@ -82,6 +100,8 @@ export default {
     DollarSign,
     ShoppingCart,
     TrendingUp,
+    TrendingDown,
+    Minus,
     Package,
   },
   props: {
@@ -107,6 +127,10 @@ export default {
         special: "Spécial",
       };
       return labels[this.material.type] || this.material.type;
+    },
+    tendanceLabel() {
+      const labels = { hausse: "En hausse", baisse: "En baisse", stable: "Stable" };
+      return labels[this.material.tendance] || "";
     },
   },
 };
@@ -289,6 +313,27 @@ export default {
   text-transform: uppercase;
   letter-spacing: 0.05em;
   font-weight: 600;
+}
+
+.tendance {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  margin-left: 0.5rem;
+  font-weight: 700;
+  vertical-align: middle;
+}
+
+.tendance-hausse {
+  color: #e0564b;
+}
+
+.tendance-baisse {
+  color: var(--sea-green);
+}
+
+.tendance-stable {
+  color: var(--dun);
 }
 
 .image-overlay {

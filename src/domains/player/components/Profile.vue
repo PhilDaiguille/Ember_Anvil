@@ -1,7 +1,10 @@
 <script>
-import { mapState, mapGetters } from "pinia";
+import { mapState, mapGetters, mapActions } from "pinia";
 import { usePlayerStore } from "@/stores/player";
 import { useGameStore } from "@/stores/game";
+import { usePrestigeStore } from "@/stores/prestige";
+import { useCraftingStore } from "@/stores/crafting";
+import { getRecipeById } from "@/data/recipes";
 import {
   Swords,
   Calendar,
@@ -28,6 +31,7 @@ import {
   Wrench,
   Zap,
   Star,
+  Flame,
 } from "@lucide/vue";
 
 export default {
@@ -51,6 +55,7 @@ export default {
     Sparkles,
     Lock,
     CheckCircle,
+    Flame,
   },
   data() {
     return {
@@ -117,8 +122,55 @@ export default {
     badgesWithStatus() {
       return this.allAchievementsWithStatus;
     },
+
+    // ===== Statistiques de forge =====
+    topRecettes() {
+      const stats = useCraftingStore().stats.recettesFavorites || {};
+      const entrees = Object.entries(stats)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 5);
+      const max = entrees.length ? entrees[0][1] : 1;
+      return entrees.map(([id, count]) => ({
+        nom: getRecipeById(id)?.nom ?? id,
+        count,
+        pct: Math.round((count / max) * 100),
+      }));
+    },
+    distributionQualite() {
+      const historique = useCraftingStore().historique || [];
+      const counts = [0, 0, 0, 0, 0];
+      for (const h of historique) {
+        if (h.qualite >= 1 && h.qualite <= 5) counts[h.qualite - 1]++;
+      }
+      const max = Math.max(1, ...counts);
+      return counts.map((c, i) => ({ qualite: i + 1, count: c, pct: Math.round((c / max) * 100) }));
+    },
+
+    // ===== Prestige =====
+    ...mapState(usePrestigeStore, ["essence", "renaissances", "bonus"]),
+    prestige() {
+      const p = usePrestigeStore();
+      return {
+        essenceGagnable: p.essenceGagnable(this.niveau),
+        peutRenaitre: p.peutRenaitre(this.niveau),
+        bonusVitesse: Math.round((1 - p.multiplicateurVitesse) * 100),
+        bonusQualite: p.bonusQualite,
+        bonusGain: Math.round((p.multiplicateurGain - 1) * 100),
+        coutVitesse: p.coutBonus("vitesse"),
+        coutQualite: p.coutBonus("qualite"),
+        coutGain: p.coutBonus("gain"),
+      };
+    },
   },
   methods: {
+    ...mapActions(usePrestigeStore, ["renaitre", "ameliorerBonus"]),
+    confirmerRenaissance() {
+      if (!this.prestige.peutRenaitre) return;
+      const ok = window.confirm(
+        `Renaître réinitialise votre niveau, vos écus et votre inventaire, mais vous gagnez ${this.prestige.essenceGagnable} essence et conservez vos bonus permanents. Continuer ?`,
+      );
+      if (ok) this.renaitre();
+    },
     formatMembreDepuis() {
       if (!this.membreDepuis) return "Récemment";
       const date = new Date(this.membreDepuis);
@@ -313,11 +365,283 @@ export default {
           </p>
         </div>
       </section>
+
+      <!-- Statistiques de forge -->
+      <section class="forgestats-section">
+        <h2 class="section-title">
+          <BarChart3 :size="28" :stroke-width="2" class="title-icon" />
+          Statistiques de Forge
+        </h2>
+
+        <div class="forgestats-grid">
+          <div class="forgestats-block">
+            <h3 class="forgestats-subtitle">Recettes favorites</h3>
+            <p v-if="topRecettes.length === 0" class="forgestats-empty">
+              Aucune forge pour l'instant.
+            </p>
+            <div v-for="r in topRecettes" :key="r.nom" class="bar-row">
+              <span class="bar-label">{{ r.nom }}</span>
+              <div class="bar-track">
+                <div class="bar-fill" :style="{ width: r.pct + '%' }"></div>
+              </div>
+              <span class="bar-count">{{ r.count }}</span>
+            </div>
+          </div>
+
+          <div class="forgestats-block">
+            <h3 class="forgestats-subtitle">Répartition des qualités</h3>
+            <div v-for="q in distributionQualite" :key="q.qualite" class="bar-row">
+              <span class="bar-label">{{ "⭐".repeat(q.qualite) }}</span>
+              <div class="bar-track">
+                <div class="bar-fill bar-fill-gold" :style="{ width: q.pct + '%' }"></div>
+              </div>
+              <span class="bar-count">{{ q.count }}</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Prestige Section -->
+      <section class="prestige-section">
+        <h2 class="section-title">
+          <Flame :size="28" :stroke-width="2" class="title-icon" />
+          Renaissance de la Forge
+        </h2>
+
+        <div class="prestige-overview">
+          <div class="prestige-stat">
+            <div class="prestige-value">{{ essence }}</div>
+            <div class="prestige-label">Essence</div>
+          </div>
+          <div class="prestige-stat">
+            <div class="prestige-value">{{ renaissances }}</div>
+            <div class="prestige-label">Renaissances</div>
+          </div>
+        </div>
+
+        <p class="prestige-text">
+          Recommencez à zéro (niveau, écus, inventaire) pour gagner de l'essence et acheter des
+          bonus permanents. Renaissance possible dès le niveau 20.
+        </p>
+
+        <button
+          class="prestige-btn"
+          :disabled="!prestige.peutRenaitre"
+          @click="confirmerRenaissance"
+        >
+          {{
+            prestige.peutRenaitre
+              ? `Renaître (+${prestige.essenceGagnable} essence)`
+              : "Niveau 20 requis"
+          }}
+        </button>
+
+        <div class="prestige-bonuses">
+          <div class="prestige-bonus">
+            <span class="bonus-name">⚡ Vitesse de forge −{{ prestige.bonusVitesse }}%</span>
+            <button
+              class="bonus-btn"
+              :disabled="essence < prestige.coutVitesse"
+              @click="ameliorerBonus('vitesse')"
+            >
+              {{ prestige.coutVitesse }} essence
+            </button>
+          </div>
+          <div class="prestige-bonus">
+            <span class="bonus-name">⭐ Qualité +{{ prestige.bonusQualite }}</span>
+            <button
+              class="bonus-btn"
+              :disabled="essence < prestige.coutQualite"
+              @click="ameliorerBonus('qualite')"
+            >
+              {{ prestige.coutQualite }} essence
+            </button>
+          </div>
+          <div class="prestige-bonus">
+            <span class="bonus-name">💰 Rentabilité +{{ prestige.bonusGain }}%</span>
+            <button
+              class="bonus-btn"
+              :disabled="essence < prestige.coutGain"
+              @click="ameliorerBonus('gain')"
+            >
+              {{ prestige.coutGain }} essence
+            </button>
+          </div>
+        </div>
+      </section>
     </div>
   </main>
 </template>
 
 <style scoped>
+.forgestats-section {
+  margin-top: 2rem;
+  padding: 2rem;
+  background: linear-gradient(135deg, rgba(50, 93, 68, 0.1), rgba(25, 25, 25, 0.4));
+  border: 2px solid rgba(0, 114, 87, 0.25);
+}
+
+.forgestats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-top: 1rem;
+}
+
+.forgestats-subtitle {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--dun);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0 0 1rem 0;
+}
+
+.forgestats-empty {
+  color: rgba(161, 152, 130, 0.7);
+}
+
+.bar-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.6rem;
+}
+
+.bar-label {
+  flex: 0 0 40%;
+  font-size: 0.85rem;
+  color: white;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bar-track {
+  flex: 1;
+  height: 12px;
+  background: rgba(25, 25, 25, 0.8);
+  border: 1px solid rgba(161, 152, 130, 0.2);
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--sea-green), var(--viridian));
+  transition: width var(--t-base) ease;
+}
+
+.bar-fill-gold {
+  background: linear-gradient(90deg, #ff6420, #ffed4e);
+}
+
+.bar-count {
+  flex: 0 0 auto;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--dun);
+  min-width: 1.5rem;
+  text-align: right;
+}
+
+.prestige-section {
+  margin-top: 2rem;
+  padding: 2rem;
+  background: linear-gradient(135deg, rgba(255, 100, 32, 0.08), rgba(25, 25, 25, 0.4));
+  border: 2px solid rgba(255, 100, 32, 0.3);
+}
+
+.prestige-overview {
+  display: flex;
+  gap: 2rem;
+  margin: 1rem 0;
+}
+
+.prestige-stat {
+  text-align: center;
+}
+
+.prestige-value {
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: #ff6420;
+  font-family: "Impact", sans-serif;
+}
+
+.prestige-label {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--dun);
+}
+
+.prestige-text {
+  color: rgba(161, 152, 130, 0.85);
+  line-height: 1.6;
+  max-width: 60ch;
+  margin: 0 0 1.5rem 0;
+}
+
+.prestige-btn {
+  padding: 1rem 2rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: white;
+  background: linear-gradient(135deg, #ff6420, #942525);
+  border: none;
+  cursor: pointer;
+  transition: transform var(--t-fast) ease;
+}
+
+.prestige-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.prestige-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.prestige-bonuses {
+  display: grid;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.prestige-bonus {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background: rgba(25, 25, 25, 0.5);
+  border: 1px solid rgba(161, 152, 130, 0.2);
+}
+
+.bonus-name {
+  font-weight: 600;
+  color: white;
+}
+
+.bonus-btn {
+  padding: 0.5rem 1rem;
+  font-weight: 700;
+  color: white;
+  background: linear-gradient(135deg, var(--sea-green), var(--viridian));
+  border: none;
+  cursor: pointer;
+  transition: transform var(--t-fast) ease;
+}
+
+.bonus-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.bonus-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
 .profile-page {
   min-height: 95dvh;
   background: linear-gradient(135deg, #0d0a08 0%, #1a1410 50%, #0f0d0a 100%);

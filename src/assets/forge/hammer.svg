@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <defs>
+    <linearGradient id="hammerHead" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#5a5a5a"/>
+      <stop offset="1" stop-color="#262626"/>
+    </linearGradient>
+    <linearGradient id="hammerHandle" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#9c6b3f"/>
+      <stop offset="1" stop-color="#5c3d22"/>
+    </linearGradient>
+  </defs>
+  <!-- Manche -->
+  <rect x="232" y="170" width="48" height="300" rx="20"
+        fill="url(#hammerHandle)" stroke="#3a2614" stroke-width="6"
+        transform="rotate(35 256 320)"/>
+  <!-- Tête -->
+  <rect x="120" y="90" width="270" height="90" rx="14"
+        fill="url(#hammerHead)" stroke="#101010" stroke-width="6"
+        transform="rotate(35 256 135)"/>
+  <!-- Reflet -->
+  <rect x="135" y="100" width="240" height="14" rx="6" fill="#7d7d7d" opacity="0.6"
+        transform="rotate(35 256 135)"/>
+</svg>
