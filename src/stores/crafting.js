@@ -7,6 +7,11 @@ import { usePlayerStore } from "./player";
 import { useInventoryStore } from "./inventory";
 import { useNotificationsStore } from "./notifications";
 import { useCodexStore } from "./codex";
+import { useWorkshopStore } from "./workshop";
+import { usePrestigeStore } from "./prestige";
+import { useCollectionsStore } from "./collections";
+import { getBonusQualiteEvent, getMultiplicateurXP } from "@/shared/utils/events";
+import { roulerAffixe } from "@/data/affixes";
 import { getRecipeById } from "@/data/recipes";
 
 export const useCraftingStore = defineStore("crafting", {
@@ -17,6 +22,10 @@ export const useCraftingStore = defineStore("crafting", {
     progressionForge: 0, // 0-100
     tempsDebut: null,
     tempsFin: null,
+
+    // Mini-jeu de timing (frappes parfaites) — optionnel, améliore la qualité
+    coupsReussis: 0,
+    coupsTentes: 0,
 
     // Historique de crafting
     historique: [], // { recipeId, timestamp, qualite, xpGagne }
@@ -69,6 +78,31 @@ export const useCraftingStore = defineStore("crafting", {
   },
 
   actions: {
+    /**
+     * Reprend une forge persistée au démarrage de l'app.
+     * Si le temps est écoulé (ex: onglet fermé pendant le craft) → on termine.
+     * Sinon on relance la boucle de progression.
+     */
+    reprendreForge() {
+      if (!this.estEnCoursDeForge || !this.recetteEnCours || !this.tempsFin) {
+        // État incohérent : on nettoie par sécurité
+        this.estEnCoursDeForge = false;
+        this.recetteEnCours = null;
+        this.progressionForge = 0;
+        this.tempsDebut = null;
+        this.tempsFin = null;
+        this.coupsReussis = 0;
+        this.coupsTentes = 0;
+        return;
+      }
+
+      if (Date.now() >= this.tempsFin) {
+        this.terminerForge();
+      } else {
+        this._demarrerProgression();
+      }
+    },
+
     /**
      * Démarre le forgeage d'une recette
      */
@@ -124,12 +158,20 @@ export const useCraftingStore = defineStore("crafting", {
       }
 
       // Démarrer le forge
+      // Bonus prestige + collections : forge plus rapide
+      const tempsForge =
+        recipe.tempsForge *
+        usePrestigeStore().multiplicateurVitesse *
+        useCollectionsStore().multiplicateurVitesse;
+
       const maintenant = Date.now();
       this.estEnCoursDeForge = true;
       this.recetteEnCours = recipe;
       this.progressionForge = 0;
       this.tempsDebut = maintenant;
-      this.tempsFin = maintenant + recipe.tempsForge * 1000;
+      this.tempsFin = maintenant + tempsForge * 1000;
+      this.coupsReussis = 0;
+      this.coupsTentes = 0;
 
       const notifStore = useNotificationsStore();
       notifStore.ajouterNotification({
@@ -141,6 +183,18 @@ export const useCraftingStore = defineStore("crafting", {
       this._demarrerProgression();
 
       return true;
+    },
+
+    /**
+     * Enregistre une frappe du mini-jeu de timing.
+     * Max 3 frappes comptabilisées par forge ; chaque réussite améliore la qualité
+     * et réduit le risque d'échec. Entièrement optionnel.
+     */
+    enregistrerCoup(reussi) {
+      if (!this.estEnCoursDeForge) return;
+      if (this.coupsTentes >= 3) return;
+      this.coupsTentes++;
+      if (reussi) this.coupsReussis++;
     },
 
     /**
@@ -179,10 +233,43 @@ export const useCraftingStore = defineStore("crafting", {
       const notifStore = useNotificationsStore();
       const codexStore = useCodexStore();
 
-      // Calculer la qualité (base + bonus aléatoire + bonus niveau)
+      // Calculer la qualité (base + bonus niveau + bonus timing + aléatoire)
       const bonusNiveau = Math.floor(playerStore.niveau / 5); // +1 qualité tous les 5 niveaux
       const bonusAleatoire = Math.random() > 0.7 ? 1 : 0; // 30% de chance de +1
-      const qualite = Math.min(5, recipe.qualiteBase + bonusNiveau + bonusAleatoire);
+      const bonusTiming = this.coupsReussis >= 3 ? 2 : this.coupsReussis >= 1 ? 1 : 0;
+
+      // Risque d'échec : recettes plus dures (qualité de base élevée) ratent plus souvent.
+      // Atténué par les frappes parfaites et la Station de Trempage active.
+      const workshopStore = useWorkshopStore();
+      const trempageActive = workshopStore.facilities?.trempage?.actif ? 0.1 : 0;
+      const chanceEchec = Math.max(
+        0,
+        (recipe.qualiteBase - 1) * 0.05 - this.coupsReussis * 0.06 - trempageActive,
+      );
+      const echec = Math.random() < chanceEchec;
+      const malusEchec = echec ? -2 : 0;
+
+      // Bonus prestige + collections : qualité plate + rentabilité
+      const prestigeStore = usePrestigeStore();
+      const collectionsStore = useCollectionsStore();
+      const qualite = Math.max(
+        1,
+        Math.min(
+          5,
+          recipe.qualiteBase +
+            bonusNiveau +
+            bonusAleatoire +
+            bonusTiming +
+            malusEchec +
+            prestigeStore.bonusQualite +
+            collectionsStore.bonusQualite +
+            getBonusQualiteEvent(),
+        ),
+      );
+
+      // Affixe aléatoire (modifie la valeur)
+      const affixe = roulerAffixe(qualite);
+      const multiplicateurAffixe = affixe ? affixe.multiplicateurValeur : 1;
 
       // Créer l'objet forgé
       const objetForge = {
@@ -190,7 +277,14 @@ export const useCraftingStore = defineStore("crafting", {
         nom: recipe.nom,
         categorie: recipe.categorie,
         qualite: qualite,
-        valeur: Math.floor(recipe.valeurVente * (qualite / recipe.qualiteBase)),
+        affixe: affixe ? { id: affixe.id, nom: affixe.nom } : null,
+        valeur: Math.floor(
+          recipe.valeurVente *
+            (qualite / recipe.qualiteBase) *
+            prestigeStore.multiplicateurGain *
+            collectionsStore.multiplicateurGain *
+            multiplicateurAffixe,
+        ),
         dateCreation: Date.now(),
         rarity: recipe.rarity,
       };
@@ -198,8 +292,8 @@ export const useCraftingStore = defineStore("crafting", {
       // Ajouter à l'inventaire
       inventoryStore.ajouterObjetForge(objetForge);
 
-      // Gagner XP
-      const xpGagne = Math.floor(recipe.xpGain * (1 + qualite * 0.1));
+      // Gagner XP (événement du jour : multiplicateur éventuel)
+      const xpGagne = Math.floor(recipe.xpGain * (1 + qualite * 0.1) * getMultiplicateurXP());
       playerStore.ajouterXP(xpGagne);
 
       // Mettre à jour les stats du joueur
@@ -225,17 +319,17 @@ export const useCraftingStore = defineStore("crafting", {
         xpGagne: xpGagne,
       });
 
-      // Notification de succès
+      // Notification de résultat (une seule, découverte codex incluse)
       const etoiles = "⭐".repeat(qualite);
+      const prefixe = echec
+        ? "⚠️ Forge ratée :"
+        : bonusTiming > 0
+          ? `🔨 Frappes parfaites (+${bonusTiming}) !`
+          : `${recipe.nom} forgé !`;
+      const mentionAffixe = affixe ? ` · ✨ ${affixe.nom}` : "";
       notifStore.ajouterNotification({
-        type: "success",
-        message: `${recipe.nom} forgé ! Qualité: ${etoiles} (+${xpGagne} XP)`,
-      });
-
-      // Notification de découverte codex
-      notifStore.ajouterNotification({
-        type: "info",
-        message: `📖 Recette ajoutée au Codex : ${recipe.nom}`,
+        type: echec ? "warning" : "success",
+        message: `${prefixe} ${recipe.nom} · Qualité: ${etoiles}${mentionAffixe} (+${xpGagne} XP) · 📖 ajouté au Codex`,
       });
 
       // Réinitialiser l'état
@@ -266,6 +360,19 @@ export const useCraftingStore = defineStore("crafting", {
     },
 
     /**
+     * Annule la forge sans notification ni perte signalée (utilisé par le prestige).
+     */
+    annulerForgeSilencieux() {
+      this.estEnCoursDeForge = false;
+      this.recetteEnCours = null;
+      this.progressionForge = 0;
+      this.tempsDebut = null;
+      this.tempsFin = null;
+      this.coupsReussis = 0;
+      this.coupsTentes = 0;
+    },
+
+    /**
      * Réinitialise les statistiques
      */
     reinitialiserStats() {
@@ -282,6 +389,15 @@ export const useCraftingStore = defineStore("crafting", {
   persist: {
     key: "emberanvil.crafting",
     storage: localStorage,
-    paths: ["historique", "stats"],
+    paths: [
+      "historique",
+      "stats",
+      // État de la forge persisté pour survivre au refresh / progression hors-ligne
+      "estEnCoursDeForge",
+      "recetteEnCours",
+      "progressionForge",
+      "tempsDebut",
+      "tempsFin",
+    ],
   },
 });

@@ -3,6 +3,7 @@ import { mapState, mapActions, mapGetters } from "pinia";
 import { useCraftingStore } from "@/stores/crafting";
 import { usePlayerStore } from "@/stores/player";
 import { useInventoryStore } from "@/stores/inventory";
+import { useGameStore } from "@/stores/game";
 import { getRecipesByCategorie } from "@/data/recipes";
 import { getRarityClass, getRarityLabel } from "@/shared/utils/rarity";
 import { getMaterialNom, peutCrafter } from "@/shared/utils/craftingHelpers";
@@ -11,6 +12,8 @@ import CategoryBar from "./CategoryBar.vue";
 import RecipeList from "./RecipeList.vue";
 import ForgeStation from "./ForgeStation.vue";
 import CraftingHistory from "./CraftingHistory.vue";
+import OrdersPanel from "./OrdersPanel.vue";
+import EventBanner from "./EventBanner.vue";
 
 export default {
   name: "CraftingComponent",
@@ -19,6 +22,8 @@ export default {
     RecipeList,
     ForgeStation,
     CraftingHistory,
+    OrdersPanel,
+    EventBanner,
   },
   data() {
     return {
@@ -29,9 +34,16 @@ export default {
     };
   },
   computed: {
-    ...mapState(useCraftingStore, ["estEnCoursDeForge", "recetteEnCours", "progressionForge"]),
+    ...mapState(useCraftingStore, [
+      "estEnCoursDeForge",
+      "recetteEnCours",
+      "progressionForge",
+      "coupsReussis",
+      "coupsTentes",
+    ]),
     ...mapGetters(useCraftingStore, ["tempsRestant", "historiqueRecent"]),
     ...mapState(usePlayerStore, ["niveau"]),
+    ...mapState(useGameStore, ["onboardingVu"]),
 
     categoriesDisponibles() {
       return [
@@ -58,7 +70,8 @@ export default {
     },
   },
   methods: {
-    ...mapActions(useCraftingStore, ["demarrerForge", "annulerForge"]),
+    ...mapActions(useCraftingStore, ["demarrerForge", "annulerForge", "enregistrerCoup"]),
+    ...mapActions(useGameStore, ["marquerOnboardingVu"]),
 
     getRarityClass,
     getRarityLabel,
@@ -124,6 +137,21 @@ export default {
 <template>
   <main class="forge-workshop" id="main-content" aria-label="Forge - Création d'objets">
     <div class="forge-container">
+      <div v-if="!onboardingVu" class="onboarding-banner">
+        <div class="onboarding-text">
+          <strong>Bienvenue à la forge !</strong>
+          Achetez des matériaux au Marché, sélectionnez une recette, puis forgez. Réussissez les
+          frappes parfaites pour améliorer la qualité, et honorez les commandes clients pour des
+          récompenses bonus.
+        </div>
+        <div class="onboarding-actions">
+          <RouterLink to="/guides/debuter-dans-la-forge" class="onboarding-link"
+            >Guide débutant</RouterLink
+          >
+          <button class="onboarding-close" @click="marquerOnboardingVu">Compris</button>
+        </div>
+      </div>
+
       <div class="forge-header">
         <div class="title-block">
           <h1 class="forge-title">
@@ -137,6 +165,8 @@ export default {
           <div class="counter-value">{{ totalObjetsForges }}</div>
         </div>
       </div>
+
+      <EventBanner />
 
       <CategoryBar
         :categories="categoriesDisponibles"
@@ -160,10 +190,15 @@ export default {
           :progression-forge="progressionForge"
           :temps-restant="tempsRestant"
           :sparks="sparks"
+          :coups-reussis="coupsReussis"
+          :coups-tentes="coupsTentes"
           @forge="commencerForge"
           @cancel="annulerForge"
+          @strike="enregistrerCoup"
         />
       </div>
+
+      <OrdersPanel />
 
       <CraftingHistory :historique-recent="historiqueRecent" />
     </div>
@@ -197,6 +232,55 @@ export default {
   padding: 3rem 2rem;
   position: relative;
   z-index: 1;
+}
+
+.onboarding-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 2rem;
+  background: linear-gradient(135deg, rgba(0, 114, 87, 0.18), rgba(25, 25, 25, 0.5));
+  border: 2px solid rgba(0, 114, 87, 0.4);
+}
+
+.onboarding-text {
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.5;
+  flex: 1;
+  min-width: 280px;
+}
+
+.onboarding-text strong {
+  color: #ffed4e;
+}
+
+.onboarding-actions {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.onboarding-link {
+  color: var(--dun);
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+.onboarding-close {
+  padding: 0.6rem 1.25rem;
+  font-weight: 700;
+  color: white;
+  background: linear-gradient(135deg, var(--sea-green), var(--viridian));
+  border: none;
+  cursor: pointer;
+  transition: transform var(--t-fast) ease;
+}
+
+.onboarding-close:hover {
+  transform: translateY(-2px);
 }
 
 .forge-header {

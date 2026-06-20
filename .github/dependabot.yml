@@ -27,3 +27,25 @@ updates:
     reviewers:
       - "phildaiguille"
     versioning-strategy: auto
+
+  # Garde les actions des workflows GitHub à jour
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      time: "03:00"
+      timezone: "Europe/Paris"
+    open-pull-requests-limit: 5
+    groups:
+      github-actions:
+        patterns:
+          - "*"
+    commit-message:
+      prefix: "chore(ci)"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "github-actions"
+      - "automerge"
+    reviewers:
+      - "phildaiguille"

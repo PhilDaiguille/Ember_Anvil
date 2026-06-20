@@ -6,6 +6,11 @@
   --khaki: rgb(150, 137, 123);
   --viridian: rgb(50, 93, 68);
   --sea-green: rgb(0, 114, 87);
+
+  /* Durées de transition standardisées */
+  --t-fast: 0.2s;
+  --t-base: 0.3s;
+  --t-slow: 0.5s;
 }
 
 html {

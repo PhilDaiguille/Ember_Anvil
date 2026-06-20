@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <defs>
+    <linearGradient id="anvilBody" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4a4a4a"/>
+      <stop offset="1" stop-color="#1f1f1f"/>
+    </linearGradient>
+  </defs>
+  <!-- Corps de l'enclume -->
+  <path d="M70 150 H400 L360 200 H250 V250 H300 L260 320 H180 L150 250 H120 V200 H70 Z"
+        fill="url(#anvilBody)" stroke="#0d0d0d" stroke-width="6" stroke-linejoin="round"/>
+  <!-- Corne -->
+  <path d="M400 150 C460 150 470 180 430 200 H360 L400 150 Z"
+        fill="url(#anvilBody)" stroke="#0d0d0d" stroke-width="6" stroke-linejoin="round"/>
+  <!-- Pied -->
+  <path d="M200 320 H260 L290 420 H170 Z"
+        fill="url(#anvilBody)" stroke="#0d0d0d" stroke-width="6" stroke-linejoin="round"/>
+  <!-- Reflet de la table -->
+  <rect x="80" y="156" width="300" height="12" rx="4" fill="#6b6b6b" opacity="0.6"/>
+</svg>

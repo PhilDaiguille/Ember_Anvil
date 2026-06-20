@@ -86,6 +86,64 @@ describe("CraftingStore", () => {
     });
   });
 
+  describe("Mini-jeu de timing", () => {
+    it("ne compte aucun coup si pas de forge en cours", () => {
+      store.enregistrerCoup(true);
+      expect(store.coupsTentes).toBe(0);
+      expect(store.coupsReussis).toBe(0);
+    });
+
+    it("compte les coups réussis et tentés, plafonné à 3 tentatives", () => {
+      store.$patch({ estEnCoursDeForge: true });
+      store.enregistrerCoup(true);
+      store.enregistrerCoup(false);
+      store.enregistrerCoup(true);
+      store.enregistrerCoup(true); // ignoré (>3)
+      expect(store.coupsTentes).toBe(3);
+      expect(store.coupsReussis).toBe(2);
+    });
+  });
+
+  describe("Reprise de forge au boot", () => {
+    it("termine la forge si le temps est écoulé pendant l'absence", () => {
+      const recipe = { id: "epee_fer", nom: "Épée", categorie: "armes" };
+      store.$patch({
+        estEnCoursDeForge: true,
+        recetteEnCours: recipe,
+        tempsDebut: Date.now() - 10000,
+        tempsFin: Date.now() - 1000, // déjà passé
+      });
+
+      store.reprendreForge();
+
+      expect(store.estEnCoursDeForge).toBe(false);
+      expect(store.recetteEnCours).toBeNull();
+    });
+
+    it("garde la forge active si le temps n'est pas écoulé", () => {
+      const recipe = { id: "epee_fer", nom: "Épée", categorie: "armes", tempsForge: 60 };
+      store.$patch({
+        estEnCoursDeForge: true,
+        recetteEnCours: recipe,
+        tempsDebut: Date.now(),
+        tempsFin: Date.now() + 60000, // dans le futur
+      });
+
+      store.reprendreForge();
+
+      expect(store.estEnCoursDeForge).toBe(true);
+      expect(store.recetteEnCours).toEqual(recipe);
+    });
+
+    it("nettoie un état incohérent (pas de tempsFin)", () => {
+      store.$patch({ estEnCoursDeForge: true, recetteEnCours: null, tempsFin: null });
+
+      store.reprendreForge();
+
+      expect(store.estEnCoursDeForge).toBe(false);
+    });
+  });
+
   describe("Progression de la forge", () => {
     it("la progression devrait être entre 0 et 100", () => {
       expect(store.progressionForge).toBeGreaterThanOrEqual(0);

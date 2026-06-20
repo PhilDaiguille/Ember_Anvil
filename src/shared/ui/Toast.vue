@@ -145,6 +145,9 @@ export default {
 /* Responsive */
 @media (max-width: 768px) {
   .toast-container {
+    /* En bas sur mobile pour ne jamais chevaucher le header sticky */
+    top: auto;
+    bottom: 20px;
     left: 20px;
     right: 20px;
     max-width: none;

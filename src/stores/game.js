@@ -40,6 +40,9 @@ export const useGameStore = defineStore("game", {
     },
 
     initialized: false,
+
+    // Onboarding : bannière de bienvenue affichée une seule fois
+    onboardingVu: false,
   }),
 
   getters: {
@@ -90,6 +93,10 @@ export const useGameStore = defineStore("game", {
   },
 
   actions: {
+    marquerOnboardingVu() {
+      this.onboardingVu = true;
+    },
+
     initialize() {
       if (this.initialized) return;
 

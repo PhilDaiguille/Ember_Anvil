@@ -164,6 +164,18 @@ export const usePlayerStore = defineStore("player", {
       }
     },
 
+    // ========== PRESTIGE ==========
+
+    // Réinitialise la progression (utilisé par la Renaissance). Garde l'identité.
+    reinitialiserProgression() {
+      this.niveau = 1;
+      this.experience = 0;
+      this.experienceMax = 1000;
+      this.ecus = 1250;
+      this.or = 0;
+      this.titre = "Apprenti Forgeron";
+    },
+
     // ========== TEMPS DE JEU ==========
 
     demarrerSession() {
