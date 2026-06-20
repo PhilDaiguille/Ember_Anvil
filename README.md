@@ -2,7 +2,7 @@
 
 Forge virtuelle — Vue 3 + Vite + Pinia
 
-## [Voir le site]([https://ember-anvil.vercel.app/](https://ember-anvil.phildaiguille.fr/))
+## [Voir le site](https://ember-anvil.phildaiguille.fr/)
 
 ## Développement
 
